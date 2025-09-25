@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Noog-api")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+1c5bc2d139eaab07d63527097b4e7294cae3fc3b")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+fd41ebdfd7707c2c6272ad96e6ff2403480cd0fd")]
 [assembly: System.Reflection.AssemblyProductAttribute("Noog-api")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Noog-api")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
