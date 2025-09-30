@@ -1,4 +1,10 @@
 
+using Noog_api.Data;
+using Noog_api.Repositories;
+using Noog_api.Repositories.IRepositories;
+using Noog_api.Services;
+using Noog_api.Services.IServices;
+
 namespace Noog_api
 {
     public class Program
@@ -13,6 +19,11 @@ namespace Noog_api
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+
+            builder.Services.AddDbContext<NoogDbContext>();
+            builder.Services.AddScoped<ISummaryRepository,SummaryRepository>();
+            builder.Services.AddScoped<ISummaryService, SummaryService>();
+
 
             var app = builder.Build();
 
