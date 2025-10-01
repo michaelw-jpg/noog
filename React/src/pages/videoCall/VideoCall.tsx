@@ -15,6 +15,7 @@ import './videoCall.css';
 // Remove dotenv import; not needed in frontend
 
 //TODO: Add envoriment variables in a .env file
+// NOTE: This is api was recived from "https://getstream.io/video/sdk/react/tutorial/video-calling/"
 const apiKey = 'mmhfdzb5evj2';
 const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwczovL3Byb250by5nZXRzdHJlYW0uaW8iLCJzdWIiOiJ1c2VyL1RodW5kZXJpbmdfQXJhZ29uIiwidXNlcl9pZCI6IlRodW5kZXJpbmdfQXJhZ29uIiwidmFsaWRpdHlfaW5fc2Vjb25kcyI6NjA0ODAwLCJpYXQiOjE3NTkyMjUwNTksImV4cCI6MTc1OTgyOTg1OX0.5Lc6NcM6mIXmdkuIEgrIh0lfmqmfKXM84RYui2nzOU0';
 const userId = 'Thundering_Aragon';
