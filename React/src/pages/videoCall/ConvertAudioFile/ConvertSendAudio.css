@@ -1,0 +1,35 @@
+/* Converting message */
+.converting-message {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.8rem;
+  flex-direction: column;
+}
+
+.size-info {
+  margin: 0.5rem 0;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.75rem;
+}
+
+.size-info small {
+  opacity: 0.8;
+}
+
+/* Disabled button states */
+.download-btn:disabled,
+.record-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+.download-btn:disabled:hover {
+  transform: none !important;
+  box-shadow: none !important;
+}
