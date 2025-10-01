@@ -39,5 +39,9 @@ bld/
 #Rider
 .idea/
 /Backend-api/Noog-api/Noog-api/Noog-api.csproj.user
-/Backend-api/Noog-api/Noog-api/Migrations/20251001092042_db-init.cs
-/Backend-api/Noog-api/Noog-api/Migrations/20251001092042_db-init.Designer.cs
+
+# Ignore all migrations
+/Backend-api/Noog-api/Noog-api/Migrations/*
+
+# Include the snapshot file
+!/Backend-api/Noog-api/Noog-api/Migrations/*Snapshot.cs
