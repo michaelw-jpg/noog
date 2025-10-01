@@ -1,4 +1,5 @@
 
+using Microsoft.EntityFrameworkCore;
 using Noog_api.Data;
 using Noog_api.Repositories;
 using Noog_api.Repositories.IRepositories;
@@ -20,7 +21,9 @@ namespace Noog_api
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
-            builder.Services.AddDbContext<NoogDbContext>();
+            builder.Services.AddDbContext<NoogDbContext>(options => 
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
             builder.Services.AddScoped<ISummaryRepository,SummaryRepository>();
             builder.Services.AddScoped<ISummaryService, SummaryService>();
 
