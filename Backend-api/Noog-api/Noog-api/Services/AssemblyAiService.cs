@@ -4,6 +4,7 @@ using System.Text;
 using System.Text.Json;
 using Noog_api.Models.AssemblyAi;
 using Noog_api.Services.IServices;
+using Noog_api.Enums;
 namespace Noog_api.Services
 {
     public class AssemblyAiService : IAssemblyAiService
@@ -48,12 +49,14 @@ namespace Noog_api.Services
             }
         }
 
-        public async Task<Transcript> CreateTranscriptAsync(string audioUrl)
+        public async Task<Transcript> CreateTranscriptAsync(string audioUrl, string? language = null)
         {
+            var languageCode = GetLanguageCode(language);
+            
             var data = new
             {
                 audio_url = audioUrl,
-                language_code = "sv"
+                language_code = languageCode
             };
             
             var content = new StringContent(JsonSerializer.Serialize(data), Encoding.UTF8, "application/json");
@@ -90,6 +93,47 @@ namespace Noog_api.Services
                         throw new Exception("This code should not be reachable.");
                 }
             }
+        }
+
+        private static readonly Dictionary<string, LanguagesSupport> LanguageMap = new(StringComparer.OrdinalIgnoreCase)
+        {
+            { "swedish", LanguagesSupport.sv },
+            { "english", LanguagesSupport.en },
+            { "spanish", LanguagesSupport.es },
+            { "french", LanguagesSupport.fr },
+            { "german", LanguagesSupport.de },
+            { "italian", LanguagesSupport.it },
+            { "portuguese", LanguagesSupport.pt },
+            { "russian", LanguagesSupport.ru },
+            { "chinese", LanguagesSupport.zh },
+            { "mandarin", LanguagesSupport.zh }, 
+            { "japanese", LanguagesSupport.ja },
+            { "korean", LanguagesSupport.ko },
+            { "arabic", LanguagesSupport.ar },
+            { "hindi", LanguagesSupport.hi },
+            { "turkish", LanguagesSupport.tr },
+            { "dutch", LanguagesSupport.nl },
+            { "finnish", LanguagesSupport.fi },
+            { "norwegian", LanguagesSupport.no },
+            { "danish", LanguagesSupport.da },
+            { "polish", LanguagesSupport.pl }
+        };
+
+
+
+        // Returns language model to transcribe in the requested language
+        //Note: Universal model is unreliable and 
+        public string? GetLanguageCode(string requestedLanguage)
+        {
+            if (string.IsNullOrWhiteSpace(requestedLanguage) || requestedLanguage.Equals("auto", StringComparison.OrdinalIgnoreCase))
+                return null; // Universal model
+
+
+            var key = requestedLanguage.ToLower().Trim();
+
+            return LanguageMap.TryGetValue(key, out var language)
+                ? key.ToString()
+                : null;
         }
     }
 }

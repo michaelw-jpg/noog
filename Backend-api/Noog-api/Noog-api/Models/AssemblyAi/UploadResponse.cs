@@ -5,5 +5,7 @@ namespace Noog_api.Models.AssemblyAi
     {
         [JsonPropertyName("upload_url")]
         public string UploadUrl { get; set; }
+        [JsonPropertyName("language_code")]
+        public string LanguageCode { get; set; }
     }
 }

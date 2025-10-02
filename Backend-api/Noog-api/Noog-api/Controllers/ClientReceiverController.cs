@@ -25,7 +25,7 @@ namespace Noog_api.Controllers
             {
                 string uploadedUrl = await _assemblyAiService.UploadFileAsync(request.Url);
 
-                var transcript = await _assemblyAiService.CreateTranscriptAsync(uploadedUrl);
+                var transcript = await _assemblyAiService.CreateTranscriptAsync(uploadedUrl, request.Language);
 
                 var completed = await _assemblyAiService.WaitForTranscriptToProcess(transcript);
 
