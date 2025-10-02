@@ -23,6 +23,8 @@ namespace Noog_api
             builder.Services.AddDbContext<NoogDbContext>();
             builder.Services.AddScoped<ISummaryRepository,SummaryRepository>();
             builder.Services.AddScoped<ISummaryService, SummaryService>();
+            builder.Services.AddHttpClient<AssemblyAiService>();
+
 
 
             var app = builder.Build();
