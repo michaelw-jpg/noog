@@ -3,5 +3,6 @@
     public class AudioUrlRequest
     {
         public string Url { get; set; }
+        public string? Language { get; set; }
     }
 }
