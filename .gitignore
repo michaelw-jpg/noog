@@ -38,3 +38,10 @@ bld/
 
 #Rider
 .idea/
+/Backend-api/Noog-api/Noog-api/Noog-api.csproj.user
+
+# Ignore all migrations
+/Backend-api/Noog-api/Noog-api/Migrations/*
+
+# Include the snapshot file
+!/Backend-api/Noog-api/Noog-api/Migrations/*Snapshot.cs
