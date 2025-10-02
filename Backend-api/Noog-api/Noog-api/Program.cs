@@ -1,6 +1,7 @@
 
 using Microsoft.EntityFrameworkCore;
 using Noog_api.Data;
+using Noog_api.Middlewares;
 using Noog_api.Repositories;
 using Noog_api.Repositories.IRepositories;
 using Noog_api.Services;
@@ -18,6 +19,8 @@ namespace Noog_api
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
+            builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
@@ -36,6 +39,7 @@ namespace Noog_api
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+            app.UseMiddleware<GlobalExceptionHandler>();
 
             app.UseHttpsRedirection();
 
