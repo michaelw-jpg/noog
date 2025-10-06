@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.12.35527.113 d17.12
+VisualStudioVersion = 17.12.35527.113
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Noog-api", "Noog-api\Noog-api.csproj", "{87FD50E7-F23C-4702-8BA2-0756634ED164}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BackendApi.Tests", "..\..\Tests\BackendApi.Tests\BackendApi.Tests.csproj", "{C390D556-7956-4151-B97D-C933A61B0DCE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,8 +17,15 @@ Global
 		{87FD50E7-F23C-4702-8BA2-0756634ED164}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{87FD50E7-F23C-4702-8BA2-0756634ED164}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{87FD50E7-F23C-4702-8BA2-0756634ED164}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C390D556-7956-4151-B97D-C933A61B0DCE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C390D556-7956-4151-B97D-C933A61B0DCE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C390D556-7956-4151-B97D-C933A61B0DCE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C390D556-7956-4151-B97D-C933A61B0DCE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {637400E0-F79F-4E83-A34C-F52ADFB6ED47}
 	EndGlobalSection
 EndGlobal
