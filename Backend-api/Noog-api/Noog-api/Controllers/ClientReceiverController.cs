@@ -16,7 +16,7 @@ namespace Noog_api.Controllers
         }
 
         [HttpPost("create")]
-        public async Task<ActionResult> Create([FromBody] AudioUrlRequest request)
+        public async Task<ActionResult<Transcript>> Create([FromBody] AudioUrlRequest request)
         {
             if (string.IsNullOrWhiteSpace(request.Url))
                 return BadRequest("Audio URL cannot be empty.");
