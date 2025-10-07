@@ -24,7 +24,7 @@ jobs:
       - name: Build
         run: dotnet build Backend-api/Noog-api.sln --no-restore --configuration Release
       - name: Run Tests
-        run: dotnet test Tests/BackendApi.Tests --no-build -- configuration Release --verbosity normal
+        run: dotnet test Tests/BackendApi.Tests --no-build -- configuration Release --logger "console;verbosity=detailed"
 
   deploy:
     if: github.event_name == 'push
