@@ -27,7 +27,7 @@ jobs:
         run: dotnet test Tests/BackendApi.Tests --no-build -- configuration Release --logger "console;verbosity=detailed"
 
   deploy:
-    if: github.event_name == 'push
+    if: github.event_name == 'push'
     runs-on: windows-latest
     steps:
       - name: Checkout code
