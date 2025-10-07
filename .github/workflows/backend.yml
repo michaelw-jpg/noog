@@ -5,10 +5,13 @@ on:
     branches: [ main ]
     paths:
       - 'Backend-api/**'
+      - 'Tests/BackendApi.Tests/**'
   push:
     branches: [main]
     paths:
       -  'Backend-api/**'
+      - 'Tests/BackendApi.Tests/**'
+
 
 jobs:
   test:
@@ -20,11 +23,11 @@ jobs:
         with:
           dotnet-version: '8.0.x'
       - name: Restore dependencies
-        run: dotnet restore Backend-api/Noog-api.sln
+        run: dotnet restore Backend-api/Noog-api/Noog-api.sln
       - name: Build
-        run: dotnet build Backend-api/Noog-api.sln --no-restore --configuration Release
+        run: dotnet build Backend-api/Noog-api/Noog-api.sln --no-restore --configuration Release
       - name: Run Tests
-        run: dotnet test Tests/BackendApi.Tests --no-build -- configuration Release --logger "console;verbosity=detailed"
+        run: dotnet test Tests/BackendApi.Tests/BackendApi.Tests.csproj --no-build --configuration Release --logger "console;verbosity=detailed"
 
   deploy:
     if: github.event_name == 'push'
@@ -37,9 +40,9 @@ jobs:
         with:
           dotnet-version: '8.0.x'
       - name: Restore dependencies
-        run: dotnet restore Backend-api/Noog-api.sln
-      - name: Public Backend
-        run: dotnet publish Backend-api/Noog-api.sln -c Release -o ./publish
+        run: dotnet restore Backend-api/Noog-api/Noog-api.sln
+      - name: Publish Backend
+        run: dotnet publish Backend-api/Noog-api/Noog-api.sln -c Release -o ./publish
       - name: deploy to Azure
         uses: azure/webapps-deploy@v3
         with:
