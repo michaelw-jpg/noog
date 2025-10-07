@@ -1,0 +1,49 @@
+name : Backend CI/CD
+
+on:
+  pull_request:
+    branches: [ main ]
+    paths:
+      - 'backend/**'
+  push:
+    branches: [main]
+    paths:
+      -  'backend/**'
+
+jobs:
+  test:
+    if: github.event_name == 'pull_request'
+    runs-on: windows-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          dotnet-version: '8.0.x'
+      - name: Restore dependencies
+        run: dotnet restore Backend-api/Noog-api.sln
+      - name: Build
+        run: dotnet build Backend-api/Noog-api.sln --no-restore --configuration Release
+      - name: Run Tests
+        run: dotnet test Tests/BackendApi.Tests --no-build -- configuration Release --verbosity normal
+
+  deploy:
+    if: github.event_name == 'push
+    runs-on: windows-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+      - name: Restore dependencies
+        run: dotnet restore Backend-api/Noog-api.sln
+      - name: Public Backend
+        run: dotnet publish Backend-api/Noog-api.sln -c Release -o ./publish
+      - name: deploy to Azure
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: 'NoogApi'
+          publish-profile: ${{ secrets.AZURE_BACKEND_PUBLISH_PROFILE }}
+          package: ./publish
+          
