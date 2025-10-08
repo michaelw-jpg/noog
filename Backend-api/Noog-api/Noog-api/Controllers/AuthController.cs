@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Noog_api.DTOs;
+using Noog_api.DTOs.Auth;
 using Noog_api.Services.IServices;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -64,10 +64,11 @@ namespace Noog_api.Controllers
             return Ok();
         }
 
-        // DELETE api/<AuthController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        [HttpPost("logout")]
+        public async Task<IActionResult> Logout()
         {
+            await _authService.LogoutAsync();
+            return Ok(new {message = "Signed out successfully"});
         }
     }
 }

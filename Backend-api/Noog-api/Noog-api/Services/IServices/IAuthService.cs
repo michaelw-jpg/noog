@@ -1,4 +1,5 @@
-﻿using Noog_api.DTOs;
+﻿using Microsoft.AspNetCore.Identity;
+using Noog_api.DTOs.Auth;
 
 namespace Noog_api.Services.IServices
 {
@@ -6,5 +7,6 @@ namespace Noog_api.Services.IServices
     {
         Task<LoginResponseDto> RegisterAsync(RegisterDto dto);
         Task<LoginResponseDto?> LoginAsync(LoginDto dto);
+        Task<SignInResult> LogoutAsync();
     }
 }

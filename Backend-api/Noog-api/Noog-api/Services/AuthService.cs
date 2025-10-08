@@ -1,4 +1,6 @@
-﻿using Noog_api.DTOs;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Noog_api.DTOs.Auth;
 using Noog_api.Models;
 using Noog_api.Repositories.IRepositories;
 using Noog_api.Services.IServices;
@@ -9,11 +11,13 @@ namespace Noog_api.Services
     {
         private readonly IUserService<ApplicationUser> _users;
         private readonly TokenService _tokens;
+        private readonly SignInManager<ApplicationUser> _signInManager;
 
-        public AuthService(IUserService<ApplicationUser> users, TokenService tokens)
+        public AuthService(IUserService<ApplicationUser> users, TokenService tokens, SignInManager<ApplicationUser> signInManager)
         {
             _users = users;
             _tokens = tokens;
+            _signInManager = signInManager;
         }
 
         public async Task<LoginResponseDto> RegisterAsync(RegisterDto dto)
@@ -27,8 +31,6 @@ namespace Noog_api.Services
                 Email = dto.Email,
                 UserName = dto.UserName ?? dto.Email
             };
-            if (user is null)
-                throw new NullReferenceException("User can not be null");
 
             var result = await _users.CreateAsync(user, dto.Password);
             if (!result.Succeeded)
@@ -60,6 +62,11 @@ namespace Noog_api.Services
                 Token = token,
                 ExpiresAt = expiresAt
             };
+        }
+        
+        public async Task Logout()
+        {
+            await _signInManager.SignOutAsync();
         }
     }
 }

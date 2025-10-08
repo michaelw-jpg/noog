@@ -1,4 +1,4 @@
-﻿namespace Noog_api.DTOs
+﻿namespace Noog_api.DTOs.Auth
 {
     public class LoginResponseDto
     {
