@@ -10,15 +10,15 @@ namespace Noog_api.Services
     public class TokenService
     {
         private readonly IConfiguration _config;
-        private readonly UserManager<User> _userManager;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public TokenService(IConfiguration config, UserManager<User> userManager)
+        public TokenService(IConfiguration config, UserManager<ApplicationUser> userManager)
         {
             _config = config;
             _userManager = userManager;
         }
 
-        public async Task<string> CreateToken(User user)
+        public async Task<string> CreateToken(ApplicationUser user)
         {
             var jwt = _config.GetSection("Jwt");
             var claims = new List<Claim>

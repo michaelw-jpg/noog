@@ -7,10 +7,10 @@ namespace Noog_api.Services
 {
     public class AuthService : IAuthService
     {
-        private readonly IUserService<User> _users;
+        private readonly IUserService<ApplicationUser> _users;
         private readonly TokenService _tokens;
 
-        public AuthService(IUserService<User> users, TokenService tokens)
+        public AuthService(IUserService<ApplicationUser> users, TokenService tokens)
         {
             _users = users;
             _tokens = tokens;
@@ -22,7 +22,7 @@ namespace Noog_api.Services
             if (exist != null)
                 throw new InvalidOperationException("Email already exists");
 
-            var user = new User
+            var user = new ApplicationUser
             {
                 Email = dto.Email,
                 UserName = dto.UserName ?? dto.Email
@@ -49,7 +49,7 @@ namespace Noog_api.Services
                 throw new NullReferenceException("USer can not be null");
 
             var success = await _users.CheckPasswordAsync(user, dto.Password, lockoutOnFailure: true);
-            if (!success)
+            if (!success.Succeeded)
                 throw new ArgumentException("Email or Password was incorrect");
 
             var expiresAt = DateTimeOffset.UtcNow.AddMinutes(15);

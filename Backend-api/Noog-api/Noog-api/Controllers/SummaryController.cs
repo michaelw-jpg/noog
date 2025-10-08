@@ -17,7 +17,7 @@ namespace Noog_api.Controllers
 
         // GET: api/<SummaryController>
         [HttpGet]
-        public async Task <ActionResult<List<SummaryResponseDto>>> GetAllSummeries()
+        public async Task <ActionResult<List<SummaryResponseDto>>> GetAllSummeries()(
         {
             var response = await _summaryService.GetAllSummariesAsync();
 
@@ -55,6 +55,9 @@ namespace Noog_api.Controllers
         {
             var response = await _summaryService.DeleteSummaryAsync(id);
             return ApiResponseHelper.ToActionResult(response);
+            {
+
+            }
         }
     }
 }

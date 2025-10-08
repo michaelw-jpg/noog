@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Noog_api.Data;
 using Noog_api.Extensions;
+using Noog_api.Helpers;
 using Noog_api.Models;
 using Noog_api.Repositories;
 using Noog_api.Repositories.IRepositories;
@@ -12,12 +13,13 @@ using Noog_api.Services;
 using Noog_api.Services.IServices;
 using System;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Noog_api
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
@@ -25,7 +27,7 @@ namespace Noog_api
             builder.Services.AddDbContext<NoogDbContext>(opt =>
                 opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-            builder.Services.AddIdentityCore<User>(options =>
+            builder.Services.AddIdentityCore<ApplicationUser>(options =>
             {
                 options.Password.RequiredLength = 8;
                 options.Password.RequireDigit = true;
@@ -37,6 +39,7 @@ namespace Noog_api
 
 
             builder.Services.JwtAuth(builder.Configuration);
+            builder.Services.RolePolicy();
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -46,12 +49,15 @@ namespace Noog_api
             builder.Services.AddDbContext<NoogDbContext>();
             builder.Services.AddScoped<ISummaryRepository,SummaryRepository>();
             builder.Services.AddScoped<ISummaryService, SummaryService>();
-            builder.Services.AddScoped<IUserService<User>, UserService<User>>();
+            builder.Services.AddScoped<IUserService<ApplicationUser>, UserService<ApplicationUser>>();
             builder.Services.AddScoped<IAuthService, AuthService>();
             builder.Services.AddScoped<TokenService>();
 
 
+
             var app = builder.Build();
+
+            await IdentitySeedHelper.SeedAsync(app.Services);
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
@@ -64,7 +70,7 @@ namespace Noog_api
 
             app.UseAuthorization();
 
-            app.MapIdentityApi<User>();
+            app.MapIdentityApi<ApplicationUser>();
             app.MapControllers();
 
             app.Run();

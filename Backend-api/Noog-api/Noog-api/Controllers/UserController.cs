@@ -1,4 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Noog_api.Helpers;
+using Noog_api.Models;
+using Noog_api.Services.IServices;
 
 
 namespace Noog_api.Controllers
@@ -7,18 +10,26 @@ namespace Noog_api.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
+        private readonly IUserService<User> _userService;
+
+        public UserController(IUserService<User> userService)
+        {
+            _userService = userService;
+        }
         // GET: api/<UserController>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public async Task<ActionResult<List<User>>> GetAllUsers()
         {
-            return new string[] { "value1", "value2" };
+            var users = await _userService.AllUsersAsync();
+            return (users);
         }
 
         // GET api/<UserController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        [HttpGet("byEmail/{id}")]
+        public async Task<ActionResult<User>> GetByEmail(string email)
         {
-            return "value";
+            var user = await _userService.FindByEmailAsync(email);
+            return (user);
         }
 
         // POST api/<UserController>

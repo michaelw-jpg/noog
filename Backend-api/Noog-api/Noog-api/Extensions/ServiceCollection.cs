@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using System.Security.Claims;
 using System.Text;
 
 namespace Noog_api.Extensions
@@ -28,7 +29,8 @@ namespace Noog_api.Extensions
                     ValidateAudience = true,
                     ValidateIssuerSigningKey = true,
                     ValidateLifetime = true,
-                    ClockSkew = TimeSpan.FromMinutes(3)
+                    ClockSkew = TimeSpan.FromMinutes(3),
+                    RoleClaimType = ClaimTypes.Role
                 };
 
                 options.Events = new JwtBearerEvents
@@ -46,8 +48,18 @@ namespace Noog_api.Extensions
                 };
             });
 
+            return services;   
+        }
+        public static IServiceCollection RolePolicy(this IServiceCollection services)
+        {
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("RequireAdmin", policy => policy.RequireRole("Admin"));
+                options.AddPolicy("RequireManager", policy => policy.RequireRole("Manager"));
+                options.AddPolicy("RequireUser", policy => policy.RequireRole("User"));
+            });
+
             return services;
-               
         }
     }
 }
