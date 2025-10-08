@@ -10,15 +10,15 @@ namespace Noog_api.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        private readonly IUserService<User> _userService;
+        private readonly IUserService<ApplicationUser> _userService;
 
-        public UserController(IUserService<User> userService)
+        public UserController(IUserService<ApplicationUser> userService)
         {
             _userService = userService;
         }
         // GET: api/<UserController>
         [HttpGet]
-        public async Task<ActionResult<List<User>>> GetAllUsers()
+        public async Task<ActionResult<List<ApplicationUser>>> GetAllUsers()
         {
             var users = await _userService.AllUsersAsync();
             return (users);
@@ -26,7 +26,7 @@ namespace Noog_api.Controllers
 
         // GET api/<UserController>/5
         [HttpGet("byEmail/{id}")]
-        public async Task<ActionResult<User>> GetByEmail(string email)
+        public async Task<ActionResult<ApplicationUser>> GetByEmail(string email)
         {
             var user = await _userService.FindByEmailAsync(email);
             return (user);

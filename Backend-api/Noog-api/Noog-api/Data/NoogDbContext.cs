@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace Noog_api.Data
 {
-    public class NoogDbContext : IdentityDbContext<User>
+    public class NoogDbContext : IdentityDbContext<ApplicationUser>
     {
         public NoogDbContext(DbContextOptions<NoogDbContext> options) : base(options)
         {
@@ -45,7 +45,7 @@ namespace Noog_api.Data
 
         public DbSet<Summary> Summaries { get; set; }
 
-        public DbSet<User> Users { get; set; }
+        public DbSet<ApplicationUser> Users { get; set; }
 
     }
 }
