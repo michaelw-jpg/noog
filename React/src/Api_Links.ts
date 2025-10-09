@@ -1,0 +1,1 @@
+export const apilink = "https://api.example.com/user" //TODO: replace with actual API link
