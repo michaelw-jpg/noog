@@ -1,0 +1,58 @@
+name: MVC Frontend CI/CD
+
+on:
+ pull_request:
+  branches: [ main ]
+  paths:
+  - 'Mvc/Noog-mvc/**'
+ push:
+  branches: [main]
+  paths:
+   -  'Mvc/Noog-mvc/**'
+
+jobs:
+ test:
+  runs-on: windows-latest
+  steps:
+   - name: Checkout code
+     uses: actions/checkout@v4
+
+   - name: Setup .NET
+     uses: actions/setup-dotnet@v4
+     with:
+      dotnet-version: '8.0.x'
+
+   - name: Restore dependencies
+     run: dotnet restore Mvc/Noog-mvc/Noog-mvc.sln
+
+   - name: Build
+     run: dotnet build Mvc/Noog-mvc/Noog-mvc.sln --no-restore --configuration Release
+
+ # we can later add unit tests for MVC if we want
+ # - name: Run MVC Tests
+ #  run: dotnet test frontend-mvc/Tests/MvcFrontend.Tests.csproj --no-build --configuration Release --logger "console;verbosity=detailed"
+
+ deploy:
+  if: github.event_name == 'push'
+  runs-on: windows-latest
+  steps: 
+   - name: Checkout Code
+     uses: actions/checkout@v4
+     
+   - name: Setup .NET
+     uses: actions/setup-dotnet@v4
+     with:
+       dotnet-version: '8.0.x'
+
+   - name: Restore dependencies
+     run: dotnet restore Mvc/Noog-mvc/Noog-mvc.sln
+
+   - name: Publish MVC
+     run: dotnet publish Mvc/Noog-mvc/Noog-mvc.sln -c Release -o ./publish
+   
+   - name: deploy to Azure
+     uses: azure/webapps-deploy@v3
+     with:
+       app-name: 'NoogMvc'
+       publish-profile: ${{ secrets.AZURE_MVC_PUBLISH_PROFILE }}
+       package: ./publish
