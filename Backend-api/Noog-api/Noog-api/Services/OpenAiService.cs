@@ -24,8 +24,17 @@ namespace Noog_api.Services
             var deployment= _configuration["OpenAI:Deployment"];
             var apiVersion = "2024-12-01-preview";
 
+           
+
+            if (string.IsNullOrWhiteSpace(endpoint))
+                throw new Exception("OpenAI:Endpoint is not configured");
+
+            if (string.IsNullOrWhiteSpace(deployment))
+                throw new Exception("OpenAI:Deployment is not configured");
+
             _httpClient.DefaultRequestHeaders.Clear();
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", apiKey);
+            
 
             var requestBody = new
             {
@@ -41,7 +50,8 @@ namespace Noog_api.Services
             var json = JsonSerializer.Serialize(requestBody);
             var content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
 
-            var url = $"{endpoint}/openai/deployments/{deployment}/chat/completions?api-version={apiVersion}";
+            _httpClient.BaseAddress = new Uri(endpoint);
+            var url = $"/openai/deployments/{deployment}/chat/completions?api-version={apiVersion}";
 
             var result = new BaseResponseDto<OpenAIResponseDto>();
 

@@ -42,7 +42,8 @@ namespace Noog_api
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
-            app.UseMiddleware<GlobalExceptionHandler>();
+
+            app.UseExceptionHandler(options => { });
 
             app.UseHttpsRedirection();
 
