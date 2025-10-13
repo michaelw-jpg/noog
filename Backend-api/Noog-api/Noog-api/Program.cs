@@ -7,6 +7,7 @@ using Noog_api.Data;
 using Noog_api.Extensions;
 using Noog_api.Helpers;
 using Noog_api.Models;
+using Noog_api.Middlewares;
 using Noog_api.Repositories;
 using Noog_api.Repositories.IRepositories;
 using Noog_api.Services;
@@ -44,15 +45,21 @@ namespace Noog_api
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
+            builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
-            builder.Services.AddDbContext<NoogDbContext>();
+            builder.Services.AddDbContext<NoogDbContext>(options => 
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
             builder.Services.AddScoped<ISummaryRepository,SummaryRepository>();
             builder.Services.AddScoped<ISummaryService, SummaryService>();
             builder.Services.AddScoped<IUserService<ApplicationUser>, UserService<ApplicationUser>>();
             builder.Services.AddScoped<IAuthService, AuthService>();
             builder.Services.AddScoped<TokenService>();
+
+            builder.Services.AddHttpClient<AssemblyAiService>();
 
 
 
@@ -66,6 +73,7 @@ namespace Noog_api
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+            app.UseMiddleware<GlobalExceptionHandler>();
 
             app.UseHttpsRedirection();
 

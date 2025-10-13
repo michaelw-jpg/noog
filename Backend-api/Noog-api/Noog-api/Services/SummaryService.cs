@@ -44,8 +44,8 @@ namespace Noog_api.Services
             
             if(result == null)
             {
-                response.Data = new SummaryResponseDto();
-                response.StatusCode = Enums.StatusCodesEnum.Success;
+                
+                response.StatusCode = Enums.StatusCodesEnum.NotFound;
                 response.Message = "Summary not found";
                 return response;
             }
@@ -126,22 +126,37 @@ namespace Noog_api.Services
         public async Task<BaseResponseDto<int>> DeleteSummaryAsync(int id)
         {
             var result =  new BaseResponseDto<int>();
+            bool success = false;
             try
             {
-                await _repo.DeleteSummaryAsync(id);
+                success = await _repo.DeleteSummaryAsync(id);
             }
             catch (Exception ex)
             {
                 result = new BaseResponseDto<int>
                 {
                     StatusCode = Enums.StatusCodesEnum.ServerError,
-                    Message = ex.Message
+                    Message = ex.Message,
                 };
+                return result;
             }
-            result.Data = id;
-            result.StatusCode = Enums.StatusCodesEnum.Success;
-            result.Message = "Summary deleted successfully";
-            return result;
+
+            if (success)
+            {
+                result.Data = id;
+                result.StatusCode = Enums.StatusCodesEnum.Success;
+                result.Message = "Summary deleted successfully";
+                return result;
+            }
+
+            else
+            {
+                result.StatusCode = Enums.StatusCodesEnum.NotFound;
+                result.Message = "Summary Not found";
+                return result;
+            }
+            
+           
         }
     }
 }

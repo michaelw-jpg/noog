@@ -34,13 +34,30 @@ namespace Noog_api.Data
 
                 entity.Property(e => e.Content)
                       .IsRequired()
-                      .HasMaxLength(5000)
-                      .HasColumnType("nvarchar(5000)");
+                      .HasMaxLength(4000)
+                      .HasColumnType("nvarchar(4000)");
 
                 entity.Property(e => e.CreatedAt)
                         .IsRequired()
                         .HasColumnType("datetime2");
             });
+            modelBuilder.Entity<Summary>().HasData(
+                new Summary
+                {
+                    SummaryId = 1,
+                    Title = "First Summary",
+                    Content = "This is the content of the first summary.",
+                    CreatedAt = DateTime.UtcNow
+                },
+                new Summary
+                {
+                    SummaryId = 2,
+                    Title = "Second Summary",
+                    Content = "This is the content of the second summary.",
+                    CreatedAt = DateTime.UtcNow
+                }
+                );
+
         }
 
         public DbSet<Summary> Summaries { get; set; }
