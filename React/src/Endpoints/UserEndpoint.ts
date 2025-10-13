@@ -1,31 +1,21 @@
-import { useEffect, useState } from "react";
+import type { UserResponse } from "../Models/UserResponse";
 import { apilink } from "../Api_Links";
-import {type ApiUserResponse} from '../Models/ApiUserResponse';
 
+export async function fetchUser(timeoutMs = 3000): Promise<UserResponse> {
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), timeoutMs);
 
-export function useUserData() {
-  const [data, setData] = useState<ApiUserResponse | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<Error | null>(null);
-
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const response = await fetch(apilink);
-        if (!response.ok) throw new Error("Failed to fetch user data");
-
-        const json = await response.json();
-        setData(json);
-      } catch (err: any) {
-        console.error("Error fetching user data:", err);
-        setError(err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchUser();
-  }, []);
-
-  return { data, loading, error };
+  try {
+    const response = await fetch(`${apilink}/api/user`);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const data: UserResponse = await response.json();
+    return data;
+  } catch (err) {
+    console.error("Error fetching user (with timeout):", err);
+    throw err;
+  } finally {
+    clearTimeout(timeout);
+  }
 }
