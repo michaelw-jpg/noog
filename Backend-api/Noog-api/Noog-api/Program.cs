@@ -32,8 +32,9 @@ namespace Noog_api
                 options.Password.RequiredLength = 8;
                 options.Password.RequireDigit = true;
                 options.User.RequireUniqueEmail = true;
-            }).AddRoles<IdentityRole>()
+            }).AddRoles<ApplicationRole>()
             .AddEntityFrameworkStores<NoogDbContext>()
+            .AddDefaultTokenProviders()
             .AddApiEndpoints()
             .AddSignInManager();
 

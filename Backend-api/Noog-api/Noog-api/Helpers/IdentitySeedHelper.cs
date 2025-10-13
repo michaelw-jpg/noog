@@ -8,7 +8,7 @@ namespace Noog_api.Helpers
         public static async Task SeedAsync(IServiceProvider services)
         {
             using var scope = services.CreateScope();
-            var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+            var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<ApplicationRole>>();
             var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
 
             string[] roles = { "Admin", "Manager", "User" };
@@ -17,7 +17,7 @@ namespace Noog_api.Helpers
             {
                 if (!await roleManager.RoleExistsAsync(role))
                 {
-                    await roleManager.CreateAsync(new IdentityRole(role));
+                    await roleManager.CreateAsync(new ApplicationRole(role));
                 }
             }
             var adminEmail = "admin@goon.com";
