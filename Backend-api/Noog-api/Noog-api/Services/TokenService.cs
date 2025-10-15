@@ -23,7 +23,7 @@ namespace Noog_api.Services
             var jwt = _config.GetSection("Jwt");
             var claims = new List<Claim>
             {
-                new(JwtRegisteredClaimNames.Sub, user.Id),
+                new(ClaimTypes.NameIdentifier, user.Id.ToString()),
                 new(JwtRegisteredClaimNames.UniqueName, user.UserName ?? ""),
                 new(JwtRegisteredClaimNames.Email, user.Email ?? "")
             };

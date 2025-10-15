@@ -64,9 +64,9 @@ namespace Noog_api.Services
             };
         }
         
-        public async Task Logout()
+        public async Task LogoutAsync()
         {
-            await _signInManager.SignOutAsync();
+           await _signInManager.SignOutAsync();
         }
     }
 }

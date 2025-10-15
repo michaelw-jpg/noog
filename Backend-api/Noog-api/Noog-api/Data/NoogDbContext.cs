@@ -47,14 +47,14 @@ namespace Noog_api.Data
                     SummaryId = 1,
                     Title = "First Summary",
                     Content = "This is the content of the first summary.",
-                    CreatedAt = DateTime.UtcNow
+                    CreatedAt = new DateTime(2025, 10, 13, 12, 30, 0, DateTimeKind.Utc)
                 },
                 new Summary
                 {
                     SummaryId = 2,
                     Title = "Second Summary",
                     Content = "This is the content of the second summary.",
-                    CreatedAt = DateTime.UtcNow
+                    CreatedAt = new DateTime(2025, 10, 14, 8, 15, 0, DateTimeKind.Utc)
                 }
                 );
 

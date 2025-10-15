@@ -28,8 +28,4 @@
     <Folder Include="DTOs\User\" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Migrations\" />
-  </ItemGroup>
-
 </Project>

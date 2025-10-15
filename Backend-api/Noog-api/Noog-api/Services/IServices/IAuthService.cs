@@ -7,6 +7,6 @@ namespace Noog_api.Services.IServices
     {
         Task<LoginResponseDto> RegisterAsync(RegisterDto dto);
         Task<LoginResponseDto?> LoginAsync(LoginDto dto);
-        Task<SignInResult> LogoutAsync();
+        Task LogoutAsync();
     }
 }
