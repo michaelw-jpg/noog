@@ -57,6 +57,9 @@ namespace Noog_api.Data
                     CreatedAt = new DateTime(2025, 10, 14, 8, 15, 0, DateTimeKind.Utc)
                 }
                 );
+            modelBuilder.Entity<ApplicationUser>()
+                .Property(u => u.ImgProfile)
+                .HasDefaultValue("https://t3.ftcdn.net/jpg/06/33/54/78/240_F_633547842_AugYzexTpMJ9z1YcpTKUBoqBF0CUCk10.jpg");
 
         }
 
