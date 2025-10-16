@@ -40,7 +40,7 @@ jobs:
       - name: Restore dependencies
         run: dotnet restore Backend-api/Noog-api/Noog-api.sln
       - name: Publish Backend
-        run: dotnet publish Backend-api/Noog-api/Noog-api.sln -c Release -o ./publish
+        run: dotnet publish Backend-api/Noog-api/Noog-api.sln -c Release -o ${{github.workspace}}/publish
 
       - name: Azure Login
         uses: azure/login@v1
@@ -48,5 +48,5 @@ jobs:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: deploy to Azure
-        run: az webapp deploy --resource-group NoogResourceGroup --name NoogApi --src-path ./publish --type zip
+        run: az webapp deploy --resource-group NoogResourceGroup --name NoogApi --src-path ${{github.workspace}}/publish --type zip
           
