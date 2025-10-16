@@ -42,11 +42,14 @@ jobs:
       - name: Publish Backend
         run: dotnet publish Backend-api/Noog-api/Noog-api.sln -c Release -o ${{github.workspace}}/publish
 
+      - name: Create ZIP package
+        run: Compress-Archive -Path ${{github.workspace}}/publish/* -DestinationPath ${{github.workspace}}/publish.zip
+
       - name: Azure Login
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: deploy to Azure
-        run: az webapp deploy --resource-group NoogResourceGroup --name NoogApi --src-path ${{github.workspace}}/publish --type zip
+        run: az webapp deploy --resource-group NoogResourceGroup --name NoogApi --src-path ${{github.workspace}}/publish.zip --type zip
           
