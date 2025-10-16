@@ -13,9 +13,9 @@ namespace Noog_api.Controllers
     {
         private readonly IOpenAiService _openAiService = openAiService;
         [HttpPost("summary")]
-        public async Task<ActionResult<OpenAIResponseDto>> GetChatResponse([FromBody] string prompt)
+        public async Task<ActionResult<OpenAIResponseDto>> GetChatResponse([FromBody] OpenAIRequest prompt)
         {
-            var response = await _openAiService.GetChatResponseAsync(prompt);
+            var response = await _openAiService.GetChatResponseAsync(prompt.Prompt);
             return ApiResponseHelper.ToActionResult(response);
         }
 

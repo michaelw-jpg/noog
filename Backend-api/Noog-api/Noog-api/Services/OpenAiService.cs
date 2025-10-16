@@ -1,6 +1,9 @@
-﻿using Noog_api.DTOs;
+﻿using Azure;
+using Azure.AI.OpenAI;
+using Noog_api.DTOs;
 using Noog_api.DTOs.BaseResponseDtos;
 using Noog_api.Services.IServices;
+using OpenAI.Chat;
 using System.Net.Http.Headers;
 using System.Text.Json;
 
@@ -8,86 +11,46 @@ namespace Noog_api.Services
 {
     public class OpenAiService : IOpenAiService
     {
-        private readonly HttpClient _httpClient;
-        private readonly IConfiguration _configuration;
+        private readonly AzureOpenAIClient _client;
+        private readonly string _deployment;
 
         public OpenAiService(HttpClient httpClient, IConfiguration configuration)
         {
-            _httpClient = httpClient;
-            _configuration = configuration;
+            var endpoint = configuration["OpenAI:Endpoint"];
+            var apiKey = configuration["OpenAI:ApiKey"];
+            _deployment = configuration["OpenAI:Deployment"];
+
+            if(string.IsNullOrWhiteSpace(endpoint) || string.IsNullOrWhiteSpace(_deployment))
+                throw new Exception("OpenAI configuration is missing");
+
+            _client = new AzureOpenAIClient(new Uri(endpoint), new AzureKeyCredential(apiKey));
+
         }
 
         public async Task<BaseResponseDto<OpenAIResponseDto>> GetChatResponseAsync(string prompt)
         {
-            var endpoint = _configuration["OpenAI:Endpoint"];
-            var apiKey = _configuration["OpenAI:ApiKey"];
-            var deployment= _configuration["OpenAI:Deployment"];
-            var apiVersion = "2024-12-01-preview";
+            var chatClient = _client.GetChatClient(_deployment);
 
-           
+            var context = "Context: You are an assistant transcribing a voice call according to the transcript provided.Your task is to read the transcript below and write a concise summary.";
+            var context2 = "Context: You are an assistant transcribing a voice call according to the transcript provided.Your task is to read the transcript below and write a concise summary. but translate to swedish";
 
-            if (string.IsNullOrWhiteSpace(endpoint))
-                throw new Exception("OpenAI:Endpoint is not configured");
+            List<ChatMessage> chatHistory = [
+            new SystemChatMessage(context2),
+            new UserChatMessage(prompt),
+            ];
 
-            if (string.IsNullOrWhiteSpace(deployment))
-                throw new Exception("OpenAI:Deployment is not configured");
-
-            _httpClient.DefaultRequestHeaders.Clear();
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", apiKey);
+            var response = await chatClient.CompleteChatAsync(chatHistory);
+            var assistantMessage = response.Value.Content[0].Text;
             
-
-            var requestBody = new
-            {
-                messages = new[]
-                {
-                    new { role = "user", content = prompt }
-                },
-                max_tokens = 500,
-                temperature = 0.7,
-
-            };
-
-            var json = JsonSerializer.Serialize(requestBody);
-            var content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
-
-            _httpClient.BaseAddress = new Uri(endpoint);
-            var url = $"/openai/deployments/{deployment}/chat/completions?api-version={apiVersion}";
 
             var result = new BaseResponseDto<OpenAIResponseDto>();
-
-            //sends request
-            var response = await _httpClient.PostAsync(url, content);
-
-            try
+            result .Data = new OpenAIResponseDto
             {
-                response.EnsureSuccessStatusCode();
-            }
-            catch (Exception ex)
-            {
-                result.StatusCode = Enums.StatusCodesEnum.ServerError;
-                result.Message = $"Error: {ex.Message}";
-                return result;
-            }
-            
-
-            var responseContent = await response.Content.ReadAsStringAsync();
-
-            using var document = JsonDocument.Parse(responseContent);
-            var message = document.RootElement
-                .GetProperty("choices")[0]
-                .GetProperty("message")
-                .GetProperty("content")
-                .GetString();
-
-            result.Data = new OpenAIResponseDto
-            {
-                Message = message ?? string.Empty
+                Message = assistantMessage
             };
+
             result.StatusCode = Enums.StatusCodesEnum.Success;
-
-
             return result;
-
         }
     }
 }
