@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Noog_api.Services;
 using Noog_api.Models.AssemblyAi;
+using Noog_api.Services.IServices;
 
 namespace Noog_api.Controllers
 {
@@ -9,10 +10,12 @@ namespace Noog_api.Controllers
     public class ClientReceiverController : ControllerBase
     {
         private readonly AssemblyAiService _assemblyAiService;
+        private readonly IOpenAiService _openAiService;
 
-        public ClientReceiverController(AssemblyAiService assemblyAiService)
+        public ClientReceiverController(AssemblyAiService assemblyAiService, IOpenAiService openAiService)
         {
             _assemblyAiService = assemblyAiService;
+            _openAiService = openAiService;
         }
 
         [HttpPost("create")]
@@ -28,6 +31,8 @@ namespace Noog_api.Controllers
                 var transcript = await _assemblyAiService.CreateTranscriptAsync(uploadedUrl, request.Language);
 
                 var completed = await _assemblyAiService.WaitForTranscriptToProcess(transcript);
+
+                
 
                 return Ok(completed);
             }
