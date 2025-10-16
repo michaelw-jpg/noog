@@ -1,22 +1,228 @@
-html {
-  font-size: 14px;
+:root {
+    --primary-color: #2941FF; /* Blue */
+    --secoundary-color: #ededed; /* White */
+}
+    /* ====== Grundinställningar ====== */
+html, body {
+    position: relative;
+    min-height: 100%;
+    font-size: 20px;
+    margin: 0;
+    background-color: var(--primary-color);
+    font-family: "Inter", system-ui;
+    display: flex;
+    flex-direction: column;
 }
 
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
-}
-
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
-
-html {
-  position: relative;
-  min-height: 100%;
-}
 
 body {
-  margin-bottom: 60px;
+    min-height: 100vh; /* hela höjden på sidan */
+    display: flex;
+    flex-direction: column;
+}
+
+/* ====== Header och navigation ====== */
+.main-nav {
+    background-color: var(--secoundary-color);
+    padding: 0,9em;
+    z-index: 1000;
+    border-radius: 54px;
+    position: relative;
+    margin: 1rem;
+    padding: 10px
+}
+
+.nav-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1450px;
+    position: relative;
+}
+
+/* ====== Navigation länkar ====== */
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    list-style: none;
+    margin: 0;
+    padding-left: 2;
+    
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: var(--primary-color);
+    font-weight: 300;
+    padding: 0.5rem 0.75rem;
+    border-radius: 4px;
+    transition: color 0.2s ease, background-color 0.2s ease;
+}
+
+.nav-links a:hover {
+    color: #60a5fa;
+}
+
+/* ====== Login-knappen ====== */
+.login-link {
+    text-decoration: none;
+    text-align:center;
+    background-color: #3b82f6;
+    color: #fff !important;
+    font-weight: 230;
+    border-radius: 56px;
+    padding: 7px;
+    transition: background-color 0.2s ease;
+    width: 80px;
+}
+
+    .login-link:hover {
+        background-color: #2563eb;
+    }
+
+/* ====== Mobilmeny-knapp ====== */
+.menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 1.75rem;
+    color: white;
+    cursor: pointer;
+}
+
+.login-link-child{
+    display:none;
+}
+
+/* ====== Responsiv design ====== */
+@media (max-width: 500px) {
+.menu-toggle {
+    display: block;
+}
+
+.nav-links {
+    display: none;
+    flex-direction: column;
+    align-items: flex-start;
+    background-color: #1f2937;
+    position: absolute;
+    top: 100%;
+    left: -30px;
+    width: 15%;
+    padding: 1rem;
+    border-radius: 0 0 8px 8px;
+}
+
+.nav-links.show {
+    display: flex;
+}
+
+.nav-links a {
+    width: 100%;
+    padding: 0.75rem 1rem;
+}
+
+.login-link {
+    display: none;
+}
+
+.nav-links li:last-child {
+    margin-left: 0;
+}
+
+/* Visa login-knappen inuti menyn på mobil */
+.nav-links .login-link-child {
+    display: block;
+    background-color: #3b82f6;
+    color: white !important;
+    font-weight: 600;
+    border-radius: 6px;
+    text-align: center;
+    width: 100%;
+    margin-top: 0.5rem;
+    padding: 0.75rem;
+}
+
+.nav-links .login-link-child:hover {
+    background-color: #2563eb;
+    }
+}
+
+.main-content {
+    flex: 1;
+}
+
+/* ====== Footer Styling ====== */
+.footer {
+    background-color: var(--secoundary-color);
+    color: var(--primary-color);
+    text-align: center;
+    padding: 1rem 0;
+    border-top: 1px solid #ccc;
+    margin-top: auto; /* Viktigt för sticky footer */
+}
+
+.footer .container {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.footer p {
+    margin: 0;
+    font-size: 0.9rem;
+}
+
+.footer-link {
+    color: var(--primary-color);
+    text-decoration: none;
+}
+
+.footer-link:hover {
+    text-decoration: underline;
+}
+
+.main-box {
+    background-color: white;
+    border-radius: 56px;
+    max-width: 600px; /* du kan justera bredd */
+    margin: 3rem auto; /* centrerar hela boxen på sidan */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 0,5rem;
+    padding-bottom: 2rem;
+    padding-right: 1rem;
+    padding-left: 1rem;
+
+}
+
+.first-text-row {
+    align-self: flex-start;
+    text-align: left;
+    width: 100%;
+    font-size: 1.5rem;
+    font-weight: 200;
+    color: var(--primary-color);    
+}
+
+.noog-img img {
+    max-width: 50%;
+    height: auto;
+    display: block;
+    margin: 1rem auto; /* centrerar bilden */
+}
+
+.last-text-row {
+    align-self: flex-end;
+    text-align: right;
+    width: 100%;
+    font-size: 1.3rem;
+    font-weight: 200;
+    color: var(--primary-color);
+}
+
+.simon {
+    color: #F085DA;
+    font-weight: bold;
 }
