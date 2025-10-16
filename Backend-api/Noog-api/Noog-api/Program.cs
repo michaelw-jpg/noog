@@ -33,6 +33,19 @@ namespace Noog_api
             builder.Services.AddHttpClient<AssemblyAiService>();
 
 
+            // Add CORS policy to allow the Vite frontend
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowFrontend", policy =>
+                {
+                    policy
+                        .WithOrigins("http://localhost:5173") 
+                        .AllowAnyHeader()
+                        .AllowAnyMethod();
+                });
+            });
+
+
 
             var app = builder.Build();
 
@@ -44,6 +57,8 @@ namespace Noog_api
             }
 
             app.UseExceptionHandler(options => { });
+
+            app.UseCors("AllowFrontend");
 
             app.UseHttpsRedirection();
 
