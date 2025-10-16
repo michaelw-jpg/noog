@@ -75,6 +75,7 @@ namespace Noog_api.Controllers
 
             var token = new JwtSecurityToken(
                 claims: claims,
+                issuer: "https://getstream.io",
                 notBefore: DateTime.UtcNow,
                 expires: DateTime.UtcNow.AddHours(2),
                 signingCredentials: creds
