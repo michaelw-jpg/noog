@@ -41,10 +41,12 @@ jobs:
         run: dotnet restore Backend-api/Noog-api/Noog-api.sln
       - name: Publish Backend
         run: dotnet publish Backend-api/Noog-api/Noog-api.sln -c Release -o ./publish
-      - name: deploy to Azure
-        uses: azure/webapps-deploy@v3
+
+      - name: Azure Login
+        uses: azure/login@v1
         with:
-          app-name: 'NoogApi'
-          publish-profile: ${{ secrets.AZURE_BACKEND_PUBLISH_PROFILE }}
-          package: ./publish
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: deploy to Azure
+        run: az webapp deploy --resource-group NoogResourceGroup --name NoogApi --src-path ./publish --type zip
           
