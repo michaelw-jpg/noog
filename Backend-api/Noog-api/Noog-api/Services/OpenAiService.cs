@@ -42,9 +42,8 @@ namespace Noog_api.Services
             var response = await chatClient.CompleteChatAsync(chatHistory);
             var assistantMessage = response.Value.Content[0].Text;
             
-
             var result = new BaseResponseDto<OpenAIResponseDto>();
-            result .Data = new OpenAIResponseDto
+            result.Data = new OpenAIResponseDto
             {
                 Message = assistantMessage
             };
