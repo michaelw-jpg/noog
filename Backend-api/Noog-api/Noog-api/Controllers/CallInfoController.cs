@@ -34,7 +34,7 @@ namespace Noog_api.Controllers
 
             if (string.IsNullOrEmpty(streamApiSecret) || string.IsNullOrEmpty(streamApiKey))
             {
-                return StatusCode(500, "Stream Api configuration is missing");
+                return StatusCode(500, "Stream Api configuration is missing. Please set StreamIo:ApiSecret and StreamIo:ApiKey in your app settings.");
             }
 
             // Generate stream token
