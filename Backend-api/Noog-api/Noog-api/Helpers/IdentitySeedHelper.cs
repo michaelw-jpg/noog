@@ -11,7 +11,7 @@ namespace Noog_api.Helpers
             var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<ApplicationRole>>();
             var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
 
-            string[] roles = { "Admin", "Manager", "User" };
+            string[] roles = { Roles.Admin, Roles.Manager, Roles.User };
 
             foreach (var role in roles)
             {

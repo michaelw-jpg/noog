@@ -12,7 +12,7 @@ using Noog_api.Data;
 namespace Noog_api.Migrations
 {
     [DbContext(typeof(NoogDbContext))]
-    [Migration("20251013125435_init")]
+    [Migration("20251020115511_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -178,6 +178,12 @@ namespace Noog_api.Migrations
 
                     b.Property<string>("FirstName")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImgProfile")
+                        .ValueGeneratedOnAdd()
+                        .HasMaxLength(300)
+                        .HasColumnType("nvarchar(300)")
+                        .HasDefaultValue("https://t3.ftcdn.net/jpg/06/33/54/78/240_F_633547842_AugYzexTpMJ9z1YcpTKUBoqBF0CUCk10.jpg");
 
                     b.Property<string>("LastName")
                         .HasColumnType("nvarchar(max)");

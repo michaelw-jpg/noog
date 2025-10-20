@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Noog_api.DTOs.Auth;
+using Noog_api.Helpers;
 using Noog_api.Models;
 using Noog_api.Repositories.IRepositories;
 using Noog_api.Services.IServices;
+using System.Data;
 
 namespace Noog_api.Services
 {
@@ -36,10 +38,15 @@ namespace Noog_api.Services
             if (!result.Succeeded)
                 throw new InvalidOperationException("User could not be created");
 
+            var roleResult = await _users.AddToRoleAsync(user, Roles.User);
+            if (!roleResult.Succeeded)
+                throw new InvalidOperationException("User created, but failed to assign default role.");
 
+            var expiresAt = DateTimeOffset.UtcNow.AddMinutes(15);
             var token = await _tokens.CreateToken(user);
             return new LoginResponseDto
             {
+                ExpiresAt = expiresAt,
                 Token = token
             };
         }
@@ -47,16 +54,35 @@ namespace Noog_api.Services
         public async Task<LoginResponseDto?> LoginAsync(LoginDto dto)
         {
             var user = await _users.FindByEmailAsync(dto.Email);
+
             if (user is null)
-                throw new NullReferenceException("USer can not be null");
+            {
+                return new LoginResponseDto
+                {
+                    Message = "Email or password is incorrect."
+                };
+
+            }
 
             var success = await _users.CheckPasswordAsync(user, dto.Password, lockoutOnFailure: true);
+
+            if (success.IsLockedOut)
+            {
+                return new LoginResponseDto
+                {
+                    Message = "This account is locked due to repeated failed sign-ins. Try again later."
+                };
+            }
+
             if (!success.Succeeded)
-                throw new ArgumentException("Email or Password was incorrect");
+            {
+
+                return new LoginResponseDto { Message = "Email or password is incorrect." };
+            }
 
             var expiresAt = DateTimeOffset.UtcNow.AddMinutes(15);
-
             var token = await _tokens.CreateToken(user);
+
             return new LoginResponseDto
             {
                 Token = token,

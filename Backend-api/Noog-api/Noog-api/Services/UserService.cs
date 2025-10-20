@@ -55,12 +55,7 @@ namespace Noog_api.Services
         {
             var result = await _userManager.AddToRoleAsync(user, role);
 
-            if (!result.Succeeded)
-            {
-                return (IdentityResult)Results.BadRequest(result.Errors);
-            }
-
-            return (IdentityResult)Results.Ok();
+            return result;
         }
         public async Task<IdentityResult> DeleteAsync(TUser user)
         {

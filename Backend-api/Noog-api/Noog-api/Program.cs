@@ -30,6 +30,10 @@ namespace Noog_api
 
             builder.Services.AddIdentityCore<ApplicationUser>(options =>
             {
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+                options.Lockout.MaxFailedAccessAttempts = 5;
+                options.Lockout.AllowedForNewUsers = true;
+
                 options.Password.RequiredLength = 8;
                 options.Password.RequireDigit = true;
                 options.User.RequireUniqueEmail = true;

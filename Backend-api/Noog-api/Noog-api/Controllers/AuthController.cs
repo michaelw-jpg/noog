@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Noog_api.DTOs.Auth;
+using Noog_api.Models;
 using Noog_api.Services.IServices;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -11,9 +12,12 @@ namespace Noog_api.Controllers
     public class AuthController : ControllerBase
     {
         private readonly IAuthService _authService;
-        public AuthController(IAuthService authService)
+        private readonly IUserService<ApplicationUser> _userService;
+
+        public AuthController(IAuthService authService, IUserService<ApplicationUser> userService)
         {
             _authService = authService;
+            _userService = userService;
         }
         // GET: api/<AuthController>
         [HttpGet]
@@ -27,6 +31,21 @@ namespace Noog_api.Controllers
         public string Get(int id)
         {
             return "value";
+        }
+
+        [HttpPost]
+        public async Task<IResult> AddRolesAsync(string email, string role)
+        {
+            var user = await _userService.FindByEmailAsync(email);
+            if (user is null)
+                return Results.NotFound("User not found.");
+
+            var result = await _userService.AddToRoleAsync(user, role);
+
+            if (!result.Succeeded)
+                return Results.BadRequest(result.Errors);
+
+            return Results.Ok("Role added successfully.");
         }
 
         // POST api/<AuthController>
