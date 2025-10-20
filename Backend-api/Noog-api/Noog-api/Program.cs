@@ -57,6 +57,7 @@ namespace Noog_api
             builder.Services.AddDbContext<NoogDbContext>(options => 
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+            builder.Services.AddScoped<IOpenAiService, OpenAiService>();
             builder.Services.AddScoped<ISummaryRepository,SummaryRepository>();
             builder.Services.AddScoped<ISummaryService, SummaryService>();
             builder.Services.AddScoped<IUserService<ApplicationUser>, UserService<ApplicationUser>>();
@@ -77,7 +78,8 @@ namespace Noog_api
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
-            app.UseMiddleware<GlobalExceptionHandler>();
+
+            app.UseExceptionHandler(options => { });
 
             app.UseHttpsRedirection();
 
