@@ -1,4 +1,6 @@
-﻿document.addEventListener("DOMContentLoaded", function () {
+﻿
+//For hamburger menu toggle
+document.addEventListener("DOMContentLoaded", function () {
     const toggle = document.getElementById("menu-toggle");
     const links = document.getElementById("nav-links");
 

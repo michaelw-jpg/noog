@@ -16,7 +16,7 @@ html, body {
 
 
 body {
-    min-height: 100vh; /* hela höjden på sidan */
+    min-height: 100vh; 
     display: flex;
     flex-direction: column;
 }
@@ -160,7 +160,12 @@ body {
     text-align: center;
     padding: 1rem 0;
     border-top: 1px solid #ccc;
-    margin-top: auto; /* Viktigt för sticky footer */
+    margin-top: auto;
+    border-radius: 56px;
+    max-width: 1450px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
 }
 
 .footer .container {
@@ -185,8 +190,8 @@ body {
 .main-box {
     background-color: white;
     border-radius: 56px;
-    max-width: 600px; /* du kan justera bredd */
-    margin: 3rem auto; /* centrerar hela boxen på sidan */
+    max-width: 600px; 
+    margin: 3rem auto; 
     display: flex;
     justify-content: center;
     align-items: center;
@@ -210,7 +215,8 @@ body {
     max-width: 50%;
     height: auto;
     display: block;
-    margin: 1rem auto; /* centrerar bilden */
+    margin: 1rem auto;
+    padding-bottom: 10px;
 }
 
 .last-text-row {
