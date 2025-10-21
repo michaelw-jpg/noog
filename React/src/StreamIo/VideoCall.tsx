@@ -10,18 +10,15 @@ import {
 } from '@stream-io/video-react-sdk';
 import { useUser } from '../Service/useUser';
 
-const apiKey = 'mmhfdzb5evj2';
-const callId = '18dwiUvvQsvvQ4ff92xgi';
-
 export default function VideoCall() {
   const [client, setClient] = useState<StreamVideoClient | null>(null);
   const [call, setCall] = useState<any>(null);
-  const { user, token, error, isLoading } = useUser();
+  const { user, token, callId, apiKey, error, isLoading } = useUser();
 
   useEffect(() => {
 
-    if (!user || !token) {
-      console.error("No user or token available:", { user, token });
+    if (!user || !token || !callId || !apiKey) {
+      console.error("No user, token, callId or apiKey available:", { user, token, callId, apiKey });
       return;
     }
 
@@ -60,13 +57,14 @@ export default function VideoCall() {
     return () => {
       streamClient.disconnectUser();
     };
-  }, [user, token, isLoading]);
+  }, [user, token, callId, apiKey, isLoading]);
 
-  if (isLoading) return <p>Loading user...</p>;
-  if (error) {
-    console.log("Error in video call:", error)
-  } ;
-  if (!client || !call) return <p>Initializing call...</p>;
+  if (isLoading) 
+    return <p>Loading user...</p>;
+  if (error) 
+    return <p>Error loading call: {error.message}</p>
+  if (!client || !call) 
+    return <p>Initializing call...</p>;
 
   return (
     <StreamVideo client={client}>

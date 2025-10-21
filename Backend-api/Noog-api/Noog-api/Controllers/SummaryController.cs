@@ -55,6 +55,9 @@ namespace Noog_api.Controllers
         {
             var response = await _summaryService.DeleteSummaryAsync(id);
             return ApiResponseHelper.ToActionResult(response);
+            {
+
+            }
         }
     }
 }

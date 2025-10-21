@@ -1,1 +1,1 @@
-export const apilink = "http://localhost:5051"
+export const apilink = "https://localhost:7295"

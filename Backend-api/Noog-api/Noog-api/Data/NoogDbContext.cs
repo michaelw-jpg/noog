@@ -1,9 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Noog_api.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace Noog_api.Data
 {
-    public class NoogDbContext : DbContext
+    public class NoogDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, Guid>
     {
         public NoogDbContext(DbContextOptions<NoogDbContext> options) : base(options)
         {
@@ -46,20 +47,26 @@ namespace Noog_api.Data
                     SummaryId = 1,
                     Title = "First Summary",
                     Content = "This is the content of the first summary.",
-                    CreatedAt = DateTime.UtcNow
+                    CreatedAt = new DateTime(2025, 10, 13, 12, 30, 0, DateTimeKind.Utc)
                 },
                 new Summary
                 {
                     SummaryId = 2,
                     Title = "Second Summary",
                     Content = "This is the content of the second summary.",
-                    CreatedAt = DateTime.UtcNow
+                    CreatedAt = new DateTime(2025, 10, 14, 8, 15, 0, DateTimeKind.Utc)
                 }
                 );
+            modelBuilder.Entity<ApplicationUser>()
+                .Property(u => u.ImgProfile)
+                .HasDefaultValue("https://t3.ftcdn.net/jpg/06/33/54/78/240_F_633547842_AugYzexTpMJ9z1YcpTKUBoqBF0CUCk10.jpg");
 
         }
 
         public DbSet<Summary> Summaries { get; set; }
+
+        public DbSet<ApplicationUser> Users { get; set; }
+        public DbSet<ApplicationRole> Roles { get; set; }
 
     }
 }
