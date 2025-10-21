@@ -1,15 +1,60 @@
 ﻿<!-- The sidebar. ~227 width rounded, (3/20 % of total width), same internal padding -->
-<div>
+<aside class="dashboard-sidebar">
     <!-- Noog Logo + go to home -->
-    <section>
-        <a asp-controller="Dashboard" asp-action="Index">Logga</a>
-    </section>
 
     <!-- "Group Projects:" -->
-    <!-- Pink Line -->
-    <!-- List of group projects, groupproject image + name, scrollable if long -->
-    <!-- Pink Line -->
+    <!-- Pink separation Line rounded -->
+    <!-- List of group projects, groupproject image + name bold, scrollable if long -->
+    <!-- Pink separation Line rounded -->
     <!-- add new groupProject button  -->
-    <!-- Possible new Pink Line -->
+    <!-- Possible new Pink separation Line rounded -->
     <!-- Logout button + glue to bottom -->
-</div>
+    <div class="sidebar-top">
+        <!-- Logo / Home Link -->
+        <section class="sidebar-logo">
+            <a asp-controller="Dashboard" asp-action="Index" class="sidebar-home-link">
+                Logga
+            </a>
+        </section>
+
+        <!-- Group Projects Header -->
+        <div class="sidebar-section-label">Group Projects:</div>
+
+        <!-- Pink separator -->
+        <div class="sidebar-separator"></div>
+
+        <!-- Group Projects List (hardcoded for now) -->
+        <div class="sidebar-project-list">
+            <ul>
+                <li>
+                    <a href="#" class="project-link">
+                        <img src="~/images/project-icon.png" alt="Icon" class="project-icon" />
+                        <span class="project-name">Project Alpha</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="project-link">
+                        <img src="~/images/project-icon.png" alt="Icon" class="project-icon" />
+                        <span class="project-name">Project Beta</span>
+                    </a>
+                </li>
+                <!-- Add more projects as needed -->
+            </ul>
+        </div>
+
+        <!-- Pink separator -->
+        <div class="sidebar-separator"></div>
+
+        <!-- Add New Project Button -->
+        <a href="#" class="add-project-button-wrapper">
+            <img src="~/images/plus-icon.png" alt="Icon" class="add-project-icon" />
+        </a>
+    </div>
+
+    <!-- Sidebar: Bottom Section -->
+    <div class="sidebar-bottom">
+        <form asp-controller="Account" asp-action="Logout" method="post">
+            <button type="submit" class="logout-button">Logout</button>
+        </form>
+    </div>
+</aside>
