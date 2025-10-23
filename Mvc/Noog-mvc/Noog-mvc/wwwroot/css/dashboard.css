@@ -1,0 +1,163 @@
+﻿/* ====== Dashboard Css ====== */
+
+:root {
+    --primary-color: #2941FF; /* Blue */
+    --secoundary-color: #ededed; /* White */
+    --tertiary-color: #F085DA; /* Pink */
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    font-family: "Inter", system-ui;
+}
+
+/* Sidebar CSS Start */
+
+.dashboard-wrapper {
+    display: flex;
+    min-height: 100vh;
+    background-color: var(--primary-color);
+}
+
+.dashboard-content {
+    flex: 17;
+    padding: 1rem;
+}
+
+.dashboard-sidebar {
+    max-height: 100vh;
+    min-width: 65px;
+    flex: 3;
+    display: flex;
+    padding: 1rem;
+    border-top-right-radius: 35px;
+    border-bottom-right-radius: 35px;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: var(--secoundary-color);
+    border-right: 1px solid #ccc;
+}
+
+.sidebar-logo {
+    text-align: center;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+.sidebar-home-link {
+    display: inline-block;
+    width: 100%;
+}
+.sidebar-logo-img {
+    width: 70%;
+    height: auto;
+    max-width: 100%;
+}
+
+.sidebar-section-label {
+    margin-top: 1rem;
+    min-width: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 1.1rem;
+    font-weight: 200;
+    color: var(--primary-color);
+}
+
+.sidebar-separator {
+    height: 4px;
+    border-radius: 5px;
+    background-color: var(--tertiary-color);
+    margin: 0.5rem 0 1rem;
+}
+
+.sidebar-project-list {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.sidebar-project-list ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.project-link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    margin-bottom: 0.75rem;
+}
+
+.project-icon {
+    width: 35px;
+    height: 35px;
+    flex-shrink: 0;
+}
+
+.project-name {
+    font-weight: bold;
+    color: var(--primary-color);
+    min-width: 0;
+    margin-left: 0.5rem;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    flex-shrink: inherit;
+    white-space: nowrap;
+}
+
+@media (max-width: 500px) {
+    .sidebar-section-label {
+        color: transparent;
+    }
+    .project-name {
+        display: none;
+    }
+    .project-link {
+        justify-content: center;
+    }
+}
+
+.add-project-button-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1rem;
+}
+
+.add-project-icon {
+    width: 35px;
+    height: 35px;
+    color: var(--primary-color);
+}
+
+.add-project-button:hover {
+    background-color: #f0f0f0;
+}
+
+.sidebar-bottom {
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.logout-button {
+    width: 100%;
+    padding: 0.5rem;
+    background-color: #C91E2C;
+    border: none;
+    color: white;
+    font-weight: bold;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.logout-button:hover {
+    background-color: #A71925;
+}
+/* Sidebar CSS End */

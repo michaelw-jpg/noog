@@ -13,7 +13,9 @@
         <!-- Logo / Home Link -->
         <section class="sidebar-logo">
             <a asp-controller="Dashboard" asp-action="Index" class="sidebar-home-link">
-                Logga
+                <img src="~/asset/noog-logo-transparent.png"
+                    alt="Logo"
+                    class="sidebar-logo-img"/> 
             </a>
         </section>
 
@@ -47,7 +49,14 @@
 
         <!-- Add New Project Button -->
         <a href="#" class="add-project-button-wrapper">
-            <img src="~/images/plus-icon.png" alt="Icon" class="add-project-icon" />
+            <svg xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                class="add-project-icon"
+                fill="currentColor"
+                aria-hidden="true">
+                <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none"/>
+                <path d="M12 8v8M8 12h8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
         </a>
     </div>
 
