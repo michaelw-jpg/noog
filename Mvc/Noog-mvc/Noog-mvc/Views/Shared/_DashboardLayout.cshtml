@@ -14,5 +14,8 @@
     <main class="dashboard-content">
         @RenderBody()
     </main>
+
+    <!-- If any Js is needed -->
+    @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

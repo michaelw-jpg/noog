@@ -2,7 +2,7 @@
 
 namespace Noog_mvc.Controllers
 {
-    public class DashBoardController : Controller
+    public class DashboardController : Controller
     {
         public IActionResult Index()
         {
