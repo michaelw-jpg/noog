@@ -80,7 +80,7 @@ namespace Noog_api.Controllers
             };
 
             Response.Cookies.Append("accessToken", result.Token, cookieOptions);
-            return Ok();
+            return Ok(result);
         }
 
         [HttpPost("logout")]

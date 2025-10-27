@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
+
 namespace Noog_mvc
 {
     public class Program
@@ -9,6 +11,21 @@ namespace Noog_mvc
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
+            builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options =>
+                {
+                    options.LoginPath = "/Login/Login";
+                    options.LogoutPath = "/Login/Logout";
+                    options.AccessDeniedPath = "/Login/AccessDenied"; // placeholder for access denied path
+                    options.ExpireTimeSpan = TimeSpan.FromHours(2);
+                });
+
+            builder.Services.AddAuthorization();
+
+            builder.Services.AddHttpClient("NoogApi", client =>
+            {
+            client.BaseAddress = new Uri(builder.Configuration["ApiSettings:BaseUrl"]!);
+            });
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
