@@ -39,7 +39,7 @@ jobs:
         uses: dorny/test-reporter@v1
         with:
          name: "Backend API tests"
-         path: ${{ github.workspace }}/TestResults/test-results.trx
+         path: D:/a/noog/noog/TestResults/test-results.trx
          reporter: dotnet-trx
 
   deploy:
