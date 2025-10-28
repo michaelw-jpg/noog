@@ -41,9 +41,13 @@
 
         @foreach (var item in Model)
         {
+            var pgImage = string.IsNullOrEmpty(item.ProjectGroupImageUrl) 
+                ? Url.Content("~/images/project-icon.png") 
+                : item.ProjectGroupImageUrl;
+            
             <div class="recent-card">
                 <div class="recent-left">
-                    <img src="@item.ProjectGroupImageUrl" class="project-icon" alt="@item.ProjectGroupName" />
+                    <img src="@pgImage" class="project-icon" alt="@item.ProjectGroupName" />
                     <span class="project-name">@item.ProjectGroupName</span>
                 </div>
                 <div class="recent-center">@item.ActivityTitle</div>

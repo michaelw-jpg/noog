@@ -19,9 +19,13 @@
     <!-- If api returns groupprojects -->
     @foreach (var group in Model)
     {
+        var pgImage = string.IsNullOrEmpty(group.ImageUrl)
+            ? Url.Content("~/images/project-icon.png")
+            : group.ImageUrl;
+
         <li>
             <a href="@Url.Action("Details", "ProjectGroup", new { id = group.Id })" class="project-link">
-                <img src="@group.ImageUrl" alt="@group.Title" class="project-icon" />
+                <img src="@pgImage" alt="@group.Title" class="project-icon" />
                 <span class="project-name">@group.Title</span>
             </a>
         </li>
