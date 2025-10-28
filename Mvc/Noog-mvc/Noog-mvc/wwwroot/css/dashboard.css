@@ -124,6 +124,10 @@ html, body {
     margin: 0;
 }
 
+.recents-project-name {
+    min-width: 0;
+}
+
 .recents-list {
     display: flex;
     flex-direction: column;
