@@ -80,11 +80,12 @@ namespace Noog_api.Services
                 return new LoginResponseDto { Message = "Email or password is incorrect." };
             }
 
-            var expiresAt = DateTimeOffset.UtcNow.AddMinutes(15);
+            var expiresAt = DateTimeOffset.UtcNow.AddHours(2);
             var token = await _tokens.CreateToken(user);
 
             return new LoginResponseDto
             {
+                UserName = user.UserName,
                 Token = token,
                 ExpiresAt = expiresAt
             };
