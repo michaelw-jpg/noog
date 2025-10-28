@@ -1,5 +1,10 @@
 name : Backend CI/CD
 
+permissions:
+  contents: read
+  checks: write
+
+
 on:
   pull_request:
     branches: [ main ]
