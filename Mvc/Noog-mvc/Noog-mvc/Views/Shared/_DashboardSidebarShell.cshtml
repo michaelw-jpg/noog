@@ -19,21 +19,7 @@
 
         <!-- Group Projects List (hardcoded for now) -->
         <div class="sidebar-project-list">
-            <ul>
-                <li>
-                    <a href="#" class="project-link">
-                        <img src="~/images/project-icon.png" alt="Icon" class="project-icon" />
-                        <span class="project-name">Project Alpha</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#" class="project-link">
-                        <img src="~/images/project-icon.png" alt="Icon" class="project-icon" />
-                        <span class="project-name">Project Beta</span>
-                    </a>
-                </li>
-                <!-- Add more projects as needed -->
-            </ul>
+            @await Component.InvokeAsync("DashboardSidebar")
         </div>
 
         <!-- Pink separator -->

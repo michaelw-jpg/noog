@@ -1,3 +1,5 @@
+using Noog_mvc.Services;
+
 namespace Noog_mvc
 {
     public class Program
@@ -8,6 +10,8 @@ namespace Noog_mvc
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+
+            builder.Services.AddScoped<DashboardService>();
 
             var app = builder.Build();
 
