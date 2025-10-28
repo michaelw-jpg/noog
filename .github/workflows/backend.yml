@@ -35,7 +35,7 @@ jobs:
 
       - name: Upload Test Results
         if: always()
-        uses: actions/upload-test-results@v2
+        uses: EnricoMi/publish-unit-test-result-action@v2
         with:
          files: ${{ github.workspace }}/TestResults/test-results.trx
 
