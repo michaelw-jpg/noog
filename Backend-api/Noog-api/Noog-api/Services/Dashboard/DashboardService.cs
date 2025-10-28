@@ -15,6 +15,26 @@ namespace Noog_api.Services.Dashboard
         // private readonly IProjectGroupService _pgService;
 
         // ctor *Tab*
+
+
+        /* TODO - Perhaps a small extension class to retrieve Identity specific data from claims
+
+        public static class ClaimsPrincipalExtensions
+        {
+            public static Guid GetUserId(this ClaimsPrincipal user)
+            {
+                var claim = user.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                return Guid.TryParse(claim, out var id) ? id : Guid.Empty;
+            }
+
+            public static string? GetUserEmail(this ClaimsPrincipal user)
+            {
+                return user.FindFirst(ClaimTypes.Email)?.Value;
+            }
+        }
+         
+         */
+
         public async Task<BaseResponseDto<DashboardDataResponseDto>> GetDashboardDataAsync()
         {
             // var userId = User.GetUserId();
@@ -51,6 +71,8 @@ namespace Noog_api.Services.Dashboard
         {
             // var userId = User.GetUserId();
             // var result = await _pgService.GetAllProjectGroupsByUserAsync(userId: userId);
+
+
 
             var result = _mocker.GetMockedGroupProjects();
 
