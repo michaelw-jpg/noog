@@ -27,10 +27,11 @@ jobs:
         run: dotnet build Backend-api/Noog-api/Noog-api.sln --no-restore --configuration Release
 
       - name: Run Tests
-        run: dotnet test Tests/BackendApi.Tests/BackendApi.Tests.csproj 
-            --no-build 
-            --configuration Release 
-            --logger "trx;LogFileName=test-results.trx"  
+        run: | 
+            dotnet test Tests/BackendApi.Tests/BackendApi.Tests.csproj `
+            --no-build `
+            --configuration Release `
+            --logger "trx;LogFileName=test-results.trx" `
             --results-directory ${{ github.workspace }}/TestResults || true
 
       - name: Upload Test Results
