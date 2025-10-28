@@ -22,10 +22,22 @@ jobs:
           dotnet-version: '8.0.x'
       - name: Restore dependencies
         run: dotnet restore Backend-api/Noog-api/Noog-api.sln
+
       - name: Build
         run: dotnet build Backend-api/Noog-api/Noog-api.sln --no-restore --configuration Release
+
       - name: Run Tests
-        run: dotnet test Tests/BackendApi.Tests/BackendApi.Tests.csproj --no-build --configuration Release --logger "console;verbosity=detailed"
+        run: dotnet test Tests/BackendApi.Tests/BackendApi.Tests.csproj 
+            --no-build 
+            --configuration Release 
+            --logger "trx;LogFileName=test-results.trx"  
+            --results-directory ${{ github.workspace }}/TestResults || true
+
+      - name: Upload Test Results
+        if: always()
+        uses: actions/upload-test-results@v2
+        with:
+         files: ${{ github.workspace }}/TestResults/test-results.trx
 
   deploy:
     if: github.event_name == 'push'
