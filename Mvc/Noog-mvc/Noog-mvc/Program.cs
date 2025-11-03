@@ -1,3 +1,4 @@
+using Noog_mvc.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace Noog_mvc
@@ -10,6 +11,8 @@ namespace Noog_mvc
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+
+            builder.Services.AddScoped<DashboardService>();
 
             builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options =>

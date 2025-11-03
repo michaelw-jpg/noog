@@ -1,0 +1,47 @@
+﻿<!-- The sidebar -->
+<aside class="dashboard-sidebar">
+    
+    <div class="sidebar-top">
+        <!-- Logo / Home Link -->
+        <section class="sidebar-logo">
+            <a asp-controller="Dashboard" asp-action="Index" class="sidebar-home-link">
+                <img src="~/asset/noog-logo-transparent.png"
+                    alt="Logo"
+                    class="sidebar-logo-img"/> 
+            </a>
+        </section>
+
+        <!-- Group Projects Header -->
+        <div class="sidebar-section-label">Group Projects:</div>
+
+        <!-- Pink separator -->
+        <div class="sidebar-separator"></div>
+
+        <!-- Group Projects List (hardcoded for now) -->
+        <div class="sidebar-project-list">
+            @await Component.InvokeAsync("DashboardSidebar")
+        </div>
+
+        <!-- Pink separator -->
+        <div class="sidebar-separator"></div>
+
+        <!-- Add New Project Button -->
+        <a href="#" class="add-project-button-wrapper">
+            <svg xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                class="add-project-icon"
+                fill="currentColor"
+                aria-hidden="true">
+                <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none"/>
+                <path d="M12 8v8M8 12h8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+        </a>
+    </div>
+
+    <!-- Sidebar: Bottom Section -->
+    <div class="sidebar-bottom">
+        <form asp-controller="Account" asp-action="Logout" method="post">
+            <button type="submit" class="logout-button">Logout</button>
+        </form>
+    </div>
+</aside>

@@ -1,0 +1,21 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="~/css/dashboard.css" asp-append-version="true" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet" />
+</head>
+<body class="dashboard-wrapper">
+    <!-- Sidebar -->
+    @await Html.PartialAsync("_DashboardSidebarShell")
+
+    <!-- Main Content -->
+    <main class="dashboard-content">
+        @RenderBody()
+    </main>
+
+    <!-- If any Js is needed -->
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

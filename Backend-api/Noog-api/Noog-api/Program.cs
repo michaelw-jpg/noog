@@ -15,6 +15,7 @@ using Noog_api.Services.IServices;
 using System;
 using System.Text;
 using System.Threading.Tasks;
+using Noog_api.Services.Dashboard;
 
 namespace Noog_api
 {
@@ -62,6 +63,7 @@ namespace Noog_api
             builder.Services.AddScoped<ISummaryService, SummaryService>();
             builder.Services.AddScoped<IUserService<ApplicationUser>, UserService<ApplicationUser>>();
             builder.Services.AddScoped<IAuthService, AuthService>();
+            builder.Services.AddScoped<IDashboardService, DashboardService>();
             builder.Services.AddScoped<TokenService>();
 
             builder.Services.AddHttpClient<AssemblyAiService>();
