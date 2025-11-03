@@ -48,7 +48,7 @@ jobs:
      run: dotnet restore Mvc/Noog-mvc/Noog-mvc.sln
 
    - name: Publish MVC
-     run: dotnet publish Mvc/Noog-mvc/Noog-mvc.sln -c Release -o . ${{github.workspace}}/publish
+     run: dotnet publish Mvc/Noog-mvc/Noog-mvc.sln -c Release -o ${{github.workspace}}/publish
 
    - name: Create ZIP package
      run: Compress-Archive -Path ${{github.workspace}}/publish/* -DestinationPath ${{github.workspace}}/publishMVC.zip
