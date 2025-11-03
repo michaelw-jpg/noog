@@ -1,0 +1,19 @@
+﻿@using Noog_mvc.Models.Dashboard
+@model DashboardViewModel
+
+@{
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+}
+
+<section class="dashboard-main">
+    <!-- Profile Card -->
+    @await Html.PartialAsync("_UserProfileCard", Model.User)
+
+    <!-- Separator -->
+    <div class="dashboard-separator"></div>
+
+    <!-- Recents -->
+    @await Html.PartialAsync("_RecentsList", Model.RecentActivities)
+</section>
+
+

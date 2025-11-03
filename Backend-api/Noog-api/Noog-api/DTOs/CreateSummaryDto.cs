@@ -1,10 +1,13 @@
-﻿namespace Noog_api.DTOs
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Noog_api.DTOs
 {
     public class CreateSummaryDto
     {
-        public string Title { get; set; }
+        [MaxLength(100)]
+        public required string Title { get; set; }
 
-        public string Content { get; set; }
+        public required string Content { get; set; }
 
     }
 }

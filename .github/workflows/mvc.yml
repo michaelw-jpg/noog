@@ -48,11 +48,15 @@ jobs:
      run: dotnet restore Mvc/Noog-mvc/Noog-mvc.sln
 
    - name: Publish MVC
-     run: dotnet publish Mvc/Noog-mvc/Noog-mvc.sln -c Release -o ./publish
+     run: dotnet publish Mvc/Noog-mvc/Noog-mvc.sln -c Release -o ${{github.workspace}}/publish
+
+   - name: Create ZIP package
+     run: Compress-Archive -Path ${{github.workspace}}/publish/* -DestinationPath ${{github.workspace}}/publishMVC.zip
+
+   - name: azure Login
+     uses: azure/login@v1
+     with:
+       creds: ${{ secrets.AZURE_CREDENTIALS }}
    
    - name: deploy to Azure
-     uses: azure/webapps-deploy@v3
-     with:
-       app-name: 'NoogMvc'
-       publish-profile: ${{ secrets.AZURE_MVC_PUBLISH_PROFILE }}
-       package: ./publish
+     run: az webapp deploy --resource-group NoogResourceGroup --name NoogMVC --src-path ${{github.workspace}}/publishMVC.zip --type zip
