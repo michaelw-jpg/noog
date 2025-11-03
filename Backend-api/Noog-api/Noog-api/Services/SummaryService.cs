@@ -62,6 +62,17 @@ namespace Noog_api.Services
 
         public async Task<BaseResponseDto<SummaryResponseDto>> CreateSummaryAsync(CreateSummaryDto Request)
         {
+            if(string.IsNullOrWhiteSpace(Request.Title) || string.IsNullOrWhiteSpace(Request.Content))
+            {
+                return new BaseResponseDto<SummaryResponseDto>
+                {
+                    StatusCode = Enums.StatusCodesEnum.BadRequest,
+                    Message = "Title and Content are required"
+                };
+            }
+
+          
+
             var summary = new Summary();
             var response = new BaseResponseDto<SummaryResponseDto>();
            
@@ -117,7 +128,7 @@ namespace Noog_api.Services
             }
             response.Data = GenericMapper.ToDto<Summary, SummaryResponseDto>(summary);
             response.StatusCode = Enums.StatusCodesEnum.Success;
-            response.Message = "Summary Created Sucessfully";
+            response.Message = "Summary updated successfully";
             return response;
 
             
@@ -152,7 +163,7 @@ namespace Noog_api.Services
             else
             {
                 result.StatusCode = Enums.StatusCodesEnum.NotFound;
-                result.Message = "Summary Not found";
+                result.Message = "Summary not found";
                 return result;
             }
             

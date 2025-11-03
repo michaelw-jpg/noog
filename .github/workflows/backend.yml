@@ -1,5 +1,10 @@
 name : Backend CI/CD
 
+permissions:
+  contents: read
+  checks: write
+
+
 on:
   pull_request:
     branches: [ main ]
@@ -22,10 +27,25 @@ jobs:
           dotnet-version: '8.0.x'
       - name: Restore dependencies
         run: dotnet restore Backend-api/Noog-api/Noog-api.sln
+
       - name: Build
         run: dotnet build Backend-api/Noog-api/Noog-api.sln --no-restore --configuration Release
+
       - name: Run Tests
-        run: dotnet test Tests/BackendApi.Tests/BackendApi.Tests.csproj --no-build --configuration Release --logger "console;verbosity=detailed"
+        run: | 
+            dotnet test Tests/BackendApi.Tests/BackendApi.Tests.csproj `
+            --no-build `
+            --configuration Release `
+            --logger "trx;LogFileName=test-results.trx" `
+            --results-directory ${{ github.workspace }}/TestResults || true
+
+      - name: Upload Test Results
+        if: always()
+        uses: dorny/test-reporter@v1
+        with:
+         name: "Backend API tests"
+         path: D:/a/noog/noog/TestResults/test-results.trx
+         reporter: dotnet-trx
 
   deploy:
     if: github.event_name == 'push'
