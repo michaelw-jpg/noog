@@ -60,6 +60,7 @@ namespace Noog_api
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
             builder.Services.AddScoped<IOpenAiService, OpenAiService>();
+            builder.Services.AddScoped<IOpenAiPromptService, OpenAiPromptService>();
             builder.Services.AddScoped<ISummaryRepository,SummaryRepository>();
             builder.Services.AddScoped<ISummaryService, SummaryService>();
             builder.Services.AddScoped<IUserService<ApplicationUser>, UserService<ApplicationUser>>();
