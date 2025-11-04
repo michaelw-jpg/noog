@@ -3,9 +3,10 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.Extensions.Logging;
 using Noog_api.Data;
 using Noog_api.Extensions;
-using Noog_api.Helpers;
+using Noog_api.Helpers.IdentitySeeder;
 using Noog_api.Models;
 using Noog_api.Middlewares;
 using Noog_api.Repositories;
@@ -72,7 +73,9 @@ namespace Noog_api
 
             var app = builder.Build();
 
-            await IdentitySeedHelper.SeedAsync(app.Services);
+            // Identity Seeder
+            // Writes helpful messages to the console if failings occur
+            await TryCatchHelper.TryCatchIdentitySeeder(app.Services, app.Environment.IsDevelopment());
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
