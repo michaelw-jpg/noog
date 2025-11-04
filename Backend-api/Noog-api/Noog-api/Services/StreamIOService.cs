@@ -1,5 +1,6 @@
 ﻿using Azure.Core;
 using Microsoft.AspNetCore.DataProtection;
+using Noog_api.DTOs.BaseResponseDtos;
 using Noog_api.DTOs.StreamIODtos;
 using Noog_api.Models;
 using StreamChat.Clients;
@@ -20,7 +21,7 @@ namespace Noog_api.Services
             _StreamClientFactory = streamClientFactory;
         }
 
-        public async Task<StreamIODTO> CreateStreamIOUser(ApplicationUser user)
+        public async Task<BaseResponseDto<StreamIOUserResponseDto>> CreateStreamIOUser(ApplicationUser user)
         {
             var streamIOUserDto = new StreamIODTO
             {
@@ -44,16 +45,25 @@ namespace Noog_api.Services
             //Create User based on request
             await userClient.UpsertAsync(request);
 
+            //Create Token for user
             var Token = userClient.CreateToken(request.Id, DateTimeOffset.UtcNow.AddDays(1));
 
             streamIOUserDto.Token = Token;
-            
-            return streamIOUserDto;
 
-            //TODO: Change function to return a api response
+            var response = new BaseResponseDto<StreamIOUserResponseDto>
+            {
+                StatusCode = Enums.StatusCodesEnum.Success,
+                Message = "StreamIO user created successfully",
+                Data = new StreamIOUserResponseDto
+                {
+                    Id = streamIOUserDto.Id,
+                    Name = streamIOUserDto.Name,
+                    Image = streamIOUserDto.UserImage,
+                    Token = streamIOUserDto.Token
+                }
+            };
 
-
-            
+            return response;            
         }
 
 

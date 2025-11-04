@@ -79,26 +79,9 @@ namespace Noog_api.Controllers
                 return BadRequest("User payload is missing.");
 
             // call service to create the user in Stream
-            var streamUser = await _streamIOService.CreateStreamIOUser(user);
+            var response = await _streamIOService.CreateStreamIOUser(user);
 
-
-            var dto = new StreamIOUserResponseDto
-            {
-                Id = streamUser.userId,
-                Name = streamUser.userName,
-                Image = streamUser.userImage,
-                Token = streamUser.token
-            };
-
-            var apiResponse = new BaseResponseDto<StreamIOUserResponseDto>
-            {
-                StatusCode = Enums.StatusCodesEnum.Success,
-                Message = "OK",
-                Data = dto
-            };
-
-            return ApiResponseHelper.ToActionResult<StreamIOUserResponseDto>(apiResponse);
-
+            return ApiResponseHelper.ToActionResult<StreamIOUserResponseDto>(response);
         }
 
         private string GenerateStreamToken(string userId, string apiSecret)
