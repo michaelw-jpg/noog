@@ -10,6 +10,11 @@ namespace Noog_api.Data
         {
         }
 
+        public DbSet<Summary> Summaries { get; set; }
+
+        public DbSet<ApplicationUser> Users { get; set; }
+        public DbSet<ApplicationRole> Roles { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -63,10 +68,21 @@ namespace Noog_api.Data
 
         }
 
-        public DbSet<Summary> Summaries { get; set; }
+        // Handles modificationAt and creationAt of an entity if it inherits BaseEntity
+        public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+        {
+            var entries = ChangeTracker
+                .Entries<BaseEntity>()
+                .Where(e => e.State == EntityState.Added || e.State == EntityState.Modified);
 
-        public DbSet<ApplicationUser> Users { get; set; }
-        public DbSet<ApplicationRole> Roles { get; set; }
+            foreach (var entry in entries)
+            {
+                if (entry.State == EntityState.Added)
+                    entry.Entity.CreatedAt = DateTime.UtcNow;
 
+                entry.Entity.ModifiedAt = DateTime.UtcNow;
+            }
+            return await base.SaveChangesAsync(cancellationToken);
+        }
     }
 }
