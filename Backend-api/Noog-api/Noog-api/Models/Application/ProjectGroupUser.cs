@@ -6,6 +6,6 @@
         public ProjectGroup ProjectGroup { get; set; }
         public Guid ApplicationUserId { get; set; }
         public ApplicationUser ApplicationUser { get; set; }
-        public bool IsAdmin { get; set; }
+        public bool IsAdmin { get; set; } // Might use Application Role "User" and "Admin" instead
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Noog_api.Models
 {
-    public class Summary
+    public class Summary : BaseEntity
     {
         public int SummaryId { get; set; }
 
@@ -11,7 +11,5 @@ namespace Noog_api.Models
         public string Content { get; set; }
         public Guid GroupStorageId { get; set; }
         public GroupStorage GroupStorage { get; set; }
-
-        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     }
 }
