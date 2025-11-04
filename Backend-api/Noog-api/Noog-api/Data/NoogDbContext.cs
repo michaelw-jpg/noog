@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Noog_api.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Noog_api.Models.Application;
+using Noog_api.Models.AssemblyAi;
 
 namespace Noog_api.Data
 {
@@ -10,14 +12,29 @@ namespace Noog_api.Data
         {
         }
 
+        // Application
+        public DbSet<ProjectGroup> ProjectGroups { get; set; }
+        public DbSet<ProjectGroupUser> ProjectGroupUsers { get; set; }
+        public DbSet<RecentGroupActivity> RecentGroupActivities { get; set; }
+        public DbSet<GroupStorage> GroupStorages { get; set; }
+        public DbSet<GroupChat> GroupChats { get; set; }
+        public DbSet<GroupMeeting> GroupMeetings { get; set; }
+
+        // AssemblyAI
+        public DbSet<Transcript> Transcripts { get; set; }
+
+        // OpenAI
         public DbSet<Summary> Summaries { get; set; }
 
+        // Identity
         public DbSet<ApplicationUser> Users { get; set; }
         public DbSet<ApplicationRole> Roles { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+
 
             modelBuilder.Entity<Summary>(entity =>
             {
@@ -61,7 +78,7 @@ namespace Noog_api.Data
                     Content = "This is the content of the second summary.",
                     CreatedAt = new DateTime(2025, 10, 14, 8, 15, 0, DateTimeKind.Utc)
                 }
-                );
+            );
             modelBuilder.Entity<ApplicationUser>()
                 .Property(u => u.ImgProfile)
                 .HasDefaultValue("https://t3.ftcdn.net/jpg/06/33/54/78/240_F_633547842_AugYzexTpMJ9z1YcpTKUBoqBF0CUCk10.jpg");
