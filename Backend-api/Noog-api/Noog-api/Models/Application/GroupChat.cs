@@ -5,5 +5,8 @@
         public Guid Id { get; set; }
 
         // To be continued...
+
+        public Guid ProjectGroupId { get; set; }
+        public ProjectGroup ProjectGroup { get; set; }
     }
 }

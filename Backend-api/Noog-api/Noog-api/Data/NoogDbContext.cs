@@ -16,9 +16,9 @@ namespace Noog_api.Data
         public DbSet<ProjectGroup> ProjectGroups { get; set; }
         public DbSet<ProjectGroupUser> ProjectGroupUsers { get; set; }
         public DbSet<RecentGroupActivity> RecentGroupActivities { get; set; }
-        public DbSet<GroupStorage> GroupStorages { get; set; }
-        public DbSet<GroupChat> GroupChats { get; set; }
         public DbSet<GroupMeeting> GroupMeetings { get; set; }
+        public DbSet<GroupChat> GroupChats { get; set; }
+        public DbSet<GroupStorage> GroupStorages { get; set; }
 
         // AssemblyAI
         public DbSet<Transcript> Transcripts { get; set; }
@@ -34,7 +34,64 @@ namespace Noog_api.Data
         {
             base.OnModelCreating(modelBuilder);
 
+            // Application
 
+            modelBuilder.Entity<ProjectGroup>(entity =>
+            {
+                // TODO - Fluent API 
+
+                // Primary key
+                entity.HasKey(e => e.Id);
+            });
+
+            modelBuilder.Entity<ProjectGroupUser>(entity =>
+            {
+                // TODO - Fluent API
+            });
+
+            modelBuilder.Entity<RecentGroupActivity>(entity =>
+            {
+                // TODO - Fluent API 
+
+                // Primary key
+                entity.HasKey(e => e.Id);
+            });
+
+            modelBuilder.Entity<GroupMeeting>(entity =>
+            {
+                // TODO - Fluent API 
+
+                // Primary key
+                entity.HasKey(e => e.Id);
+            });
+
+            modelBuilder.Entity<GroupChat>(entity =>
+            {
+                // TODO - Fluent API 
+
+                // Primary key
+                entity.HasKey(e => e.Id);
+            });
+
+            modelBuilder.Entity<GroupStorage>(entity =>
+            {
+                // TODO - Fluent API 
+
+                // Primary key
+                entity.HasKey(e => e.Id);
+            });
+
+            // AssemblyAI
+
+            modelBuilder.Entity<Transcript>(entity =>
+            {
+                // TODO - Fluent API 
+
+                // Primary key
+                entity.HasKey(e => e.Id);
+            });
+
+            // OpenAI
 
             modelBuilder.Entity<Summary>(entity =>
             {
@@ -63,6 +120,7 @@ namespace Noog_api.Data
                         .IsRequired()
                         .HasColumnType("datetime2");
             });
+
             modelBuilder.Entity<Summary>().HasData(
                 new Summary
                 {
@@ -79,6 +137,9 @@ namespace Noog_api.Data
                     CreatedAt = new DateTime(2025, 10, 14, 8, 15, 0, DateTimeKind.Utc)
                 }
             );
+
+            // Identity
+
             modelBuilder.Entity<ApplicationUser>()
                 .Property(u => u.ImgProfile)
                 .HasDefaultValue("https://t3.ftcdn.net/jpg/06/33/54/78/240_F_633547842_AugYzexTpMJ9z1YcpTKUBoqBF0CUCk10.jpg");
@@ -91,6 +152,8 @@ namespace Noog_api.Data
             var entries = ChangeTracker
                 .Entries<BaseEntity>()
                 .Where(e => e.State == EntityState.Added || e.State == EntityState.Modified);
+
+            // Todo - change to switch statement if we want to handle soft deletes here
 
             foreach (var entry in entries)
             {
