@@ -2,5 +2,6 @@
 {
     public class OpenAIRelatedModel
     {
+        // Delete once some file populates this folder
     }
 }

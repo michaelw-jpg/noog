@@ -1,6 +1,6 @@
 ﻿namespace Noog_api.Models.Application
 {
-    public class ProjectGroupUser
+    public class ProjectGroupUser : BaseEntity
     {
         public Guid ProjectGroupId { get; set; }
         public ProjectGroup ProjectGroup { get; set; }

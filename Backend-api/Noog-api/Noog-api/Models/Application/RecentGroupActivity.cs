@@ -2,7 +2,7 @@
 
 namespace Noog_api.Models.Application
 {
-    public class RecentGroupActivity
+    public class RecentGroupActivity : BaseEntity
     {
         public Guid Id { get; set; }
         public string Title { get; set; }

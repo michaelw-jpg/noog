@@ -2,7 +2,7 @@
 
 namespace Noog_api.Models.Application
 {
-    public class GroupMeeting
+    public class GroupMeeting : BaseEntity
     {
         public Guid Id { get; set; }
         public string CallId { get; set; }

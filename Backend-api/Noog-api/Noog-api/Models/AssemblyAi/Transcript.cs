@@ -2,7 +2,7 @@
 
 namespace Noog_api.Models.AssemblyAi
 {
-    public class Transcript
+    public class Transcript : BaseEntity
     {
         public string Id { get; set; }
         public string Status { get; set; }

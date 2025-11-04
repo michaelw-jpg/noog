@@ -1,6 +1,6 @@
 ﻿namespace Noog_api.Models.Application
 {
-    public class ProjectGroup
+    public class ProjectGroup : BaseEntity
     {
         public Guid Id { get; set; }
         public string Name { get; set; }

@@ -2,5 +2,6 @@
 {
     public class IdentityRelatedModel
     {
+        // Delete once some file populates this folder
     }
 }

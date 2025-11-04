@@ -1,6 +1,6 @@
 ﻿namespace Noog_api.Models.Application
 {
-    public class GroupChat
+    public class GroupChat : BaseEntity
     {
         public Guid Id { get; set; }
 
