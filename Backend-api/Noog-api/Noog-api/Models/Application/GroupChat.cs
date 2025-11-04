@@ -2,5 +2,8 @@
 {
     public class GroupChat
     {
+        public Guid Id { get; set; }
+
+        // To be continued...
     }
 }
