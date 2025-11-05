@@ -125,6 +125,199 @@ namespace Noog_api.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("Noog_api.Models.Application.GroupChat", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("ArchivedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("ModifiedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("ProjectGroupId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProjectGroupId")
+                        .IsUnique();
+
+                    b.ToTable("GroupChat", (string)null);
+                });
+
+            modelBuilder.Entity("Noog_api.Models.Application.GroupMeeting", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("ArchivedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CallId")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("ModifiedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("ProjectGroupId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProjectGroupId")
+                        .IsUnique();
+
+                    b.ToTable("GroupMeeting", (string)null);
+                });
+
+            modelBuilder.Entity("Noog_api.Models.Application.GroupStorage", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("ArchivedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("ModifiedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("ProjectGroupId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProjectGroupId")
+                        .IsUnique();
+
+                    b.ToTable("GroupStorage", (string)null);
+                });
+
+            modelBuilder.Entity("Noog_api.Models.Application.ProjectGroup", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("ArchivedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ImageUrl")
+                        .IsRequired()
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
+
+                    b.Property<DateTime?>("ModifiedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ProjectGroups", (string)null);
+                });
+
+            modelBuilder.Entity("Noog_api.Models.Application.ProjectGroupUser", b =>
+                {
+                    b.Property<Guid>("ProjectGroupId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ApplicationUserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("ArchivedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsAdmin")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ModifiedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("ProjectGroupId", "ApplicationUserId");
+
+                    b.HasIndex("ApplicationUserId");
+
+                    b.ToTable("ProjectGroupUser", (string)null);
+                });
+
+            modelBuilder.Entity("Noog_api.Models.Application.RecentGroupActivity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("ArchivedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("ModifiedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("ProjectGroupId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("SourceType")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProjectGroupId");
+
+                    b.ToTable("RecentGroupActivities", (string)null);
+                });
+
             modelBuilder.Entity("Noog_api.Models.ApplicationRole", b =>
                 {
                     b.Property<Guid>("Id")
@@ -231,6 +424,45 @@ namespace Noog_api.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
+            modelBuilder.Entity("Noog_api.Models.AssemblyAi.Transcript", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime?>("ArchivedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Error")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("GroupMeetingId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("ModifiedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Text")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GroupMeetingId");
+
+                    b.ToTable("Transcripts");
+                });
+
             modelBuilder.Entity("Noog_api.Models.Summary", b =>
                 {
                     b.Property<int>("SummaryId")
@@ -238,6 +470,9 @@ namespace Noog_api.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SummaryId"));
+
+                    b.Property<DateTime?>("ArchivedAt")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Content")
                         .IsRequired()
@@ -247,12 +482,23 @@ namespace Noog_api.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("GroupStorageId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("ModifiedAt")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
                     b.HasKey("SummaryId");
+
+                    b.HasIndex("GroupStorageId");
 
                     b.ToTable("Summaries");
 
@@ -322,6 +568,118 @@ namespace Noog_api.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Noog_api.Models.Application.GroupChat", b =>
+                {
+                    b.HasOne("Noog_api.Models.Application.ProjectGroup", "ProjectGroup")
+                        .WithOne("GroupChat")
+                        .HasForeignKey("Noog_api.Models.Application.GroupChat", "ProjectGroupId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ProjectGroup");
+                });
+
+            modelBuilder.Entity("Noog_api.Models.Application.GroupMeeting", b =>
+                {
+                    b.HasOne("Noog_api.Models.Application.ProjectGroup", "ProjectGroup")
+                        .WithOne("GroupMeeting")
+                        .HasForeignKey("Noog_api.Models.Application.GroupMeeting", "ProjectGroupId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ProjectGroup");
+                });
+
+            modelBuilder.Entity("Noog_api.Models.Application.GroupStorage", b =>
+                {
+                    b.HasOne("Noog_api.Models.Application.ProjectGroup", "ProjectGroup")
+                        .WithOne("GroupStorage")
+                        .HasForeignKey("Noog_api.Models.Application.GroupStorage", "ProjectGroupId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ProjectGroup");
+                });
+
+            modelBuilder.Entity("Noog_api.Models.Application.ProjectGroupUser", b =>
+                {
+                    b.HasOne("Noog_api.Models.ApplicationUser", "ApplicationUser")
+                        .WithMany("ProjectGroupUsers")
+                        .HasForeignKey("ApplicationUserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Noog_api.Models.Application.ProjectGroup", "ProjectGroup")
+                        .WithMany("ProjectGroupUsers")
+                        .HasForeignKey("ProjectGroupId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ApplicationUser");
+
+                    b.Navigation("ProjectGroup");
+                });
+
+            modelBuilder.Entity("Noog_api.Models.Application.RecentGroupActivity", b =>
+                {
+                    b.HasOne("Noog_api.Models.Application.ProjectGroup", "ProjectGroup")
+                        .WithMany("RecentGroupActivities")
+                        .HasForeignKey("ProjectGroupId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ProjectGroup");
+                });
+
+            modelBuilder.Entity("Noog_api.Models.AssemblyAi.Transcript", b =>
+                {
+                    b.HasOne("Noog_api.Models.Application.GroupMeeting", "GroupMeeting")
+                        .WithMany("Transcripts")
+                        .HasForeignKey("GroupMeetingId");
+
+                    b.Navigation("GroupMeeting");
+                });
+
+            modelBuilder.Entity("Noog_api.Models.Summary", b =>
+                {
+                    b.HasOne("Noog_api.Models.Application.GroupStorage", "GroupStorage")
+                        .WithMany("Summaries")
+                        .HasForeignKey("GroupStorageId");
+
+                    b.Navigation("GroupStorage");
+                });
+
+            modelBuilder.Entity("Noog_api.Models.Application.GroupMeeting", b =>
+                {
+                    b.Navigation("Transcripts");
+                });
+
+            modelBuilder.Entity("Noog_api.Models.Application.GroupStorage", b =>
+                {
+                    b.Navigation("Summaries");
+                });
+
+            modelBuilder.Entity("Noog_api.Models.Application.ProjectGroup", b =>
+                {
+                    b.Navigation("GroupChat")
+                        .IsRequired();
+
+                    b.Navigation("GroupMeeting")
+                        .IsRequired();
+
+                    b.Navigation("GroupStorage")
+                        .IsRequired();
+
+                    b.Navigation("ProjectGroupUsers");
+
+                    b.Navigation("RecentGroupActivities");
+                });
+
+            modelBuilder.Entity("Noog_api.Models.ApplicationUser", b =>
+                {
+                    b.Navigation("ProjectGroupUsers");
                 });
 #pragma warning restore 612, 618
         }
