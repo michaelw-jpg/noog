@@ -7,6 +7,11 @@ using System.Reflection;
 
 namespace Noog_api.Data
 {
+    /// <summary>
+    /// Please feel free to annotate however you want. I introduced Configurations folder within the data folder
+    /// to handle all Fluent API (Data annotations and such).
+    /// Modelbuilder could be used for some seeding-testing and once established, moved to configuration.
+    /// </summary>
     public class NoogDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, Guid>
     {
         public NoogDbContext(DbContextOptions<NoogDbContext> options) : base(options)
