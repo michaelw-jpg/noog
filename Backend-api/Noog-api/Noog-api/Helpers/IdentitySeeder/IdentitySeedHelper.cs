@@ -1,15 +1,14 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Noog_api.Models;
 
-namespace Noog_api.Helpers
+namespace Noog_api.Helpers.IdentitySeeder
 {
     public static class IdentitySeedHelper
     {
-        public static async Task SeedAsync(IServiceProvider services)
+        public static async Task SeedAsync(IServiceProvider serviceProvider)
         {
-            using var scope = services.CreateScope();
-            var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<ApplicationRole>>();
-            var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+            var roleManager = serviceProvider.GetRequiredService<RoleManager<ApplicationRole>>();
+            var userManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
 
             string[] roles = { Roles.Admin, Roles.Manager, Roles.User };
 

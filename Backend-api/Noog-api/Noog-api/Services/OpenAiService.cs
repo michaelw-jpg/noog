@@ -2,10 +2,12 @@
 using Azure.AI.OpenAI;
 using Noog_api.DTOs;
 using Noog_api.DTOs.BaseResponseDtos;
+using Noog_api.Models.AssemblyAi;
 using Noog_api.Services.IServices;
 using OpenAI.Chat;
 using System.Net.Http.Headers;
 using System.Text.Json;
+using static Noog_api.Services.OpenAiPromptService;
 
 namespace Noog_api.Services
 {
@@ -13,6 +15,7 @@ namespace Noog_api.Services
     {
         private readonly AzureOpenAIClient _client;
         private readonly string _deployment;
+
 
         public OpenAiService(HttpClient httpClient, IConfiguration configuration)
         {
@@ -24,6 +27,7 @@ namespace Noog_api.Services
                 throw new Exception("OpenAI configuration is missing");
 
             _client = new AzureOpenAIClient(new Uri(endpoint), new AzureKeyCredential(apiKey));
+
 
         }
 
@@ -50,6 +54,40 @@ namespace Noog_api.Services
 
             result.StatusCode = Enums.StatusCodesEnum.Success;
             return result;
+        }
+        //Change transcript id to the audio from assemblyAi and add input of Transcript class
+        public async Task<BaseResponseDto<OpenAIResponseDto>> GetChatResponseAsync(PromptType type)
+        {
+            string transcript = "generate a random meeting transcript for 1000 words";
+            if (!Prompts.TryGetValue(type, out var template))
+            {
+                throw new ArgumentException($"No prompt found for {type}");
+            }
+
+            string finalPrompt = template.Replace("{transcript}", transcript);
+
+            var chatClient = _client.GetChatClient(_deployment);
+
+            var system = "You are a helpfull assistant be clear and concise. ";
+            var chatHistory = new List<ChatMessage>
+            {
+                new SystemChatMessage(system),
+                new UserChatMessage(finalPrompt),
+            };
+
+            var response = await chatClient.CompleteChatAsync(chatHistory, new ChatCompletionOptions { Temperature = 0.2f, MaxOutputTokenCount = 600 });
+
+            var assistantMessage = response.Value.Content[0].Text;
+
+            return new BaseResponseDto<OpenAIResponseDto>
+            {
+                Data = new OpenAIResponseDto
+                {
+                    Message = assistantMessage
+                },
+                StatusCode = Enums.StatusCodesEnum.Success
+            };
+
         }
     }
 }
