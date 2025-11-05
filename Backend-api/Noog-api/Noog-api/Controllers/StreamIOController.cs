@@ -1,6 +1,13 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using Noog_api.DTOs.BaseResponseDtos;
+using Noog_api.DTOs.StreamIODtos;
+using Noog_api.Helpers;
+using Noog_api.Models;
+using Noog_api.Services;
+using StreamChat.Models;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -9,13 +16,15 @@ namespace Noog_api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CallInfoController : ControllerBase
+    public class StreamIOController : ControllerBase
     {
         private readonly IConfiguration _configuration;
+        private readonly StreamIOService _streamIOService;
 
-        public CallInfoController(IConfiguration configuration)
+        public StreamIOController(IConfiguration configuration, StreamIOService streamIOService)
         {
             _configuration = configuration;
+            _streamIOService = streamIOService;
         }
 
         [HttpGet]
@@ -61,6 +70,18 @@ namespace Noog_api.Controllers
             };
 
             return Ok(response);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<StreamIOUserResponseDto>> CreateStreamIOUser([FromBody] ApplicationUser user)
+        {
+            if (user == null)
+                return BadRequest("User payload is missing.");
+
+            // call service to create the user in Stream
+            var response = await _streamIOService.CreateStreamIOUser(user);
+
+            return ApiResponseHelper.ToActionResult<StreamIOUserResponseDto>(response);
         }
 
         private string GenerateStreamToken(string userId, string apiSecret)

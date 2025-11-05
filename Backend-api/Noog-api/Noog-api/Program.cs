@@ -9,10 +9,12 @@ using Noog_api.Extensions;
 using Noog_api.Helpers.IdentitySeeder;
 using Noog_api.Models;
 using Noog_api.Middlewares;
+using Noog_api.Models;
 using Noog_api.Repositories;
 using Noog_api.Repositories.IRepositories;
 using Noog_api.Services;
 using Noog_api.Services.IServices;
+using StreamChat.Clients;
 using System;
 using System.Text;
 using System.Threading.Tasks;
@@ -44,6 +46,21 @@ namespace Noog_api
             .AddDefaultTokenProviders()
             .AddApiEndpoints()
             .AddSignInManager();
+            builder.Services.AddScoped<StreamIOService>();
+
+            builder.Services.Configure<StreamIOService>(builder.Configuration.GetSection("StreamIO"));
+
+            //Add singleton StreamClientFactory 
+            builder.Services.AddSingleton(sp =>
+            {
+                var config = sp.GetRequiredService<IConfiguration>();
+
+                var StreamIOApiKey = config["StreamIo:ApiKey"];
+
+                var streamApiSecret = config["StreamIo:ApiSecret"];
+
+                return new StreamClientFactory(StreamIOApiKey, streamApiSecret);
+            });
 
 
             builder.Services.JwtAuth(builder.Configuration);
