@@ -47,6 +47,20 @@ namespace Noog_api.Data
             modelBuilder.Entity<ProjectGroupUser>(entity =>
             {
                 // TODO - Fluent API
+
+                // Composite Key
+                entity.HasKey(e => new { e.ProjectGroupId, e.ApplicationUserId });
+
+                // Relationships
+                entity.HasOne(e => e.ProjectGroup)
+                    .WithMany(pg => pg.ProjectGroupUsers)
+                    .HasForeignKey(e => e.ProjectGroupId)
+                    .OnDelete(DeleteBehavior.Cascade);
+
+                entity.HasOne(e => e.ApplicationUser)
+                    .WithMany(u => u.ProjectGroupUsers)
+                    .HasForeignKey(e => e.ApplicationUserId)
+                    .OnDelete(DeleteBehavior.Cascade);
             });
 
             modelBuilder.Entity<RecentGroupActivity>(entity =>

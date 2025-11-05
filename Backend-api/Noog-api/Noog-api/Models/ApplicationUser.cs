@@ -15,6 +15,6 @@ namespace Noog_api.Models
         public string? FirstName { get; set; }
         public string? LastName { get; set; }
 
-        public ICollection<ProjectGroupUser> ProjectGroupUsers { get; set; }
+        public ICollection<ProjectGroupUser> ProjectGroupUsers { get; set; } = new List<ProjectGroupUser>();
     }
 }

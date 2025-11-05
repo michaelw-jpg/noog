@@ -9,6 +9,7 @@ namespace Noog_api.Models
         public string Title { get; set; }
 
         public string Content { get; set; }
+
         public Guid GroupStorageId { get; set; }
         public GroupStorage GroupStorage { get; set; }
     }
