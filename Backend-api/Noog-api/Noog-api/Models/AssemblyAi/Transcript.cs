@@ -8,7 +8,7 @@ namespace Noog_api.Models.AssemblyAi
         public string Status { get; set; }
         public string Text { get; set; }
         public string Error { get; set; }
-        public Guid GroupMeetingId { get; set; }
+        public Guid? GroupMeetingId { get; set; } // Change to not null once everything goes well
         public GroupMeeting GroupMeeting { get; set; }
     }
 }

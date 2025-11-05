@@ -3,6 +3,7 @@ using Noog_api.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Noog_api.Models.Application;
 using Noog_api.Models.AssemblyAi;
+using System.Reflection;
 
 namespace Noog_api.Data
 {
@@ -34,106 +35,27 @@ namespace Noog_api.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            // Application
+            // Applies all configurations for our Entities 
+            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 
-            modelBuilder.Entity<ProjectGroup>(entity =>
-            {
-                // TODO - Fluent API 
-
-                // Primary key
-                entity.HasKey(e => e.Id);
-            });
-
-            modelBuilder.Entity<ProjectGroupUser>(entity =>
-            {
-                // TODO - Fluent API
-
-                // Composite Key
-                entity.HasKey(e => new { e.ProjectGroupId, e.ApplicationUserId });
-
-                // Relationships
-                entity.HasOne(e => e.ProjectGroup)
-                    .WithMany(pg => pg.ProjectGroupUsers)
-                    .HasForeignKey(e => e.ProjectGroupId)
-                    .OnDelete(DeleteBehavior.Cascade);
-
-                entity.HasOne(e => e.ApplicationUser)
-                    .WithMany(u => u.ProjectGroupUsers)
-                    .HasForeignKey(e => e.ApplicationUserId)
-                    .OnDelete(DeleteBehavior.Cascade);
-            });
-
-            modelBuilder.Entity<RecentGroupActivity>(entity =>
-            {
-                // TODO - Fluent API 
-
-                // Primary key
-                entity.HasKey(e => e.Id);
-            });
-
-            modelBuilder.Entity<GroupMeeting>(entity =>
-            {
-                // TODO - Fluent API 
-
-                // Primary key
-                entity.HasKey(e => e.Id);
-            });
-
-            modelBuilder.Entity<GroupChat>(entity =>
-            {
-                // TODO - Fluent API 
-
-                // Primary key
-                entity.HasKey(e => e.Id);
-            });
-
-            modelBuilder.Entity<GroupStorage>(entity =>
-            {
-                // TODO - Fluent API 
-
-                // Primary key
-                entity.HasKey(e => e.Id);
-            });
 
             // AssemblyAI
 
             modelBuilder.Entity<Transcript>(entity =>
             {
-                // TODO - Fluent API 
+                // TODO - Fluent API / DataAnnotations / IEntityTypeConfiguration<Transcript>
 
                 // Primary key
                 entity.HasKey(e => e.Id);
             });
 
+            // Identity
+
+            modelBuilder.Entity<ApplicationUser>()
+                .Property(u => u.ImgProfile)
+                .HasDefaultValue("https://t3.ftcdn.net/jpg/06/33/54/78/240_F_633547842_AugYzexTpMJ9z1YcpTKUBoqBF0CUCk10.jpg");
+
             // OpenAI
-
-            modelBuilder.Entity<Summary>(entity =>
-            {
-                // Primary key
-                entity.HasKey(e => e.SummaryId);
-
-                // Auto-incrementing ID
-                entity.Property(e => e.SummaryId)
-                      .ValueGeneratedOnAdd()
-                      .HasColumnType("int");
-
-
-
-                // sets max length 100 and makes it required
-                entity.Property(e => e.Title)
-                   .IsRequired()
-                   .HasMaxLength(100)
-                   .HasColumnType("nvarchar(100)");
-
-                entity.Property(e => e.Content)
-                      .IsRequired()
-                      .HasMaxLength(4000)
-                      .HasColumnType("nvarchar(4000)");
-
-                entity.Property(e => e.CreatedAt)
-                        .IsRequired()
-                        .HasColumnType("datetime2");
-            });
 
             modelBuilder.Entity<Summary>().HasData(
                 new Summary
@@ -151,13 +73,6 @@ namespace Noog_api.Data
                     CreatedAt = new DateTime(2025, 10, 14, 8, 15, 0, DateTimeKind.Utc)
                 }
             );
-
-            // Identity
-
-            modelBuilder.Entity<ApplicationUser>()
-                .Property(u => u.ImgProfile)
-                .HasDefaultValue("https://t3.ftcdn.net/jpg/06/33/54/78/240_F_633547842_AugYzexTpMJ9z1YcpTKUBoqBF0CUCk10.jpg");
-
         }
 
         // Handles modificationAt and creationAt of an entity if it inherits BaseEntity
@@ -167,7 +82,7 @@ namespace Noog_api.Data
                 .Entries<BaseEntity>()
                 .Where(e => e.State == EntityState.Added || e.State == EntityState.Modified);
 
-            // Todo - change to switch statement if we want to handle soft deletes here
+            // Todo - change to switch statement if we want to handle deletedAt and/or archivedAt here
 
             foreach (var entry in entries)
             {

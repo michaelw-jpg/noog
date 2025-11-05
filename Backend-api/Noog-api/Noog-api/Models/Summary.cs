@@ -10,7 +10,7 @@ namespace Noog_api.Models
 
         public string Content { get; set; }
 
-        public Guid GroupStorageId { get; set; }
+        public Guid? GroupStorageId { get; set; } // TODO - Change to not null once everything goes well
         public GroupStorage GroupStorage { get; set; }
     }
 }
