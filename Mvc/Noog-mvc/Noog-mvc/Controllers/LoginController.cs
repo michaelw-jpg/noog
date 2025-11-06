@@ -9,11 +9,9 @@ using System.Security.Claims;
 
 namespace Noog_mvc.Controllers
 {
-    public class LoginController(IHttpClientFactory httpClientFactory, IConfiguration config, LoginService loginService) : Controller
+    public class LoginController( LoginService loginService) : Controller
     {
        
-        IConfiguration _config = config;
-        HttpClient client = httpClientFactory.CreateClient("NoogApi");
         LoginService _loginService = loginService;
 
         // GET: LoginController
