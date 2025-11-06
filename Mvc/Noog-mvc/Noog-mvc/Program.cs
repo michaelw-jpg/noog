@@ -13,6 +13,7 @@ namespace Noog_mvc
             builder.Services.AddControllersWithViews();
 
             builder.Services.AddScoped<DashboardService>();
+            builder
 
             builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options =>

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Noog_mvc.Models
+namespace Noog_mvc.Models.Login
 {
     public class LoginViewModel
     {

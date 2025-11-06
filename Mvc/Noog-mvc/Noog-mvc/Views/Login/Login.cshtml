@@ -1,4 +1,5 @@
-﻿@model Noog_mvc.Models.LoginViewModel
+﻿@using Noog_mvc.Models.Login
+@model LoginViewModel
 
 @{
     ViewData["Title"] = "Login";
@@ -27,15 +28,17 @@
 </style>
 
 <h1>Login</h1>
-<form asp-action="Login">
-	<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+<form asp-action="Login" method="post">
+	<div asp-validation-summary="All" class="text-danger"></div>
     <div class="form-group">
         <label asp-for="Email"></label>
         <input asp-for="Email" class="form-control" />
+		<span asp-validation-for="Email" class="text-danger"></span>
     </div>
     <div class="form-group">
         <label asp-for="Password"></label>
 		<input asp-for="Password" class="form-control" type="password" />
+		<span asp-validation-for="Password" class="text-danger"></span>
     </div>
 	<div class="form-group">
         <input type="submit" value="Logga in" class="btn btn-primary"/>
