@@ -1,6 +1,8 @@
-﻿namespace Noog_api.Models
+﻿using Noog_api.Models.Application;
+
+namespace Noog_api.Models
 {
-    public class Summary
+    public class Summary : BaseEntity
     {
         public int SummaryId { get; set; }
 
@@ -8,6 +10,7 @@
 
         public string Content { get; set; }
 
-        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        public Guid? GroupStorageId { get; set; } // TODO - Change to not null once everything goes well
+        public GroupStorage GroupStorage { get; set; }
     }
 }
