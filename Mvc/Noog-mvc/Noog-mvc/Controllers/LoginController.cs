@@ -2,17 +2,17 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Noog_mvc.Models;
+using Noog_mvc.Models.Login;
+using Noog_mvc.Services;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 
 namespace Noog_mvc.Controllers
 {
-    public class LoginController(IHttpClientFactory httpClientFactory, IConfiguration config) : Controller
+    public class LoginController( LoginService loginService) : Controller
     {
        
-        IConfiguration _config = config;
-        HttpClient client = httpClientFactory.CreateClient("NoogApi");
+        LoginService _loginService = loginService;
 
         // GET: LoginController
         public ActionResult Login()
@@ -25,46 +25,34 @@ namespace Noog_mvc.Controllers
         [ValidateAntiForgeryToken]
         public async Task <ActionResult> Login(LoginViewModel model)
         {
-          if (!ModelState.IsValid)
-            return View(model);
-
-            var response = await client.PostAsJsonAsync("auth/login", model);
-            if (!response.IsSuccessStatusCode)
-            {
-                ModelState.AddModelError(string.Empty, "Login failed");
+            if (!ModelState.IsValid)
                 return View(model);
+
+            var result = await _loginService.LoginAsync(model);
+
+            switch (result.Status)
+            {
+                case LoginStatus.Success:
+                    await HttpContext.SignInAsync(
+                        CookieAuthenticationDefaults.AuthenticationScheme,
+                        new ClaimsPrincipal(result.Identity!),
+                        new AuthenticationProperties
+                        {
+                            IsPersistent = true,
+                            ExpiresUtc = result.ExpiresAt
+                        });
+                    return RedirectToAction("Index", "Dashboard");
+
+                case LoginStatus.InvalidCredentials:
+                    ModelState.AddModelError(string.Empty, "Invalid username or password.");
+                    break;
+
+                case LoginStatus.ServerError:
+                    ModelState.AddModelError(string.Empty, "Something went wrong. Please try again later.");
+                    break;
             }
 
-            var loginResponse = await response.Content.ReadFromJsonAsync<LoginResponse>();
-
-            var claims = new List<Claim>
-            {
-                new Claim(ClaimTypes.Name, loginResponse!.UserName),
-                new Claim("AccessToken", loginResponse.Token)
-            };
-            
-            var handler = new JwtSecurityTokenHandler();
-            var jwtToken = handler.ReadJwtToken(loginResponse.Token);
-            var roleClaims = jwtToken.Claims
-                .Where(c => c.Type == ClaimTypes.Role || c.Type == "role")
-                .Select(c => new Claim(ClaimTypes.Role, c.Value));
-
-            claims.AddRange(roleClaims);
-
-            var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-
-
-            await HttpContext.SignInAsync(
-                CookieAuthenticationDefaults.AuthenticationScheme,
-                new ClaimsPrincipal(identity),
-                new AuthenticationProperties
-                {
-                    IsPersistent = true,
-                    ExpiresUtc = loginResponse.ExpiresAt
-                });
-
-            return RedirectToAction("Index", "Home");
-
+            return View(model);
         }
 
         // GET: LoginController/Edit/5
@@ -110,12 +98,5 @@ namespace Noog_mvc.Controllers
         }
     }
 
-    public class LoginResponse
-    {
-        public string UserName { get; set; }
-        public required string Token { get; set; }
-
-        public DateTimeOffset ExpiresAt { get; set; }
-
-    }
+   
 }
