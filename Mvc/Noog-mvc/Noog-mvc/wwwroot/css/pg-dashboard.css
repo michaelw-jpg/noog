@@ -1,0 +1,176 @@
+﻿:root {
+    --noog-blue: #2941ff;
+    --noog-pink: #F583D8;
+    --noog-white: #ededed;
+    --noog-purple: #A290BB;
+    --noog-purple2: #A07BFF;
+    --space-s: 12px;
+    --space-m: 24px;
+    --space-l: 32px;
+    --radius-l: 22px;
+    --radius-xl: 28px;
+    --font-title: 2.5rem;
+    --font-tile-title: 1.4rem;
+    --shadow-tile: 0 6px 20px rgba(0, 0, 0, .18);
+}
+
+/* ---------- PAGE LAYOUT ---------- */
+.pg {
+    background: var(--noog-blue);
+    color: var(--noog-white);
+    padding: var(--space-l);
+    min-height: 100vh;
+    font-family: "Inter", sans-serif;
+    padding: 32px 0;
+}
+.pg-container {
+    width: min(1180px, 92vw);
+    margin: 0 auto;
+}
+
+/* ---------- HEADER ---------- */
+.pg-header {
+    display: grid;
+    grid-template-columns: 120px 1fr 56px;
+    align-items: center;
+    column-gap: 24px;
+    margin-bottom: 12px;
+}
+
+.pg-title {
+    margin: 0;
+    text-align: center;
+    font-size: clamp(28px,3vw,40px);
+    font-weight: 800;
+}
+
+.pg-logo-img {
+    width: 100px;
+    display: block;
+}
+
+/* video call bubble */
+.pg-call-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: rgba(255,255,255,.2);
+}
+
+/* ---------- PINK DIVIDER ---------- */
+.pg-divider {
+    height: 16px;
+    background: #F583D8;
+    border-radius: 999px;
+    margin: 8px 0 24px;
+}
+
+/* ---------- TILE GRID ---------- */
+.pg-tiles {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 28px;
+}
+
+/* ---------- TILE BASE STYLING ---------- */
+.tile {
+    background: var(--noog-purple);
+    border-radius: 22px;
+    padding: 28px;
+    min-height: 220px;
+    position: relative;
+    box-shadow: var(--shadow-tile);
+}
+
+/* half-width (meeting/chat) */
+.tile--meeting {
+    grid-column: 1 / span 5; /* OR 1 / 6 */
+}
+
+/* Chat room (right) */
+.tile--chat {
+    grid-column: 8 / span 5; /* OR 7 / 13 */
+}
+
+/* Storage (centered bottom) */
+.tile--storage {
+    grid-column: 3 / span 8;
+}
+
+/* tile icons */
+.tile__icon {
+    position: absolute;
+    top: -14px;
+    left: -14px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(255,255,255,.22);
+    box-shadow: 0 4px 10px rgba(0,0,0,.18);
+}
+
+/* titles */
+.tile__title {
+    margin: 4px 0 10px;
+    font-size: 22px;
+    font-weight: 700;
+}
+.tile p {
+    margin: 0 0 8px;
+}
+
+/* badges */
+.badge {
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 16px;
+    background: rgba(255,255,255,.22);
+    color: #fff;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+/* green success badge */
+.badge--success {
+    background: #2ecc71;
+    color: #08361a;
+}
+
+.tile p {
+    position: relative;
+}
+
+/* blue unread counter */
+.badge--counter {
+    background: var(--noog-purple2);
+    color: white;
+    padding: 6px 12px;
+    border-radius: 16px;
+}
+
+/* tile link */
+.tile__link {
+    display: inline-block;
+    margin-top: 10px;
+    color: #fff;
+    text-decoration: underline;
+}
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width: 960px) {
+    .pg-header {
+        grid-template-columns: 80px 1fr 40px;
+    }
+
+    .pg-logo-img {
+        width: 80px;
+    }
+
+    .tile--half, .tile--wide {
+        grid-column: 1 / -1;
+    }
+
+    .tile {
+        min-height: 180px;
+    }
+}
