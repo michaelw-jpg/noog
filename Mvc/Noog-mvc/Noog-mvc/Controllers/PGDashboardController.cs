@@ -19,7 +19,7 @@ namespace Noog_mvc.Controllers
             {
                 TopSection = new TopSectionViewModel
                 {
-                    GroupName = "Noog-app",
+                    GroupName = "Project Alpha",
                     //add placholder img
                     GroupImg = ""
                 },
