@@ -31,12 +31,7 @@ namespace Noog_api.Services
         {
             IdentityResult results = await _userManager.CreateAsync(user, password);
 
-            if (!results.Succeeded)
-            {
-                return (IdentityResult)Results.BadRequest(results.Errors);
-            }
-
-            return (IdentityResult)Results.Ok(user);
+            return results;
         }
 
         public async Task<SignInResult> CheckPasswordAsync(TUser user, string password, bool lockoutOnFailure)

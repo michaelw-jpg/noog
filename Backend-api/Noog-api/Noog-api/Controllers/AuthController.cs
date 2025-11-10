@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Noog_api.DTOs.Auth;
+using Noog_api.Helpers;
 using Noog_api.Models;
 using Noog_api.Services.IServices;
 
@@ -50,17 +51,11 @@ namespace Noog_api.Controllers
 
         // POST api/<AuthController>
         [HttpPost("register")]
-        public async Task<IActionResult> Register([FromBody] RegisterDto dto)
+        public async Task<ActionResult<LoginResponseDto>> Register([FromBody] RegisterDto dto)
         {
-            try
-            {
-                var res = await _authService.RegisterAsync(dto);
-                return Ok(res);
-            }
-            catch (InvalidOperationException ex)
-            {
-                return BadRequest(new { error = ex.Message });
-            }
+             var res = await _authService.RegisterAsync(dto);
+             return ApiResponseHelper.ToActionResult(res);
+
         }
 
         [HttpPost("login")]

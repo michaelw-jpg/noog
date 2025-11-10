@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Noog_api.DTOs.Auth;
+using Noog_api.DTOs.BaseResponseDtos;
 using Noog_api.Helpers;
 using Noog_api.Models;
 using Noog_api.Repositories.IRepositories;
@@ -22,11 +23,16 @@ namespace Noog_api.Services
             _signInManager = signInManager;
         }
 
-        public async Task<LoginResponseDto> RegisterAsync(RegisterDto dto)
+        public async Task<BaseResponseDto<LoginResponseDto>> RegisterAsync(RegisterDto dto)
         {
+            var finalResponse = new BaseResponseDto<LoginResponseDto>();
             var exist = await _users.FindByEmailAsync(dto.Email);
             if (exist != null)
-                throw new InvalidOperationException("Email already exists");
+            {
+                finalResponse.StatusCode = Enums.StatusCodesEnum.BadRequest;
+                finalResponse.Message = "Email already exist";
+                return finalResponse;
+            }
 
             var user = new ApplicationUser
             {
@@ -35,8 +41,13 @@ namespace Noog_api.Services
             };
 
             var result = await _users.CreateAsync(user, dto.Password);
-            if (!result.Succeeded)
-                throw new InvalidOperationException("User could not be created");
+            if(!result.Succeeded)
+            {
+                finalResponse.StatusCode = Enums.StatusCodesEnum.BadRequest;
+                finalResponse.Message = result.ToString() ?? "";
+                return finalResponse;
+
+            }
 
             var roleResult = await _users.AddToRoleAsync(user, Roles.User);
             if (!roleResult.Succeeded)
@@ -44,11 +55,15 @@ namespace Noog_api.Services
 
             var expiresAt = DateTimeOffset.UtcNow.AddMinutes(15);
             var token = await _tokens.CreateToken(user);
-            return new LoginResponseDto
+            var loginResponse = new LoginResponseDto
             {
                 ExpiresAt = expiresAt,
                 Token = token
             };
+
+            finalResponse.StatusCode = Enums.StatusCodesEnum.Success;
+            finalResponse.Data = loginResponse;
+            return finalResponse;
         }
 
         public async Task<LoginResponseDto?> LoginAsync(LoginDto dto)
