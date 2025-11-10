@@ -6,10 +6,10 @@
     {
         return source switch
         {
-            "Chat" => Url.Content("~/images/NO-ICON-YET-FOR-CHAT-icon.png"),
+            "Chat" => Url.Content("~/images/chat-icon.png"),
             "Meeting" or "Call" => Url.Content("~/images/meeting-icon.png"),
-            "Storage" or "Summary" => Url.Content("~/images/document-icon.png"),
-            _ => Url.Content("~/images/NO-DEFAULT-ICON-YET-icon.png")
+            "Storage" or "Summary" => Url.Content("~/images/storage-icon.png"),
+            _ => Url.Content("~/images/default-icon.png")
         };
     }
 }
@@ -39,22 +39,6 @@
             </div>
         </div>
 
-        @foreach (var item in Model)
-        {
-            var pgImage = string.IsNullOrEmpty(item.ProjectGroupImageUrl) 
-                ? Url.Content("~/images/project-icon.png") 
-                : item.ProjectGroupImageUrl;
-            
-            <div class="recent-card">
-                <div class="recent-left">
-                    <img src="@pgImage" class="project-icon" alt="@item.ProjectGroupName" />
-                    <span class="recents-project-name">@item.ProjectGroupName</span>
-                </div>
-                <div class="recent-center">@item.ActivityTitle</div>
-                <div class="recent-right">
-                    <img src="@GetSourceIcon(item.Source)" alt="@item.Source" class="recent-icon" />
-                </div>
-            </div>
-        }
+        
     </div>
 </div>
