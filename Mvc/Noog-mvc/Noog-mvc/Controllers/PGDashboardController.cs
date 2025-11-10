@@ -6,22 +6,24 @@ namespace Noog_mvc.Controllers
 {
     public class PGDashboardController : Controller
     {
-        private readonly DashboardService _service;
+        private readonly PGDashboardService _service;
 
-        public PGDashboardController(DashboardService service)
+        public PGDashboardController(PGDashboardService service)
         {
             _service = service;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index(Guid id)
         {
+            TopSectionViewModel vm2 = null;            
+            // await _service.GetProjectGroupDataById(id);
             var vm = new PGDashboardViewModel
             {
                 TopSection = new TopSectionViewModel
                 {
-                    GroupName = "Project Alpha",
+                    GroupName = vm2?.GroupName ?? "Project Alpha",
                     //add placholder img
-                    GroupImg = ""
+                    GroupImg = vm2?.GroupImg ?? ""
                 },
                 MeetingRoom = new MeetingRoomViewModel
                 {
@@ -47,11 +49,6 @@ namespace Noog_mvc.Controllers
             return View();
         }
         public IActionResult Chat()
-        {
-            //TODO add function
-            return View();
-        }
-        public IActionResult Storage()
         {
             //TODO add function
             return View();
