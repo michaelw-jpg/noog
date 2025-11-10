@@ -19,7 +19,6 @@ namespace Noog_mvc.Controllers
         {
             return View();
         }
-
        
         [HttpPost]
         [ValidateAntiForgeryToken]
