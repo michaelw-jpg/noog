@@ -21,6 +21,12 @@ namespace Noog_api.Services
         {
             return await _userManager.FindByEmailAsync(email);
         }
+
+        public async Task<TUser?> FindByIdAsync(Guid userId)
+        {
+            var userIdString = userId.ToString();
+            return await _userManager.FindByIdAsync(userIdString);
+        }
         public async Task<List<TUser>> AllUsersAsync()
         {
             return await _userManager.Users

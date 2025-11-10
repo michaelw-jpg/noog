@@ -18,9 +18,9 @@ namespace Noog_mvc
             builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options =>
                 {
-                    options.LoginPath = "/Login/Login";
-                    options.LogoutPath = "/Login/Logout";
-                    options.AccessDeniedPath = "/Login/AccessDenied"; // placeholder for access denied path
+                    options.LoginPath = "/Account/Login";
+                    options.LogoutPath = "/Account/Logout";
+                    options.AccessDeniedPath = "/Account/AccessDenied"; // placeholder for access denied path
                     options.ExpireTimeSpan = TimeSpan.FromHours(2);
                 });
 
