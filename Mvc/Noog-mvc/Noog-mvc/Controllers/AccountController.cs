@@ -40,6 +40,9 @@ namespace Noog_mvc.Controllers
                             IsPersistent = true,
                             ExpiresUtc = result.ExpiresAt
                         });
+
+                    var cookies = HttpContext.Response.Headers["Set-Cookie"];
+                    Console.WriteLine("Set-Cookie header: " + cookies);
                     return RedirectToAction("Index", "Dashboard");
 
                 case LoginStatus.InvalidCredentials:

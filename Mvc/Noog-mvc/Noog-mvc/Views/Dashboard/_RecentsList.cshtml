@@ -17,28 +17,27 @@
 <div class="recents-section">
     <h2 class="recents-title">Recents:</h2>
     <div class="recents-list">
-        <div class="recent-card">
-            <div class="recent-left">
-                <img src="~/images/project-icon.png" class="project-icon" alt="Project" />
-                <span class="recents-project-name">Project Alpha</span>
-            </div>
-            <div class="recent-center">Meeting from yesterday at 12:45</div>
-            <div class="recent-right">
-                <img src="~/images/meeting-icon.png" alt="Meeting" class="recent-icon" />
-            </div>
-        </div>
+        @if (!Model.Any())
+        {
+            <div class="recent-card">
 
-        <div class="recent-card">
-            <div class="recent-left">
-                <img src="~/images/project-icon.png" class="project-icon" alt="Project" />
-                <span class="recents-project-name">Project Beta</span>
-            </div>
-            <div class="recent-center">Summary done</div>
-            <div class="recent-right">
-                <img src="~/images/document-icon.png" alt="Document" class="recent-icon" />
-            </div>
-        </div>
+                <div class="recent-center">No recent activities yet...</div>
 
+            </div>
+        }
+        @foreach(var activity in Model)
+        {
+            <div class="recent-card">
+                <div class="recent-left">
+                    <img src="~/images/project-icon.png" class="project-icon" alt="Project" />
+                    <span class="recents-project-name">@activity.ProjectGroupName</span>
+                </div>
+                <div class="recent-center">@activity.ActivityTitle</div>
+                <div class="recent-right">
+                    <img src="@GetSourceIcon(activity.Source)" alt="@activity.Source" class="recent-icon" />
+                </div>
+            </div>
+		}
         
     </div>
 </div>

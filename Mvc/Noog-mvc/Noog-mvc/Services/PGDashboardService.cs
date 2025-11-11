@@ -12,6 +12,6 @@ namespace Noog_mvc.Services
         }
 
         public async Task<TopSectionViewModel> GetProjectGroupDataById(Guid id)
-            => await _client.GetFromJsonAsync<TopSectionViewModel>($"api/ProjectGroup/{id}");
+            => await _client.GetFromJsonAsync<TopSectionViewModel>($"ProjectGroup/{id}");
     }
 }
