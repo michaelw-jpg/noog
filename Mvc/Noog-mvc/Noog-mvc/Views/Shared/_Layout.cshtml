@@ -1,10 +1,6 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-    @{
-        // For Google analytics
-        var host = Context.Request.Host.Host;
-    }
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Noog_mvc</title>
@@ -30,13 +26,18 @@
         </nav>
     </header>
     
-        <main role="main" class="main-content   ">
+        <main role="main" class="main-content">
             @RenderBody()
         </main>
 
-    @if (host != "localhost")
-    {
-        @await Html.PartialAsync("_CookiesConsentPartial");
+    @{
+        // For Google analytics
+        var host = Context.Request.Host.Host;
+
+        @if (host == "localhost")
+        {
+            @await Html.PartialAsync("_CookiesConsentPartial");
+        }
     }
 
     <footer class="footer">

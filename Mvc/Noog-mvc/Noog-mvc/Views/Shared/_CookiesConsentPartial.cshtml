@@ -13,6 +13,8 @@
         const banner = document.getElementById('cookie-banner');
         const consent = localStorage.getItem('analyticsConsent');
 
+        let analyticsLoaded = false;
+
         // If user hasn't made a choice yet, show the banner
         if (consent === null) {
             banner.style.display = 'block';
@@ -36,6 +38,9 @@
         };
 
         function loadAnalytics() {
+
+            if (analyticsLoaded) return;
+            analyticsLoaded = true;
             // Creates a script tag and appends it in the _layout.cshtml head section
             const script = document.createElement('script');
             script.src = 'https://www.googletagmanager.com/gtag/js?id=G-12ZY607JL3';
