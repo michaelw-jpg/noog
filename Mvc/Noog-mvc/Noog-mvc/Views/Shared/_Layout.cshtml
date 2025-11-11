@@ -27,9 +27,19 @@
         </nav>
     </header>
     
-        <main role="main" class="main-content   ">
+        <main role="main" class="main-content">
             @RenderBody()
         </main>
+
+    @{
+        // For Google analytics
+        var host = Context.Request.Host.Host;
+
+        @if (host == "localhost")
+        {
+            @await Html.PartialAsync("_CookiesConsentPartial");
+        }
+    }
 
     <footer class="footer">
         <div class="container">

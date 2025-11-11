@@ -232,3 +232,29 @@ body {
     color: #F085DA;
     font-weight: bold;
 }
+
+/* ====== Cookie banner Styling ====== */
+
+.cookie-banner {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #222;
+    color: white;
+    padding: 1em;
+    text-align: center;
+    z-index: 1000;
+}
+.cookie-banner button {
+    margin: 0 5px;
+    background: #555;
+    border: none;
+    color: white;
+    padding: 0.5em 1em;
+    cursor: pointer;
+    border-radius: 3px;
+}
+.cookie-banner button:hover {
+    background: #777;
+}
