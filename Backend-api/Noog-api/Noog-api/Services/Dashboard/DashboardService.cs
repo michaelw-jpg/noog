@@ -22,17 +22,17 @@ namespace Noog_api.Services.Dashboard
 
         public async Task<BaseResponseDto<DashboardDataResponseDto>> GetDashboardDataAsync()
         {
-             var recentActivities = await _groupActivityService.GetTopThreeLatestActivitesAsync();
+            var recentActivities = await _groupActivityService.GetTopThreeLatestActivitesAsync();
             var userInfo = await _userService.FindByIdAsync(_currentUserService.UserId);
 
             var response = new BaseResponseDto<DashboardDataResponseDto>();
 
-            if (recentActivities == null || userInfo == null)
+            if (userInfo == null)
             {
                 response.StatusCode = Enums.StatusCodesEnum.NotFound;
-                response.Message = "Dashboard Data not found";
+                response.Message = "Error getting user";
 
-                return await Task.FromResult(response);
+                return response;
             }
 
             var dtoRecentActivities = new List<DashboardDataRecentActivity>();
@@ -73,14 +73,6 @@ namespace Noog_api.Services.Dashboard
             var result = await _pgUserService.GetProjectGroupUsersByCurrentUserAsync();
 
 
-            if (result == null || !result.Any())
-            {
-                var responseNotFound = new BaseResponseDto<List<ProjectGroupResponseDto>>(
-                    Enums.StatusCodesEnum.NotFound, "No ProjectGroups found for the user", null);
-                return responseNotFound;
-
-            }
-            
             var dtoList = GenericMapper.ToDtoList<ProjectGroupUser, ProjectGroupResponseDto>(result);
             var response = new BaseResponseDto<List<ProjectGroupResponseDto>>(
                 Enums.StatusCodesEnum.Success, "ProjectGroups loaded successfully", dtoList);
