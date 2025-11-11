@@ -24,9 +24,18 @@ html, body {
 
 .dashboard-content {
     flex: 17;
-    padding: 3rem;
+    padding-top: 3rem;
+    padding-bottom: 3rem;
     display: flex;
     overflow: hidden;
+    /* Clamping */
+    /* The padding will scale smoothly between 0.5rem and 3rem
+        depending on wiewport width.
+    */
+    /* clamp(MIN, FLUID, MAX) */
+
+    padding-right: clamp(0.5rem, 3vw + 0.2rem, 3rem);
+    padding-left: clamp(0.5rem, 3vw + 0.2rem, 3rem);
 }
 
 /* === Dashboard Main Stack === */
@@ -59,8 +68,10 @@ html, body {
 
 .welcome-text {
     color: var(--primary-color);
-    font-size: 1.8rem;
+    font-size: clamp(1rem, 4vw + 0.1rem, 1.8rem);
     font-weight: 300;
+    overflow: hidden;
+    text-overflow: ellipsis;
     margin: 0;
 }
 
@@ -68,7 +79,7 @@ html, body {
     height: 100%;
     display: flex;
     color: var(--tertiary-color);
-    font-size: 3rem;
+    font-size: clamp(2rem, 4vw + 0.1rem, 3rem);
     font-weight: 600;
     align-self: center;
     align-items: center;
@@ -76,16 +87,20 @@ html, body {
 
 .profile-right {
     display: flex;
+    width: 70%;
     flex-direction: column;
     align-items: flex-end;
     justify-content: space-between;
 }
 
 .profile-img {
-    width: 200px;
-    height: 200px;
+    max-width: 100%;
+    max-height: 100%;
+    width: clamp(100px, 5vw + 10px, 200px);
+    height: auto;
     border-radius: 25px;
     object-fit: cover;
+    display: flex;
     border: 3px solid var(--tertiary-color);
 }
 
@@ -117,6 +132,7 @@ html, body {
     flex: 1;
 }
 
+
 .recents-title {
     color: white;
     font-weight: 600;
@@ -126,6 +142,10 @@ html, body {
 
 .recents-project-name {
     min-width: 0;
+    white-space: nowrap;
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .recents-list {
@@ -152,12 +172,21 @@ html, body {
 
 .recent-left {
     gap: 0.5rem;
+    min-width: 35px;
     flex: 1;
 }
 
 .recent-center {
     flex: 2;
+    min-width: 0;
+    white-space: nowrap;
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
     text-align: center;
+
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
 }
 
 .recent-right {
@@ -169,14 +198,36 @@ html, body {
     height: 24px;
 }
 
+@media (max-width: 500px) {
+    .profile-card {
+        flex-direction: column;
+    }
+    .profile-left {
+        flex-direction: row;
+        gap: 1rem;
+    }
+    .profile-right {
+        width: 100%;
+        gap: 1rem;
+        flex-direction: row-reverse;
+        justify-content: end;
+        display: flex;
+    }
+    .profile-img {
+        display: flex;
+        justify-content: center;
+    }
+}
 /* Sidebar CSS Start */
-
 .dashboard-sidebar {
     max-height: 100vh;
     min-width: 65px;
     flex: 3;
     display: flex;
-    padding: 1rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    padding-right: clamp(0.1rem, 1vw + 0.5rem, 1rem);
+    padding-left: clamp(0.1rem, 0.1vw + 0.5rem, 1rem);
     border-top-right-radius: 35px;
     border-bottom-right-radius: 35px;
     flex-direction: column;
@@ -231,6 +282,16 @@ html, body {
     padding: 0;
     margin: 0;
 }
+.sidebar-project-list ul li a {
+    padding: 3px;
+}
+.sidebar-project-list ul li.active {
+    border-radius: 20px;
+    background-color: var(--primary-color);
+}
+.sidebar-project-list ul li.active a .project-name {
+    color: var(--noog-white);
+}
 .project-link {
     display: flex;
     align-items: center;
@@ -256,6 +317,11 @@ html, body {
 /* ====== Responsive shenanigans ====== */
 
 @media (max-width: 500px) {
+    .dashboard-sidebar {
+        padding-right: 0.1rem;
+        padding-left: 0.1rem;
+        min-width: 50px;
+    }
     .sidebar-section-label {
         color: transparent;
     }
@@ -305,9 +371,256 @@ html, body {
     font-weight: bold;
     border-radius: 4px;
     cursor: pointer;
+
+    overflow:hidden;
+    text-overflow: ellipsis;
 }
 
 .logout-button:hover {
     background-color: #A71925; /* Darker Red */
 }
 /* Sidebar CSS End */
+
+/* Project Group Main content */
+
+:root {
+    --noog-blue: #2941ff;
+    --noog-pink: #F583D8;
+    --noog-white: #ededed;
+    --noog-purple: #A290BB;
+    --noog-purple2: #8026CC;
+    --space-s: 12px;
+    --space-m: 24px;
+    --space-l: 32px;
+    --radius-l: 22px;
+    --radius-xl: 28px;
+    --font-title: 2.5rem;
+    --font-tile-title: 1.4rem;
+    --shadow-tile: 0 6px 20px rgba(0, 0, 0, .18);
+}
+
+/* ---------- PAGE LAYOUT ---------- */
+#pg > * {
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+}
+
+@media (max-width: 540px) {
+    .dashboard-content {
+        padding-right: 0.5rem;
+        padding-left: 0.5rem;
+    }
+}
+/* ---------- HEADER ---------- */
+.pg-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding-bottom: 0.5rem;
+}
+
+.pg-title {
+    margin: 0;
+    padding: 0;
+    color: var(--noog-white);
+    font-weight: 200;
+    font-size: var(--font-title);
+    text-align: left;
+}
+
+.pg-logo-img {
+    width: 100px;
+    align-items: flex-end;
+    display: flex;
+}
+
+/* video call bubble */
+.pg-call-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    font-size: 24px;
+    background: rgba(255,255,255,.2);
+}
+
+/* ---------- PINK DIVIDER ---------- */
+.pg-divider {
+    padding-top: 0;
+    display: block;
+    height: 1rem;
+    background-color: var(--noog-pink);
+    border-radius: 20px;
+}
+
+/* ---------- TILE GRID ---------- */
+.pg-tiles-top {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    max-height: 35vh;
+    width: 100%;
+    max-width: inherit;
+}
+.pg-tiles-bottom {
+    display: flex;
+    justify-content: center;
+    height: 70%;
+}
+
+.pg-tiles-top a {
+    height: 80%;
+    width: auto;
+    aspect-ratio: 1 / 1;
+}
+
+.pg-tiles-bottom a {
+    width: 30%;
+    justify-content: space-evenly;
+    min-width: 250px;
+}
+
+/* ---------- TILE BASE STYLING ---------- */
+.tile {
+    background: var(--noog-purple);
+    border-radius: 22px;
+
+    /* --- CLAMPING --- */
+    /* The padding will scale smoothly between 1 and 2 rem
+        depending on wiewport width.
+    */
+    /* clamp(MIN, FLUID, MAX) */
+
+    padding: clamp(1rem, 3vw + 0.2rem, 2rem);
+
+    min-height: 100px;
+    position: relative;
+    box-shadow: var(--shadow-tile);
+    text-decoration: none;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+}
+
+/* Storage display specifics */
+#tile-storage {
+    flex-direction: row;
+    align-items: center;
+}
+pg-tiles-storage {
+    flex-direction: column;
+}
+/* tile icons */
+.tile__icon {
+    position: absolute;
+    top: -14px;
+    left: -14px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(255,255,255,.22);
+    box-shadow: 0 4px 10px rgba(0,0,0,.18);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* tile icons - Chat, meeting, storage */
+.tile-icon {
+    width: 80px;
+    height: 80px;
+}
+
+/* titles */
+.tile__title {
+    margin: 0.5rem;
+    font-size: clamp(16px, 3vw + 1px, var(--font-tile-title));
+    font-weight: 200;
+    color: var(--noog-white);
+}
+
+.tile p {
+    margin: 0;
+    position: relative;
+}
+
+/* badges */
+.badge {
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 16px;
+    background: rgba(255,255,255,.22);
+    color: #fff;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+/* green success badge */
+.badge--success {
+    background: #2ecc71;
+    color: #08361a;
+}
+
+
+/* blue unread counter */
+.badge--counter {
+    background: var(--noog-purple2);
+    color: white;
+    padding: 6px 12px;
+    border-radius: 16px;
+}
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width: 500px) {
+    .pg-tiles-top {
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+    }
+    .pg-tiles-bottom {
+        flex: 1;
+    }
+    .pg-tiles-top a {
+        width: 70%;
+    }
+    .pg-tiles-bottom a {
+        min-width: 0;
+        height: 20%;
+    }
+    #tile-storage {
+        flex-direction: column;
+        width: 70%;
+    }
+    .tile {
+        aspect-ratio: 1/1;
+    }
+    .tile__title {
+        margin: 0rem;
+    }
+    #pg > * {
+        margin-top: 0;
+        margin-bottom: 0;
+        padding-top: 0.1rem;
+        padding-bottom: 0.1rem;
+    }
+    .pg-title {
+        font-size: 1.4rem;
+    }
+    .dashboard-content {
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+    }
+    .tile-icon {
+        width: 60px;
+        height: 60px;
+    }
+}

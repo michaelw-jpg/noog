@@ -13,11 +13,9 @@ namespace Noog_mvc.Services
             _client = factory.CreateClient("NoogApi");
         }
         [HttpGet]
-        [ValidateAntiForgeryToken]
         public async Task<DashboardViewModel> GetDashboardDataAsync()
             => await _client.GetFromJsonAsync<DashboardViewModel>($"api/dashboard");
         [HttpGet]
-        [ValidateAntiForgeryToken]
         public async Task<IEnumerable<ProjectGroupDto>> GetUserProjectGroupsAsync()
             => await _client.GetFromJsonAsync<IEnumerable<ProjectGroupDto>>($"api/dashboard/projectgroups");
     }
