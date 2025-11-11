@@ -9,7 +9,7 @@ using System.Security.Claims;
 
 namespace Noog_mvc.Controllers
 {
-    public class LoginController( LoginService loginService) : Controller
+    public class AccountController( LoginService loginService) : Controller
     {
        
         LoginService _loginService = loginService;
@@ -19,7 +19,6 @@ namespace Noog_mvc.Controllers
         {
             return View();
         }
-
        
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -41,6 +40,9 @@ namespace Noog_mvc.Controllers
                             IsPersistent = true,
                             ExpiresUtc = result.ExpiresAt
                         });
+
+                    var cookies = HttpContext.Response.Headers["Set-Cookie"];
+                    Console.WriteLine("Set-Cookie header: " + cookies);
                     return RedirectToAction("Index", "Dashboard");
 
                 case LoginStatus.InvalidCredentials:

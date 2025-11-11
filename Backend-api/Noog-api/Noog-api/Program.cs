@@ -83,7 +83,12 @@ namespace Noog_api
             builder.Services.AddScoped<IUserService<ApplicationUser>, UserService<ApplicationUser>>();
             builder.Services.AddScoped<IAuthService, AuthService>();
             builder.Services.AddScoped<IDashboardService, DashboardService>();
+            builder.Services.AddScoped<ICurrentUserService, CurrentUserService>();
+            builder.Services.AddScoped<IRecentGroupActivityService, RecentGroupActivityService>();
+            builder.Services.AddScoped<IProjectGroupUserService, ProjectGroupUserService>();
             builder.Services.AddScoped<TokenService>();
+            builder.Services.AddScoped<IProjectGroupUserRepo, ProjectGroupUserRepo>();
+            builder.Services.AddScoped<IRecentGroupActivityRepo, RecentGroupActivityRepo>();
 
             builder.Services.AddHttpClient<AssemblyAiService>();
 
@@ -107,6 +112,8 @@ namespace Noog_api
             app.UseHttpsRedirection();
 
             app.UseAuthorization();
+
+            app.UseMiddleware<UserIdMiddleware>();
 
             app.MapIdentityApi<ApplicationUser>();
             app.MapControllers();
