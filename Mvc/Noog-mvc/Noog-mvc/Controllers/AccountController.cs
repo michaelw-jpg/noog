@@ -9,7 +9,7 @@ using System.Security.Claims;
 
 namespace Noog_mvc.Controllers
 {
-    public class LoginController( LoginService loginService) : Controller
+    public class AccountController( LoginService loginService) : Controller
     {
        
         LoginService _loginService = loginService;
@@ -19,7 +19,6 @@ namespace Noog_mvc.Controllers
         {
             return View();
         }
-
        
         [HttpPost]
         [ValidateAntiForgeryToken]

@@ -15,7 +15,7 @@ namespace Noog_mvc.Services
         public async Task<LoginResult> LoginAsync(LoginViewModel request)
         {
           
-            var response = await _client.PostAsJsonAsync("auth/login", request);
+            var response = await _client.PostAsJsonAsync("Auth/login", request);
             if (!response.IsSuccessStatusCode)
             {
                 if(response.StatusCode == System.Net.HttpStatusCode.Unauthorized)

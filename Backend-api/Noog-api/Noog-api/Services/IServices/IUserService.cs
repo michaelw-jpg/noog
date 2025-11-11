@@ -6,6 +6,7 @@ namespace Noog_api.Services.IServices
     public interface IUserService<TUser> where TUser : class
     {
         Task<TUser?> FindByEmailAsync(string email);
+        Task<TUser?> FindByIdAsync(Guid userId);
         Task<List<TUser>> AllUsersAsync();
         Task<IdentityResult> CreateAsync(TUser user, string password);
         Task<SignInResult> CheckPasswordAsync(TUser user, string password, bool lockoutOnFailure);
