@@ -52,7 +52,7 @@ namespace Noog_api.Services
                 PromptType.InsightExtractionSummary, "Extract insight challanges and oppertuinites and emphasis impact on strategy budget and timelines"
             },
             {
-                PromptType.ClientCallSummary, "Create a client simmary include client geals conserns objections and propores solutions and next steps. Use a professional tone"
+                PromptType.ClientCallSummary, "Create a client summary include client geals conserns objections and propores solutions and next steps. Use a professional tone"
             }
         };
     }
