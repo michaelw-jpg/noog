@@ -7,7 +7,7 @@ namespace Noog_api.Repositories.IRepositories
     {
         Task<List<ProjectGroup>> GetAllGroupProjectAsync();
         Task<ProjectGroup?> GetGroupProjectByIdAsync(int id);
-        Task<ProjectGroup> CreateGroupProjectsAsync(ProjectGroupRepository groupProject);
+        Task<ProjectGroup> CreateGroupProjectsAsync(ProjectGroup projectGroup);
         Task<ProjectGroup?> UpdateGroupProjectsAsync(int id, ProjectGroup updatedGroupProject);
         Task<bool> DeleteGroupProjectAsync(int id);
     }

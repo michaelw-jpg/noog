@@ -42,6 +42,26 @@ namespace Noog_mvc.Controllers
             return View(vm);
         }
 
+        public async Task <ActionResult> Create()
+        {
+            return View();
+        }
+
+        // POST: pgController/Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create(IFormCollection collection)
+        {
+            try
+            {
+                return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
         //Placeholder for functions
         public IActionResult Meeting()
         {
