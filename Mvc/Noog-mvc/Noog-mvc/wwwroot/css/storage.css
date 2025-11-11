@@ -1,1 +1,84 @@
-﻿
+﻿#storage {
+    margin-top: 0rem;
+}
+
+.storage-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 10vh;
+}
+
+.storage-logo-img {
+    display: flex;
+    height: 60px;
+    width: 60px;
+}
+
+.storage-tile {
+    height: 100%;
+    justify-content: flex-start;
+    gap: 1rem;
+}
+.storage-tile ol {
+    width: 100%;
+    list-style: none;
+    flex: 1;
+    padding: 0;
+    justify-content: center;
+    align-items: center;
+
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+.storage-tile ol li {
+    background-color: var(--secoundary-color);
+    border-radius: 20px;
+    
+    flex-direction: row;
+    margin-bottom: 1rem;
+}
+.storage-tile ol li a {
+    text-decoration: none;
+    color: black;
+    width: 100%;
+    align-items: center;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.storage-article {
+    position: relative;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.storage-tile-title {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+}
+
+.back-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    margin-left: 2rem;
+    border: 2px solid black;
+    border-radius: 50%;
+    text-decoration: none;
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.back-arrow svg {
+    width: 1.2rem;
+    height: 1.2rem;
+}
+
+

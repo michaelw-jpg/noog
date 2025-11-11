@@ -19,11 +19,14 @@ namespace Noog_mvc.ViewComponents
 
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            if (!_cache.TryGetValue("sidebar-projects", out IEnumerable<ProjectGroupDto> groups))
+            /*
+             if (!_cache.TryGetValue("sidebar-projects", out IEnumerable<ProjectGroupDto> groups))
             {
                 groups = await _service.GetUserProjectGroupsAsync();
                 _cache.Set($"sidebar-projects", groups, TimeSpan.FromMinutes(10));
             }
+             */
+            IEnumerable<ProjectGroupDto> groups = new List<ProjectGroupDto>();
 
             return View(groups);
         }

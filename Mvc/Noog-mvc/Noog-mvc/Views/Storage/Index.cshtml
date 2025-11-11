@@ -1,30 +1,36 @@
-﻿@{
+﻿@using Noog_mvc.Models.Storage
+@{
     Layout = "~/Views/Shared/_DashboardLayout.cshtml";
 }
 @section Styles {
     <link rel="stylesheet" href="~/css/storage.css" asp-append-version="true" />
 }
+@model StorageViewModel
 
 <main class="dashboard-main" id="storage">
     <section>
         <article class="storage-header">
-            <h1 class="storage-title">@Model?.TopSection?.GroupName</h1>
-            @if (!string.IsNullOrWhiteSpace(Model?.TopSection?.GroupImg))
+            <h1 class="pg-title">@Model?.ProjectGroup?.GroupName</h1>
+            @if (!string.IsNullOrWhiteSpace(Model?.ProjectGroup?.GroupImg))
             {
-                <img src="@Model.ProjectGroup.ImgUrl" alt="@Model.ProjectGroup.Name logo" class="storage-logo-img" />
+                <img src="@Model.ProjectGroup.GroupImg" alt="@Model.ProjectGroup.GroupName logo" class="storage-logo-img" />
             }
             else
             {
-                <img src="~/images/project-icon.png" alt="Icon" class="storage-call-icon" />
+                <img src="~/images/project-icon.png" alt="Icon" class="storage-logo-img" />
             }
         </article>
 
-        <div class="storage-divider"></div>
+        <div class="pg-divider"></div>
     </section>
-    <section>
-        <article>
-            <button>Back to Project Group</button>
-            <h2>Storage</h2>
+    <section class="tile storage-tile">
+        <article class="storage-article">
+            <a asp-controller="PGDashboard" asp-action="Index" class="back-arrow" aria-label="Back to Project Group">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M15 18l-6-6 6-6" />
+                </svg>
+            </a>
+            <h2 class="tile__title storage-tile-title">Storage</h2>
         </article>
         @if(!Model.SummaryList.Any())
         {
@@ -34,8 +40,10 @@
             @foreach (var summary in Model.SummaryList)
             {
                 <li>
-                    <h3>Summary Title</h3>
-                    <span>Date</span>
+                    <a asp-controller="Storage" asp-action="Summary" asp-route-id="@summary.Id">
+                        <h3>@summary.Title</h3>
+                        <span>@summary.Date.ToString("yy/MM/dd hh:mm")</span>
+                    </a>
                 </li>
             }
         </ol>
