@@ -6,11 +6,12 @@ namespace Noog_mvc.Controllers
     {
         public IActionResult Index()
         {
+            var model = 
             // Styling - Se Figma 
             return View();
         }
 
-        public IActionResult Summary()
+        public IActionResult Summary(Guid id)
         {
             // Styling - Se Figma 
             return View();

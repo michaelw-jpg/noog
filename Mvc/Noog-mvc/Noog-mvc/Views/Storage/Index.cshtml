@@ -1,5 +1,43 @@
 ﻿@{
     Layout = "~/Views/Shared/_DashboardLayout.cshtml";
 }
+@section Styles {
+    <link rel="stylesheet" href="~/css/storage.css" asp-append-version="true" />
+}
 
-<div style="color: white"> Titta på Figman :) </div>
+<main class="dashboard-main" id="storage">
+    <section>
+        <article class="storage-header">
+            <h1 class="storage-title">@Model?.TopSection?.GroupName</h1>
+            @if (!string.IsNullOrWhiteSpace(Model?.TopSection?.GroupImg))
+            {
+                <img src="@Model.ProjectGroup.ImgUrl" alt="@Model.ProjectGroup.Name logo" class="storage-logo-img" />
+            }
+            else
+            {
+                <img src="~/images/project-icon.png" alt="Icon" class="storage-call-icon" />
+            }
+        </article>
+
+        <div class="storage-divider"></div>
+    </section>
+    <section>
+        <article>
+            <button>Back to Project Group</button>
+            <h2>Storage</h2>
+        </article>
+        @if(!Model.SummaryList.Any())
+        {
+            <p>No summaries yet...</p>
+        }
+        <ol>
+            @foreach (var summary in Model.SummaryList)
+            {
+                <li>
+                    <h3>Summary Title</h3>
+                    <span>Date</span>
+                </li>
+            }
+        </ol>
+    </section>
+</main>
