@@ -16,11 +16,12 @@ namespace Noog_mvc.Controllers
 
             var user = new UserViewModel
             {
-                
+                Username = "Oliver",
                 Email = "meow",
                 FirstName = "John",
-                LastName = "Doe"
-                };
+                LastName = "Doe",
+                Password="123456SimonEke"
+            };
 
             return View(user);
         }
