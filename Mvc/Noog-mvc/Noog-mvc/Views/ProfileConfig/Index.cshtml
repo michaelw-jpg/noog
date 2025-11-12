@@ -1,0 +1,203 @@
+﻿@using Noog_mvc.Models.User
+@model UserViewModel
+
+@{
+	Layout = "~/Views/Shared/_EmptyLayout.cshtml"; 
+}
+
+@{
+    ViewData["Title"] = "ProfileConfig";
+    var firstName = Model?.FirstName ?? "ErrorFirstName";
+    var lastName = Model?.LastName ?? "ErrorLastName";
+    var email = Model?.Email ?? "ErrorEmail";
+    var profileImage = "";
+    //TODO: add edit icon img
+}
+
+
+<style>
+
+    .main-container {
+        max-width: 80%;
+		
+        margin: 80px auto;
+        background-color: #fff;
+        border-radius: 20px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+        padding: 40px;
+    }
+
+    .header-section {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    h1 {
+        color: #0074D9;
+        margin: 0;
+        font-size: 26px;
+    }
+
+    /* Layout för vänster och höger sida */
+    .content {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 40px;
+    }
+
+    .left-container {
+        flex: 1;
+        width:50%;
+    }
+
+    .right-container {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+    }
+
+    .profile-img {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+        .profile-img img:first-child {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #0074D9;
+        }
+
+        .profile-img img.edit-icon {
+            position: absolute;
+            bottom: 5px;
+            right: 5px;
+            width: 25px;
+            height: 25px;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+            .profile-img img.edit-icon:hover {
+                transform: scale(1.1);
+            }
+
+    /* Form styling */
+    form {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    label {
+        display: block;
+        font-weight: 600;
+        backcolor: #333;
+        margin-bottom: 6px;
+    }
+
+    input[type="text"],
+    input[type="email"],
+	input[type="password"] {
+        width: 60%;
+        padding: 10px;
+        border-radius: 20px;
+        background-color: #D9D9D9;
+        border: 1px solid #D9D9D9;
+        font-size: 15px;
+        transition: 0.2s;
+		box-shadow: 4px 5px 8px rgba(0,0,0,0.3);
+        
+    }
+
+    input:focus {
+        border-color: #0074D9;
+        outline: none;
+        box-shadow: 0 0 4px rgba(0,116,217,0.4);
+    }
+
+    .save-button {
+		margin-top: 20px;
+        background-color: #0074D9;
+        color: white;
+        border: none;
+        padding: 12px;
+        border-radius: 10px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background 0.2s;
+        width: 150px;
+    }
+
+    .goBack-button{
+        color:darkblue;
+		background-color: #D9D9D9;
+		border-radius: 10px;
+		font-weight:590;
+		cursor: pointer;
+		transition: background 0.2s;
+		padding: 8px;
+		width: 150px;
+        margin-top:10px;
+    }
+
+        button:hover {
+            background-color: #005fa3;
+        }
+</style>
+
+
+<div class="main-container">
+    <div class="header-section">
+        <h1>Account Settings</h1>
+    </div>
+
+    <div class="content">
+        <!-- Vänster sida (formulär) -->
+        <div class="left-container">
+            <form asp-controller="User" asp-action="Update" method="post">
+                <div>
+                    <label for="Username"> Username: </label>
+                    <input type="text" name="Username" value="" />
+                </div>
+
+                <div>
+                    <label for="FirstName">First Name:</label>
+                    <input type="text" id="FirstName" name="FirstName" value="@firstName" />
+                </div>
+
+                <div>
+                    <label for="LastName">Last Name:</label>
+                    <input type="text" id="LastName" name="LastName" value="@lastName" />
+                </div>
+
+                <div>
+                    <label for="Email">Email:</label>
+                    <input type="email" id="Email" name="Email" value="@email" />
+                </div>
+
+                <div>
+                    <label for="Password">Password:</label>
+					<input type="password" id="Password" name="Password" value="" />
+                </div>
+
+                <button class="save-button" type="submit">Save Changes</button>
+            </form>
+            <button class="goBack-button" asp-action="" asp-controller="Dashboard">Go back</button>
+        </div>
+
+
+        <!-- Höger sida (profilbild) -->
+        <div class="right-container">
+            <div class="profile-img">
+                <img src="@profileImage" alt="profileImg" />
+                <img src="/images/edit-icon.png" alt="Edit Icon" class="edit-icon" />
+            </div>
+        </div>
+    </div>
+</div>
