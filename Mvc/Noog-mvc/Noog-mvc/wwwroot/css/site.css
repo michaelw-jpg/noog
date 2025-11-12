@@ -37,7 +37,18 @@ body {
     align-items: center;
     justify-content: space-between;
     max-width: 1450px;
-    position: relative;
+    margin: 0 auto;
+}
+
+.left-container {
+    display: flex;
+    align-content: center;
+    gap: 2rem;
+}
+
+.right-container{
+    display:flex;
+    align-items: center;
 }
 
 /* ====== Navigation länkar ====== */
@@ -67,7 +78,7 @@ body {
 /* ====== Login-knappen ====== */
 .login-link {
     text-decoration: none;
-    text-align:center;
+    text-align: center;
     background-color: #3b82f6;
     color: #fff !important;
     font-weight: 230;
@@ -75,6 +86,7 @@ body {
     padding: 7px;
     transition: background-color 0.2s ease;
     width: 80px;
+
 }
 
     .login-link:hover {
