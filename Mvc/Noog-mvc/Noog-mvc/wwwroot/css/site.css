@@ -24,12 +24,11 @@ body {
 /* ====== Header och navigation ====== */
 .main-nav {
     background-color: var(--secoundary-color);
-    padding: 0,9em;
     z-index: 1000;
     border-radius: 54px;
     position: relative;
     margin: 1rem;
-    padding: 10px
+    padding: 12px
 }
 
 .nav-container {
@@ -59,7 +58,6 @@ body {
     list-style: none;
     margin: 0;
     padding-left: 2;
-    
 }
 
 .nav-links a {
