@@ -5,5 +5,6 @@ namespace Noog_api.Repositories.IRepositories
     public interface IProjectGroupUserRepo
     {
         Task<List<ProjectGroupUser>> GetProjectGroupUsersByCurrentUserAsync();
+        Task<ProjectGroupUser> CreateProjectGroupUserAsync(ProjectGroupUser projectGroupUser);
     }
 }
