@@ -1,0 +1,11 @@
+﻿:root {
+    --primary-color: #2941FF; /* Blue */
+    --secoundary-color: #ededed; /* White */
+}
+
+body {
+    background-color: var(--primary-color);
+    font-family: "Inter", system-ui;
+    margin: 0;
+    padding: 0;
+}
