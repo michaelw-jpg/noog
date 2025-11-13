@@ -5,6 +5,7 @@ using Noog_mvc.Services;
 
 namespace Noog_mvc.Controllers
 {
+    [Authorize]
     [Route("Dashboard/ProjectGroup/{projectGroupId:guid}/[action]")]
     public class ProjectGroupController : ProjectGroupBaseController
     {
@@ -24,7 +25,7 @@ namespace Noog_mvc.Controllers
                 TopSection = new TopSectionViewModel
                 {
                     GroupName = vm2?.GroupName ?? "Project Alpha",
-                    GroupId = id,
+                    GroupId = projectGroupId,
                     GroupImg = vm2?.GroupImg ?? ""
                 },
                 MeetingRoom = new MeetingRoomViewModel
