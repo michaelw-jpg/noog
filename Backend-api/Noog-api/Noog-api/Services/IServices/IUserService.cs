@@ -14,6 +14,7 @@ namespace Noog_api.Services.IServices
         Task<IdentityResult> AddToRoleAsync(TUser user, string role);
         Task<IdentityResult> DeleteAsync(TUser user);
         Task<IdentityResult> DeleteByIdAsync(string userId);
-        
+        Task<IdentityResult> UpdateByIdAsync(string userId,TUser updatedUser);
+
     }
 }

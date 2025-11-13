@@ -44,8 +44,6 @@ namespace Noog_api.Services
         {
             return await _signInManager.CheckPasswordSignInAsync(user, password, lockoutOnFailure);
         }
-            
-
 
         public async Task<IList<string>> GetRolesAsync(TUser user)
         {
@@ -80,6 +78,38 @@ namespace Noog_api.Services
             }
 
             return await _userManager.DeleteAsync(user);
+        }
+
+        public async Task<bool> UpdateByIdAsync(string userId, TUser updatedUser)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+
+            if (user == null)
+            {
+                return false;
+            }
+            
+
+
+
+            if (user is ApplicationUser existingUser && updatedUser is ApplicationUser newUser)
+            {   
+                existingUser.UserName = newUser.UserName;
+                existingUser.Email = newUser.Email;
+                existingUser.FirstName = newUser.FirstName;
+                existingUser.LastName = newUser.LastName;
+                existingUser.ImgProfile =  newUser.ImgProfile;
+                existingUser.PasswordHash = newUser.PasswordHash;
+            }
+
+            var result = await _userManager.UpdateAsync(user);
+
+            if (!result.Succeeded)
+            {
+                return false;
+            }
+
+            return true;
         }
 
     }
