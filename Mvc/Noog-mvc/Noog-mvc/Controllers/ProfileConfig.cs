@@ -9,21 +9,21 @@ namespace Noog_mvc.Controllers
     {
         private readonly ProfileConfigService _service;
 
+        public ProfileConfig( ProfileConfigService service)
+        {
+            _service = service;
+        }
+
         public async Task<IActionResult> Index()
         {
             //TODO: Implement ProfileConfigService and GetUserProfileAsync method
             //var user = await _service.GetUserProfileByLogin();
 
-            var user = new UserViewModel
-            {
-                Username = "Oliver",
-                Email = "meow",
-                FirstName = "John",
-                LastName = "Doe",
-                Password="123456SimonEke"
-            };
+            //Temp
+            var getCurrentUserLogin = HttpContext.User.Identity.Name;
+            
 
-            return View(user);
+            return View(getCurrentUserLogin);
         }
 
         public async Task<IActionResult> UpdateProfile(UserPatchDto userPatch)
@@ -33,6 +33,7 @@ namespace Noog_mvc.Controllers
                 var result = await _service.UpdateUserProfileAsync(userPatch);
                 if (result)
                 {
+                    TempData["SuccessMessage"] = "Your profile has been updated successfully!";
                     return RedirectToAction("Index");
                 }
                 ModelState.AddModelError(string.Empty, "Failed to update profile.");

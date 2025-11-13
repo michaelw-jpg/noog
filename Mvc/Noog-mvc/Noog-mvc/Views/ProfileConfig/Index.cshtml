@@ -185,13 +185,21 @@
 
 
 <div class="main-container">
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <script>
+            window.onload = function() {
+                alert('@TempData["SuccessMessage"]');
+            };
+        </script>
+    }
     <div class="header-section">
         <h1>Account Settings</h1>
     </div>
 
     <div class="content">
         <div class="left-container">
-            <form asp-controller="ProfileConfig" asp-action="Update" method="post">
+            <form asp-controller="ProfileConfig" asp-action="UpdateProfile" method="post">
                 <div class="form-field">
                     <label for="Username"> Username: </label>
                     <input type="text" name="Username" value=""  />
