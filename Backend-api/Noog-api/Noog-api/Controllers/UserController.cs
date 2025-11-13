@@ -12,9 +12,12 @@ namespace Noog_api.Controllers
     {
         private readonly IUserService<ApplicationUser> _userService;
 
-        public UserController(IUserService<ApplicationUser> userService)
+        private readonly ICurrentUserService _currentUserService;
+
+        public UserController(IUserService<ApplicationUser> userService, ICurrentUserService currentUserService)
         {
             _userService = userService;
+            _currentUserService = currentUserService;
         }
         // GET: api/<UserController>
         [HttpGet]
