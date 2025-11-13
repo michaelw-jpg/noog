@@ -1,0 +1,26 @@
+﻿@{
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+
+    var pgRouteValue = ViewContext.RouteData.Values["projectGroupId"];
+    Guid currentGroupId;
+
+    if (pgRouteValue is Guid guid)
+        currentGroupId = guid;
+    else if (pgRouteValue is string str && Guid.TryParse(str, out var parsedGuid))
+        currentGroupId = parsedGuid;
+    else
+    {
+        // Fallback: use ViewBag or throw
+        currentGroupId = ViewBag.ProjectGroupId != null
+            ? Guid.Parse(ViewBag.ProjectGroupId.ToString())
+            : Guid.Empty; // or throw new Exception("projectGroupId missing");
+    }
+}
+@section Styles {
+    @RenderSection("Styles", required: false)
+}
+
+<div class="dashboard-main" id="pg"> 
+    @await Component.InvokeAsync("PGHeader", new { projectGroupId = currentGroupId })
+    @RenderBody()
+</div>

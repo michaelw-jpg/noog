@@ -1,5 +1,6 @@
-using Noog_mvc.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Mvc;
+using Noog_mvc.Services;
 
 namespace Noog_mvc
 {
@@ -14,6 +15,8 @@ namespace Noog_mvc
 
             builder.Services.AddScoped<DashboardService>();
             builder.Services.AddScoped<LoginService>();
+            builder.Services.AddScoped<StorageService>();
+            builder.Services.AddScoped<ProjectGroupService>();
 
             builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options =>
@@ -47,6 +50,30 @@ namespace Noog_mvc
             app.UseAuthentication();
             app.UseAuthorization();
 
+            /*  ---- To shorten Guids in url ----
+
+                - Use short GUIDs (e.g., base64url encoded) for the URLs.
+                - Map them back to full GUIDs in your controller.
+            */
+
+            // Tips: consider attribute routing for your multi-level routes — avoids this ambiguity entirely.
+            // [Route("Dashboard/ProjectGroup/{projectGroupId:guid}/[controller]/[action]")]
+            // public class ProjectGroupController : Controller
+
+            // Achieves proper URL:s like:
+            // /Dashboard/ProjectGroup/9b1deb4d-5b14-4886-9af0-1f7c3e0f3d00/Storage/Summary/2
+
+            // Dashboard-level (user context)
+            app.MapControllerRoute(
+                name: "dashboard",
+                pattern: "Dashboard/{controller=Dashboard}/{action=Index}/{id?}");
+
+            // ProjectGroup context routes
+            app.MapControllerRoute(
+                name: "projectgroup",
+                pattern: "Dashboard/ProjectGroup/{projectGroupId:guid}/{controller=ProjectGroup}/{action=Index}/{id?}");
+
+            // Public Routes
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");

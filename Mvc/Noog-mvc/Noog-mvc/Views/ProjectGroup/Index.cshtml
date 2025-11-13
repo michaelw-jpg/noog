@@ -1,0 +1,52 @@
+﻿@using Noog_mvc.Models.ProjectGroup
+@model ProjectGroupViewModel
+
+@{
+    Layout = "~/Views/Shared/_PGDashboard.cshtml";
+}
+
+@{
+    ViewData["Title"] = "Project Group Dashboard";
+}
+
+
+
+
+<section class="pg-tiles-top">
+    <a class="tile" aria-labelledby="meeting-room-title" asp-action="Meeting" asp-controller="ProjectGroup" asp-route-projectGroupId="@ViewBag.ProjectGroupId">
+        <div class="tile__icon">📞</div>
+        <img src="~/images/meeting-icon.png" aria-label="hidden" class="tile-icon" />
+        <h2 id="meeting-room-title" class="tile__title">@Model?.MeetingRoom?.Title</h2>
+        <p>
+            @(Model?.MeetingRoom?.IsCallOngoing == true
+                        ? Html.Raw("<span class='badge badge--success'>On going call</span>")
+                        : Html.Raw("<span class='badge'>No active call</span>"))
+        </p>
+    </a>
+
+    <a class="tile" aria-labelledby="chat-room-title" asp-action="Chat" asp-controller="ProjectGroup" asp-route-projectGroupId="@ViewBag.ProjectGroupId">
+        <div class="tile__icon">💬</div>
+        <img src="~/images/chat-icon.png" aria-label="hidden" class="tile-icon" />
+        <h2 id="chat-room-title" class="tile__title">@Model?.ChatRoom?.Title</h2>
+        <p>
+            @(Model?.ChatRoom?.UnreadMessage == true
+                        ? Html.Raw("<span class='badge badge--counter'>New messages</span>")
+                        : Html.Raw("<span class='badge'>All caught up</span>"))
+        </p>
+    </a>
+</section>
+
+<section class="pg-tiles-bottom">
+    <a class="tile" id="tile-storage" aria-labelledby="storage-title" asp-action="Index" asp-controller="Storage" asp-route-projectGroupId="@ViewBag.ProjectGroupId">
+        <div class="tile__icon">📦</div>
+        <img src="~/images/storage-icon.png" aria-label="hidden" class="tile-icon" />
+        <article class="pg-tiles-storage">
+            <h2 id="storage-title" class="tile__title">@Model?.Storage?.Title</h2>
+            <p>
+                @(Model?.Storage?.HasNewItem == true
+                                ? Html.Raw("<span class='badge'>New items available</span>")
+                                : Html.Raw("<span class='badge'>No new items</span>"))
+            </p>
+        </article>
+    </a>
+</section>
