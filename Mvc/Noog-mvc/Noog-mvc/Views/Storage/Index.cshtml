@@ -1,51 +1,39 @@
 ﻿@using Noog_mvc.Models.Storage
+@model List<StorageSummary>
+
 @{
-    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+    Layout = "~/Views/Shared/_PGDashboard.cshtml";
 }
 @section Styles {
     <link rel="stylesheet" href="~/css/storage.css" asp-append-version="true" />
 }
-@model StorageViewModel
+@{
+    ViewData["Title"] = "Project Group Storage";
+}
 
-<main class="dashboard-main" id="storage">
-    <section>
-        <article class="storage-header">
-            <h1 class="pg-title">@Model?.ProjectGroup?.GroupName</h1>
-            @if (!string.IsNullOrWhiteSpace(Model?.ProjectGroup?.GroupImg))
-            {
-                <img src="@Model.ProjectGroup.GroupImg" alt="@Model.ProjectGroup.GroupName logo" class="storage-logo-img" />
-            }
-            else
-            {
-                <img src="~/images/project-icon.png" alt="Icon" class="storage-logo-img" />
-            }
-        </article>
 
-        <div class="pg-divider"></div>
-    </section>
-    <section class="tile storage-tile">
-        <article class="storage-article">
-            <a asp-controller="PGDashboard" asp-action="Index" class="back-arrow" aria-label="Back to Project Group">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M15 18l-6-6 6-6" />
-                </svg>
-            </a>
-            <h2 class="tile__title storage-tile-title">Storage</h2>
-        </article>
-        @if(!Model.SummaryList.Any())
+<section class="tile storage-tile">
+    <article class="storage-article">
+        <a asp-controller="ProjectGroup" asp-action="Index" asp-route-projectGroupId="@ViewBag.ProjectGroupId" class="back-arrow" aria-label="Back to Project Group">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M15 18l-6-6 6-6" />
+            </svg>
+        </a>
+        <h2 class="tile__title storage-tile-title">Storage</h2>
+    </article>
+    @if (!Model.Any())
+    {
+        <p>No summaries yet...</p>
+    }
+    <ol>
+        @foreach (var summary in Model)
         {
-            <p>No summaries yet...</p>
+            <li>
+                <a asp-controller="Storage" asp-action="Summary" asp-route-projectGroupId="@ViewBag.ProjectGroupId" asp-route-id="@summary.Id">
+                    <h3>@summary.Title</h3>
+                    <span>@summary.Date.ToString("yy/MM/dd hh:mm")</span>
+                </a>
+            </li>
         }
-        <ol>
-            @foreach (var summary in Model.SummaryList)
-            {
-                <li>
-                    <a asp-controller="Storage" asp-action="Summary" asp-route-id="@summary.Id">
-                        <h3>@summary.Title</h3>
-                        <span>@summary.Date.ToString("yy/MM/dd hh:mm")</span>
-                    </a>
-                </li>
-            }
-        </ol>
-    </section>
-</main>
+    </ol>
+</section>

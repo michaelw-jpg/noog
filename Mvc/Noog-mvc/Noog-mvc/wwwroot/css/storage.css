@@ -1,8 +1,4 @@
-﻿#storage {
-    margin-top: 0rem;
-}
-
-.storage-header {
+﻿.storage-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
