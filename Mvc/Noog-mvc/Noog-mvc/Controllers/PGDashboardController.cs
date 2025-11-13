@@ -1,13 +1,16 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Noog_mvc.Models.ProjectGroup;
 using Noog_mvc.Services;
 
 namespace Noog_mvc.Controllers
 {
+    [Authorize]
     public class PGDashboardController : Controller
     {
         private readonly PGDashboardService _service;
 
+        
         public PGDashboardController(PGDashboardService service)
         {
             _service = service;
@@ -16,13 +19,13 @@ namespace Noog_mvc.Controllers
         public async Task<IActionResult> Index(Guid id)
         {
             TopSectionViewModel vm2 = null;            
-            // await _service.GetProjectGroupDataById(id);
+            var response = await _service.GetProjectGroupDataById(id);
             var vm = new PGDashboardViewModel
             {
                 TopSection = new TopSectionViewModel
                 {
                     GroupName = vm2?.GroupName ?? "Project Alpha",
-                    //add placholder img
+                    GroupId = id,
                     GroupImg = vm2?.GroupImg ?? ""
                 },
                 MeetingRoom = new MeetingRoomViewModel

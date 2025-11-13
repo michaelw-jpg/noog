@@ -14,6 +14,7 @@ namespace Noog_mvc
 
             builder.Services.AddScoped<DashboardService>();
             builder.Services.AddScoped<LoginService>();
+            builder.Services.AddScoped<PGDashboardService>();
 
             builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options =>

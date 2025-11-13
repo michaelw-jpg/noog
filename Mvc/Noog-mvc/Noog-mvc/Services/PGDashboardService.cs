@@ -11,7 +11,7 @@ namespace Noog_mvc.Services
             _client = factory.CreateClient("NoogApi");
         }
 
-        public async Task<TopSectionViewModel> GetProjectGroupDataById(Guid id)
-            => await _client.GetFromJsonAsync<TopSectionViewModel>($"ProjectGroup/{id}");
+        public async Task<PGDashboardViewModel> GetProjectGroupDataById(Guid id)
+            => await _client.GetFromJsonAsync<PGDashboardViewModel>($"ProjectGroup/{id}");
     }
 }

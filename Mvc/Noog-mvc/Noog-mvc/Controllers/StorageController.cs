@@ -5,10 +5,12 @@ namespace Noog_mvc.Controllers
 {
     public class StorageController : Controller
     {
-        public IActionResult Index()
+
+        [Route("Storage/{projectGroupId}")]
+        public IActionResult Index(Guid projectGroupId)
         {
             var model = new StorageViewModel();
-            model.ProjectGroup = new Models.ProjectGroup.TopSectionViewModel { GroupImg = "", GroupName = "NoogTest" };
+           
             model.SummaryList = new List<StorageSummary>
             {
                 new StorageSummary { Id = 1, Title = "Summary 1", Date = DateTime.Now},

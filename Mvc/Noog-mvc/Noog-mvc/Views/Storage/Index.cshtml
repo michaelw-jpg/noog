@@ -1,4 +1,5 @@
 ﻿@using Noog_mvc.Models.Storage
+
 @{
     Layout = "~/Views/Shared/_DashboardLayout.cshtml";
 }
@@ -25,7 +26,7 @@
     </section>
     <section class="tile storage-tile">
         <article class="storage-article">
-            <a asp-controller="PGDashboard" asp-action="Index" class="back-arrow" aria-label="Back to Project Group">
+            <a asp-controller="PGDashboard" asp-action="Index" asp-route-id="@Model.ProjectGroup.GroupId"class="back-arrow" aria-label="Back to Project Group">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M15 18l-6-6 6-6" />
                 </svg>
