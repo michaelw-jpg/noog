@@ -1,25 +1,59 @@
-﻿#storage {
-    margin-top: 0rem;
-}
-
-.storage-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    height: 10vh;
-}
-
-.storage-logo-img {
-    display: flex;
-    height: 60px;
-    width: 60px;
-}
+﻿
+/* Adds on some css from .Tile in dashboard.css */
 
 .storage-tile {
     height: 100%;
     justify-content: flex-start;
     gap: 1rem;
 }
+
+/* Upper title section of the storage and Summary */
+
+.storage-article {
+    position: relative;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    margin-top: 1rem;
+    width: 100%;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+/* Reuses the tile-title but ensures center. 
+    TODO - resolve responsivity
+*/
+
+.storage-tile-title {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+}
+
+/* The back arrow */
+
+.back-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    aspect-ratio: 1 / 1;
+    margin-left: 1rem;
+    border: 2px solid black;
+    border-radius: 50%;
+    text-decoration: none;
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.back-arrow svg {
+    width: 1.2rem;
+    height: 1.2rem;
+}
+
+/* Storage List of summaries */
+
 .storage-tile ol {
     width: 100%;
     list-style: none;
@@ -47,38 +81,33 @@
     justify-content: space-evenly;
 }
 
-.storage-article {
-    position: relative;
-    display: flex;
-    align-items: center;
-    flex-direction: row;
+/* ==== Summary related only css ==== */
+
+.summary-article {
     width: 100%;
-    justify-content: space-between;
-}
-
-.storage-tile-title {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    text-align: center;
-}
-
-.back-arrow {
     display: flex;
+    flex-direction: row;
+    background-color: var(--secoundary-color);
+    border-radius: 20px;
+    justify-content: space-evenly;
     align-items: center;
-    justify-content: center;
-    width: 2.5rem;
-    height: 2.5rem;
-    margin-left: 2rem;
-    border: 2px solid black;
-    border-radius: 50%;
-    text-decoration: none;
-    transition: background 0.2s ease, transform 0.2s ease;
 }
 
-.back-arrow svg {
-    width: 1.2rem;
-    height: 1.2rem;
+.storage-summary {
+    
+    color: black;
+    width: 100%;
+    height: 100%;
+    background-color: var(--secoundary-color);
+    border-radius: 20px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    margin-bottom: 1rem;
+    padding: 1rem;
+}
+.storage-summary p {
+    justify-content: flex-start;
+    text-align: left;
 }
 
 
