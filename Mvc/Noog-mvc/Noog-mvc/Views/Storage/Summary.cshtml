@@ -12,15 +12,15 @@
                 <path d="M15 18l-6-6 6-6" />
             </svg>
         </a>
-        <article>
+        <article class="summary-article">
             <h3>@Model.Title</h3>
             <span>@Model.CreatedAt.ToString("yy/MM/dd hh:mm")</span>
         </article>
     </article>
 
     
-    <article>
-        @if (!string.IsNullOrEmpty(Model.Content))
+    <article class="storage-summary">
+        @if (string.IsNullOrEmpty(Model.Content))
         {
             <p>No Content.. </p>
         }
