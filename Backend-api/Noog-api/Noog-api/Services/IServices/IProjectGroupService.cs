@@ -7,5 +7,7 @@ namespace Noog_api.Services.IServices
     public interface IProjectGroupService
     {
         Task<BaseResponseDto<string?>> Create(ProjectGroupCreateDto request);
+
+        Task<BaseResponseDto<ProjectGroupByIdResponse>> GetProjectGroupByIdAsync(Guid id);
     }
 }

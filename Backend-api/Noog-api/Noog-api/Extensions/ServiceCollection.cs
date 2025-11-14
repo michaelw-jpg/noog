@@ -29,7 +29,7 @@ namespace Noog_api.Extensions
                     ValidateAudience = true,
                     ValidateIssuerSigningKey = true,
                     ValidateLifetime = true,
-                    ClockSkew = TimeSpan.FromMinutes(3),
+                    ClockSkew = TimeSpan.FromHours(2),
                     RoleClaimType = ClaimTypes.Role
                 };
 

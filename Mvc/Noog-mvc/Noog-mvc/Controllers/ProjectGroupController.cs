@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Noog_mvc.Models.ProjectGroup;
 using Noog_mvc.Services;
 
 namespace Noog_mvc.Controllers
 {
+    [Authorize]
     [Route("Dashboard/ProjectGroup/{projectGroupId:guid}/[action]")]
     public class ProjectGroupController : ProjectGroupBaseController
     {
@@ -17,13 +19,13 @@ namespace Noog_mvc.Controllers
         public async Task<IActionResult> Index(Guid projectGroupId)
         {
             TopSectionViewModel vm2 = null;
-            // await _service.GetProjectGroupDataById(projectGroupId);
+            var response = await _service.GetProjectGroupDataById(projectGroupId);
             var vm = new ProjectGroupViewModel
             {
                 TopSection = new TopSectionViewModel
                 {
                     GroupName = vm2?.GroupName ?? "Project Alpha",
-                    //add placholder img
+                    GroupId = projectGroupId,
                     GroupImg = vm2?.GroupImg ?? ""
                 },
                 MeetingRoom = new MeetingRoomViewModel

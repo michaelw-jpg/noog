@@ -6,9 +6,9 @@ namespace Noog_api.Repositories.IRepositories
     public interface IProjectGroupRepository
     {
         Task<List<ProjectGroup>> GetAllGroupProjectAsync();
-        Task<ProjectGroup?> GetGroupProjectByIdAsync(int id);
+        Task<ProjectGroup?> GetGroupProjectByIdAsync(Guid id);
         Task<ProjectGroup> CreateGroupProjectsAsync(ProjectGroup projectGroup);
-        Task<ProjectGroup?> UpdateGroupProjectsAsync(int id, ProjectGroup updatedGroupProject);
+        Task<ProjectGroup?> UpdateGroupProjectsAsync(Guid id, ProjectGroup updatedGroupProject);
         Task<bool> DeleteGroupProjectAsync(int id);
     }
 }
