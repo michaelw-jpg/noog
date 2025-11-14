@@ -14,6 +14,7 @@ namespace Noog_mvc
 
             builder.Services.AddScoped<DashboardService>();
             builder.Services.AddScoped<LoginService>();
+            builder.Services.AddScoped<RegisterUserService>();
 
             builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options =>
@@ -49,7 +50,7 @@ namespace Noog_mvc
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
+                pattern: "{controller=Account}/{action=Register}/{id?}");
 
             app.Run();
         }

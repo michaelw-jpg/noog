@@ -3,16 +3,18 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Noog_mvc.Models.Login;
+using Noog_mvc.Models.Register;
 using Noog_mvc.Services;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 
 namespace Noog_mvc.Controllers
 {
-    public class AccountController( LoginService loginService) : Controller
+    public class AccountController( LoginService loginService, RegisterUserService regiserService) : Controller
     {
        
         LoginService _loginService = loginService;
+        RegisterUserService _registerService = regiserService;
 
         // GET: LoginController
         public ActionResult Login()
@@ -97,6 +99,38 @@ namespace Noog_mvc.Controllers
             {
                 return View();
             }
+        }
+
+        [HttpGet]
+        public IActionResult Register()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Register(RegisterUserViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+
+            }
+
+            var result = await _registerService.RegisterAsync(model);
+
+            if (result.Succsess)
+            {
+                TempData["Success"] = result.Message;
+                return RedirectToAction("Login");
+            }
+            
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError(string.Empty, error);
+            }
+
+            return View(model);
         }
     }
 
