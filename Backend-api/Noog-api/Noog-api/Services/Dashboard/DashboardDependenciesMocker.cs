@@ -34,15 +34,15 @@ namespace Noog_api.Services.Dashboard
             return response;
         }
 
-        public List<ProjectGroupResponseDto> GetMockedGroupProjects()
-        {
-            var response = new List<ProjectGroupResponseDto>
-            {
-                new ProjectGroupResponseDto { Id = 1, ImageUrl = "", Title = "Project Noog (Api)"},
-                new ProjectGroupResponseDto { Id = 2, ImageUrl = "", Title = "Project Omega (Api)"}
-            };
+        //public List<ProjectGroupResponseDto> GetMockedGroupProjects()
+        //{
+        //    var response = new List<ProjectGroupResponseDto>
+        //    {
+        //        new ProjectGroupResponseDto { Id = 1, ImageUrl = "", Title = "Project Noog (Api)"},
+        //        new ProjectGroupResponseDto { Id = 2, ImageUrl = "", Title = "Project Omega (Api)"}
+        //    };
 
-            return response;
-        }
+        //    return response;
+        //}
     }
 }

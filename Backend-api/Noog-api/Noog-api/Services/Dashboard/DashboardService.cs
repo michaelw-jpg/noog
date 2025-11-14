@@ -71,9 +71,10 @@ namespace Noog_api.Services.Dashboard
         public async Task<BaseResponseDto<List<ProjectGroupResponseDto>>> GetDashboardUserProjectGroupsAsync()
         {
             var result = await _pgUserService.GetProjectGroupUsersByCurrentUserAsync();
+            var projectGroups = result.Select(pgu => pgu.ProjectGroup).ToList();
 
 
-            var dtoList = GenericMapper.ToDtoList<ProjectGroupUser, ProjectGroupResponseDto>(result);
+            var dtoList = GenericMapper.ToDtoList<ProjectGroup, ProjectGroupResponseDto>(projectGroups);
             var response = new BaseResponseDto<List<ProjectGroupResponseDto>>(
                 Enums.StatusCodesEnum.Success, "ProjectGroups loaded successfully", dtoList);
 

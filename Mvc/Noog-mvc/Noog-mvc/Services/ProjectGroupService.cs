@@ -2,16 +2,18 @@
 
 namespace Noog_mvc.Services
 {
-    public class PGDashboardService
+    public class ProjectGroupService
     {
         private readonly HttpClient _client;
 
-        public PGDashboardService(IHttpClientFactory factory)
+        public ProjectGroupService(IHttpClientFactory factory)
         {
             _client = factory.CreateClient("NoogApi");
         }
 
         public async Task<TopSectionViewModel> GetProjectGroupDataById(Guid id)
-            => await _client.GetFromJsonAsync<TopSectionViewModel>($"ProjectGroup/{id}");
+        {
+            return await _client.GetFromJsonAsync<TopSectionViewModel>($"ProjectGroup/{id}");
+        }
     }
 }

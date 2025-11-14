@@ -1,6 +1,6 @@
 ﻿namespace Noog_mvc.Models.ProjectGroup
 {
-    public class PGDashboardViewModel
+    public class ProjectGroupViewModel
     {
         public TopSectionViewModel TopSection { get; set; }
         public MeetingRoomViewModel MeetingRoom { get; set; }

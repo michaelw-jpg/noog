@@ -14,9 +14,17 @@ namespace Noog_api.Repositories
         public async Task<List<ProjectGroupUser>> GetProjectGroupUsersByCurrentUserAsync()
         {
             var result = await _context.ProjectGroupUsers
+                .Include(pgu => pgu.ProjectGroup)
                 .Where(pgu => pgu.ApplicationUserId == _currentUserService.UserId)
                 .ToListAsync();
             return result;
+        }
+
+        public async Task<ProjectGroupUser>CreateProjectGroupUserAsync(ProjectGroupUser projectGroupUser)
+        {
+            _context.ProjectGroupUsers.Add(projectGroupUser);
+            await _context.SaveChangesAsync();
+            return projectGroupUser;
         }
     }
 }
