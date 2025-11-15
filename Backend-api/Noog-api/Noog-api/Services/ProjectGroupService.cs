@@ -1,4 +1,5 @@
 ﻿using Noog_api.DTOs.BaseResponseDtos;
+using Noog_api.DTOs.GroupMeeting;
 using Noog_api.DTOs.ProjectGroup;
 using Noog_api.Mappers;
 using Noog_api.Models.Application;
@@ -96,5 +97,30 @@ namespace Noog_api.Services
             return response;
         }
 
+        public async Task<BaseResponseDto<ProjectGroupByIdResponse>> GetProjectGroupByIdAsync(Guid id)
+        {
+            var response = await _projectGroupRepository.GetGroupProjectByIdAsync(id);
+
+            if (response == null)
+            {
+                return new BaseResponseDto<ProjectGroupByIdResponse>(
+                    Enums.StatusCodesEnum.NotFound, "Project group not found", null);
+            }
+
+            var data = new ProjectGroupByIdResponse
+            {
+                ProjectGroup = GenericMapper.ToDto<ProjectGroup,ProjectGroupById>(response),
+                GroupMeeting = GenericMapper.ToDto<GroupMeeting, GroupMeetingInfo>(response.GroupMeeting)
+            };
+
+            var result = new BaseResponseDto<ProjectGroupByIdResponse>(
+                Enums.StatusCodesEnum.Success, "Project group retrieved successfully", data);
+
+            return result;
+
+
+        }
+
+      
     }
 }

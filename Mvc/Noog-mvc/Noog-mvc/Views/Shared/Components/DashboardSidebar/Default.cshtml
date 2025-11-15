@@ -3,7 +3,7 @@
 @model IEnumerable<ProjectGroupDto> 
 
 @{
-    var currentId = ViewContext.RouteData.Values["id"]?.ToString();
+    var currentId = ViewData["CurrentGroupId"]?.ToString();
     var hasActiveGroup = !string.IsNullOrEmpty(currentId);
 }
 
@@ -19,7 +19,7 @@
         var isActive = hasActiveGroup && (group.Id.ToString() == currentId);
 
         <li class="@(isActive ? "active" : "" )">
-            <a href="@Url.Action("Index", "PGDashboard", new { id = group.Id })" class="project-link">
+            <a href="@Url.Action("Index", "ProjectGroup", new { projectGroupid = group.Id })" class="project-link">
                 <img src="@pgImage" alt="@group.Title" class="project-icon" />
                 <span class="project-name">@group.Title</span>
             </a>

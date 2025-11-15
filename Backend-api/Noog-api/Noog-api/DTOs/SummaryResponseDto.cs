@@ -1,7 +1,10 @@
-﻿namespace Noog_api.DTOs
+﻿using System.Text.Json.Serialization;
+
+namespace Noog_api.DTOs
 {
     public class SummaryResponseDto
     {
+        [JsonPropertyName("Id")]
         public int SummaryId { get; set; }
 
         public string Title { get; set; }

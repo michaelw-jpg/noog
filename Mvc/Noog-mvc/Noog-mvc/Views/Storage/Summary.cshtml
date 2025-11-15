@@ -1,0 +1,33 @@
+﻿@using Noog_mvc.Models.Storage
+@model SummaryDisplayDto
+
+@{ Layout = "~/Views/Shared/_PGDashboard.cshtml"; }
+@section Styles { <link rel="stylesheet" href="~/css/storage.css" asp-append-version="true" /> }
+@{ ViewData["Title"] = "Summary"; }
+
+<section class="tile storage-tile">
+    <article class="storage-article">
+        <a asp-controller="Storage" asp-action="Index" asp-route-projectGroupId="@ViewBag.ProjectGroupId" class="back-arrow" aria-label="Back to Storage">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M15 18l-6-6 6-6" />
+            </svg>
+        </a>
+        <article class="summary-article">
+            <h3>@Model.Title</h3>
+            <span>@Model.CreatedAt.ToString("yy/MM/dd hh:mm")</span>
+        </article>
+    </article>
+
+    
+    <article class="storage-summary">
+        @if (string.IsNullOrEmpty(Model.Content))
+        {
+            <p>No Content.. </p>
+        }
+        <p>
+            @Model.Content
+        </p>
+    </article>
+
+</section>
+

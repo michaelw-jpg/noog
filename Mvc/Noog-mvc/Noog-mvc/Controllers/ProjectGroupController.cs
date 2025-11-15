@@ -1,28 +1,31 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Noog_mvc.Models.ProjectGroup;
 using Noog_mvc.Services;
 
 namespace Noog_mvc.Controllers
 {
-    public class PGDashboardController : Controller
+    [Authorize]
+    [Route("Dashboard/ProjectGroup/{projectGroupId:guid}/[action]")]
+    public class ProjectGroupController : ProjectGroupBaseController
     {
-        private readonly PGDashboardService _service;
+        private readonly ProjectGroupService _service;
 
-        public PGDashboardController(PGDashboardService service)
+        public ProjectGroupController(ProjectGroupService service)
         {
             _service = service;
         }
 
-        public async Task<IActionResult> Index(Guid id)
+        public async Task<IActionResult> Index(Guid projectGroupId)
         {
-            TopSectionViewModel vm2 = null;            
-            // await _service.GetProjectGroupDataById(id);
-            var vm = new PGDashboardViewModel
+            TopSectionViewModel vm2 = null;
+            var response = await _service.GetProjectGroupDataById(projectGroupId);
+            var vm = new ProjectGroupViewModel
             {
                 TopSection = new TopSectionViewModel
                 {
                     GroupName = vm2?.GroupName ?? "Project Alpha",
-                    //add placholder img
+                    GroupId = projectGroupId,
                     GroupImg = vm2?.GroupImg ?? ""
                 },
                 MeetingRoom = new MeetingRoomViewModel

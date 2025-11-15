@@ -38,7 +38,13 @@ namespace Noog_api.Repositories
 
         public async Task<ProjectGroup?> GetGroupProjectByIdAsync(Guid id)
         {
-            return await _context.ProjectGroups.FindAsync(id);
+            var result = await _context.ProjectGroups
+                .AsNoTracking()
+                .Include(pg => pg.GroupMeeting)
+                .FirstOrDefaultAsync(pg => pg.Id == id);
+
+
+            return result;
         }
 
         public async Task<ProjectGroup> PatchGroupProjectsAsync(ProjectGroup request)

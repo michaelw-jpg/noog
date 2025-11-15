@@ -23,11 +23,11 @@ namespace Noog_api.Controllers
             return new string[] { "value1", "value2" };
         }
 
-        // GET api/<ProjectGroupController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public async Task<ActionResult<ProjectGroupByIdResponse>> GetById(Guid id)
         {
-            return "value";
+            var response = await _projectGroupService.GetProjectGroupByIdAsync(id);
+            return ApiResponseHelper.ToActionResult(response);
         }
 
         // POST api/<ProjectGroupController>

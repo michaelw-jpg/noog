@@ -36,7 +36,7 @@ namespace Noog_api.Services
         public async Task<IdentityResult> CreateAsync(TUser user, string password)
         {
             IdentityResult results = await _userManager.CreateAsync(user, password);
-
+            
             return results;
         }
 

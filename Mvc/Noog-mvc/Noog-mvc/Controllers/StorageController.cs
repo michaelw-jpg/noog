@@ -1,19 +1,30 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Noog_mvc.Models.Storage;
+using Noog_mvc.Services;
 
 namespace Noog_mvc.Controllers
 {
-    public class StorageController : Controller
+    [Route("Dashboard/ProjectGroup/{projectGroupId:guid}/[controller]/[action]/{id?}")]
+    public class StorageController(StorageService service) : ProjectGroupBaseController
     {
-        public IActionResult Index()
+        private readonly StorageService _service = service;
+        public async Task<IActionResult> Index()
         {
+           
+            var model = await _service.GetSummaryList();
+
+         
             // Styling - Se Figma 
-            return View();
+            return View(model);
         }
 
-        public IActionResult Summary()
+        public async Task<IActionResult> Summary(int id)
         {
+            
+            var model = await _service.GetSummarybyId(id);
+            
             // Styling - Se Figma 
-            return View();
+            return View(model);
         }
     }
 }
