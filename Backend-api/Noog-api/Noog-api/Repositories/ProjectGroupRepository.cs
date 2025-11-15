@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Noog_api.Data;
+using Noog_api.DTOs.ProjectGroup;
 using Noog_api.Models;
 using Noog_api.Models.Application;
 using Noog_api.Repositories.IRepositories;
@@ -18,7 +19,7 @@ namespace Noog_api.Repositories
             return projectGroup;
         }
 
-        public async Task<bool> DeleteGroupProjectAsync(int id)
+        public async Task<bool> DeleteGroupProjectAsync(Guid id)
         {
             var groupProject = await _context.ProjectGroups.FindAsync(id);
             if (groupProject != null)
@@ -35,24 +36,16 @@ namespace Noog_api.Repositories
             return await _context.ProjectGroups.ToListAsync();
         }
 
-        public async Task<ProjectGroup?> GetGroupProjectByIdAsync(int id)
+        public async Task<ProjectGroup?> GetGroupProjectByIdAsync(Guid id)
         {
             return await _context.ProjectGroups.FindAsync(id);
         }
 
-        public async Task<ProjectGroup?> UpdateGroupProjectsAsync(int id, ProjectGroup updatedGroupProject)
+        public async Task<ProjectGroup> PatchGroupProjectsAsync(ProjectGroup request)
         {
-            var existProjectGroup = await _context.ProjectGroups.FindAsync(id);
-            if (existProjectGroup != null)
-            {
-                return null;
-            }
-            existProjectGroup.Name = updatedGroupProject.Name;
-            existProjectGroup.ImageUrl = updatedGroupProject.ImageUrl;
-            //TODO:Add group ProjectUsers
 
             await _context.SaveChangesAsync();
-            return existProjectGroup;
+            return request;
         }
 
     }

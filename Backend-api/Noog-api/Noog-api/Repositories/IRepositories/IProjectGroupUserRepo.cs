@@ -6,5 +6,7 @@ namespace Noog_api.Repositories.IRepositories
     {
         Task<List<ProjectGroupUser>> GetProjectGroupUsersByCurrentUserAsync();
         Task<ProjectGroupUser> CreateProjectGroupUserAsync(ProjectGroupUser projectGroupUser);
+
+        Task<ProjectGroupUser> GetProjectGroupUserAsync(Guid ProjectGroupId, string email);
     }
 }

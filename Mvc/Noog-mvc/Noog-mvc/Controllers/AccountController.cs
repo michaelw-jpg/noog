@@ -29,10 +29,10 @@ namespace Noog_mvc.Controllers
 
             var result = await _loginService.LoginAsync(model);
 
-            switch (result.Status)
+            if (result.Identity != null)
             {
-                case LoginStatus.Success:
-                    await HttpContext.SignInAsync(
+
+                await HttpContext.SignInAsync(
                         CookieAuthenticationDefaults.AuthenticationScheme,
                         new ClaimsPrincipal(result.Identity!),
                         new AuthenticationProperties
@@ -41,17 +41,15 @@ namespace Noog_mvc.Controllers
                             ExpiresUtc = result.ExpiresAt
                         });
 
-                    var cookies = HttpContext.Response.Headers["Set-Cookie"];
-                    Console.WriteLine("Set-Cookie header: " + cookies);
-                    return RedirectToAction("Index", "Dashboard");
+                var cookies = HttpContext.Response.Headers["Set-Cookie"];
+                Console.WriteLine("Set-Cookie header: " + cookies);
+                return RedirectToAction("Index", "Dashboard");
 
-                case LoginStatus.InvalidCredentials:
-                    ModelState.AddModelError(string.Empty, "Invalid username or password.");
-                    break;
+            }
 
-                case LoginStatus.ServerError:
-                    ModelState.AddModelError(string.Empty, "Something went wrong. Please try again later.");
-                    break;
+            else
+            {
+                ModelState.AddModelError(string.Empty, result.ErrorMessage ?? "Something went wrong. Please try again later");
             }
 
             return View(model);

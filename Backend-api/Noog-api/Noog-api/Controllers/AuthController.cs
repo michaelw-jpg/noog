@@ -62,8 +62,8 @@ namespace Noog_api.Controllers
         public async Task<IActionResult> Login([FromBody] LoginDto dto)
         {
             var result = await _authService.LoginAsync(dto);
-            if (result is null)
-                return Unauthorized();
+            if (result.Token is null)
+                return Unauthorized(result.Message);
 
             var cookieOptions = new CookieOptions
             {
