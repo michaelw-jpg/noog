@@ -39,7 +39,7 @@ namespace Noog_api.Controllers
         }
 
         // PUT api/<ProjectGroupController>/5
-        [HttpPatch("{id}")]
+        [HttpPatch]
         public async Task<ActionResult<ProjectGroup>> Patch(ProjectGroupPatchDto request)
         {
             var response = await _projectGroupService.Patch(request);
