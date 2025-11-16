@@ -81,6 +81,32 @@ namespace Noog_api.Services
 
         }
 
-      
+        public async Task<BaseResponseDto<ProjectGroupUser>>AddUserToProjectGroup(AddUserToProjectGroupDto request)
+        {
+          
+            var isAdmin = await _projectGroupUserService.IsUserProjectGroupAdminAsync(request.ProjectGroupId, _currentUser.UserId);
+            if (!isAdmin)
+            {
+                return new BaseResponseDto<ProjectGroupUser>(
+                    Enums.StatusCodesEnum.Unauthorized,"Only admins can add users to the project group.",
+                    null);
+
+            }
+
+            var isalreadyMember = await _projectGroupUserService.IsUserMemberOfProjectGroupAsync(request.ProjectGroupId, request.Email);
+            if (isalreadyMember)
+            {
+                return new BaseResponseDto<ProjectGroupUser>(
+                    Enums.StatusCodesEnum.Conflict,"User is already a member of the project group.",
+                    null);
+            }
+
+            var result = await _projectGroupUserService.AddUserToProjectGroupAsync(request.ProjectGroupId, request.Email);
+
+            return new BaseResponseDto<ProjectGroupUser>(
+                Enums.StatusCodesEnum.Created, "User added to project group successfully", null);
+
+        }
+
     }
 }
