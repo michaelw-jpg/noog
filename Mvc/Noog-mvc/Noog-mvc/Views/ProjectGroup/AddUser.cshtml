@@ -1,0 +1,43 @@
+﻿@using Noog_mvc.Models.ProjectGroup;
+@model AddUserToProjectGroup
+
+
+@{
+    Layout = "~/Views/Shared/_PGDashboard.cshtml";
+
+    ViewData["Title"] = "Add new Project Group User";
+}
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+@section Styles {
+    <link rel="stylesheet" href="~/css/create-group-project-form.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/storage.css" asp-append-version="true" />
+}
+
+<section class="form-container">
+    <article class="storage-article">
+        <a asp-controller="ProjectGroup" asp-action="Index" asp-route-projectGroupId="@ViewBag.ProjectGroupId" class="back-arrow" aria-label="Back to Project Group">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M15 18l-6-6 6-6" />
+            </svg>
+        </a>
+        <h1>Add new a user to the project</h1>
+    </article>
+
+
+    <form asp-action="AddUser" method="post">
+        <input type="hidden" name="ProjectGroupId" value="@ViewBag.ProjectGroupId" />
+        <div class="form-group">
+            <label asp-for=Email class="form-label"></label>
+            <input asp-for=Email  class="form-control" />
+            <span asp-validation-for= "Email" class="text-danger"></span>
+        </div>
+
+        <div asp-validation-summary="ModelOnly" class="text-danger validation-summary-errors"></div>
+
+        <div class="form-actions">
+            <button type="submit" class="">AddUser</button>
+        </div>
+    </form>
+</section>

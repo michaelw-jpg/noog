@@ -19,6 +19,11 @@ namespace Noog_api.Repositories
         public async Task<ProjectGroupUser> AddUserToProjectGroup(Guid projectGroupId, string email)
         { 
             var user = await _userService.FindByEmailAsync(email);
+            if (user == null)
+            {
+                return null;
+            }
+
             var projectGroupUser = new ProjectGroupUser
             {
                 ProjectGroupId = projectGroupId,

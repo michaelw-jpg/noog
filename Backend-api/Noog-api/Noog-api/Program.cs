@@ -122,6 +122,7 @@ namespace Noog_api
             app.UseExceptionHandler(options => { });
 
             app.UseHttpsRedirection();
+            app.UseAuthentication();
 
             app.UseAuthorization();
 

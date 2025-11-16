@@ -22,7 +22,7 @@ namespace Noog_api.Services
             }
             else
             {
-                throw new Exception("Invalid tenant ID in token.");
+                throw new Exception("Invalid User ID in token.");
             }
 
         }

@@ -103,6 +103,12 @@ namespace Noog_api.Services
 
             var result = await _projectGroupUserService.AddUserToProjectGroupAsync(request.ProjectGroupId, request.Email);
 
+            if(result == null)
+            {
+                return new BaseResponseDto<ProjectGroupUser>(Enums.StatusCodesEnum.NotFound,
+                    "User does not exist", null);
+            }
+
             return new BaseResponseDto<ProjectGroupUser>(
                 Enums.StatusCodesEnum.Created, "User added to project group successfully", null);
 
