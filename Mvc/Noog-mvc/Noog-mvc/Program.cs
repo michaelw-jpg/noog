@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Noog_mvc.Helpers;
 using Noog_mvc.Services;
 
 namespace Noog_mvc
@@ -30,11 +32,21 @@ namespace Noog_mvc
                 });
 
             builder.Services.AddAuthorization();
+            builder.Services.AddHttpContextAccessor();
 
             builder.Services.AddHttpClient("NoogApi", client =>
             {
-            client.BaseAddress = new Uri(builder.Configuration["ApiSettings:BaseUrl"]!);
-            });
+                client.BaseAddress = new Uri(builder.Configuration["ApiSettings:BaseUrl"]!);
+            })
+                .AddHttpMessageHandler(provider =>
+                {
+                    var httpContextAccessor = provider.GetRequiredService<IHttpContextAccessor>();
+                    return new DelegatingHandlerWithJwt(httpContextAccessor);
+                });
+     
+
+
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

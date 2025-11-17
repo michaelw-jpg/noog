@@ -37,11 +37,17 @@ namespace Noog_api.Extensions
                 {
                     OnMessageReceived = ctx =>
                     {
+                        Console.WriteLine($"COOKIE RECEIVED? {ctx.Request.Cookies.ContainsKey(cookieName)}");
+                        
+
+
                         if (string.IsNullOrEmpty(ctx.Token) &&
                             ctx.Request.Cookies.TryGetValue(cookieName, out var token) &&
                             !string.IsNullOrWhiteSpace(token))
+
                         {
                             ctx.Token = token;
+                            Console.WriteLine($"TOKEN BEFORE PARSE: {token}");
                         }
                         return Task.CompletedTask;
                     }

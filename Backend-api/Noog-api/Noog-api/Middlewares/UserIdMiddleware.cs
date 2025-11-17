@@ -1,4 +1,5 @@
 ﻿using Noog_api.Services.IServices;
+using System.Security.Claims;
 
 namespace Noog_api.Middlewares
 {
@@ -13,6 +14,9 @@ namespace Noog_api.Middlewares
         {
             var requestedPathFromContext = context.Request.Path.Value?.ToLower();
 
+            Console.WriteLine("AUTH USER? " + context.User.Identity?.IsAuthenticated);
+            Console.WriteLine("CLAIMS COUNT " + context.User.Claims.Count());
+            Console.WriteLine("USER GUID " + context.User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
             var excludedPaths = new List<string>
             {
                 "/api/auth/login",
