@@ -6,6 +6,9 @@ namespace Noog_api.Services.IServices
 {
     public interface IProjectGroupService
     {
+        Task<BaseResponseDto<ProjectGroupByIdResponse>> GetProjectGroupByIdAsync(Guid id);
+
+
         Task<BaseResponseDto<ProjectGroupUser>> AddUserToProjectGroup(AddUserToProjectGroupDto request);
         Task<BaseResponseDto<string?>> Create(ProjectGroupCreateDto request);
 
