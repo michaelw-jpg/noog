@@ -1,0 +1,251 @@
+﻿:root {
+    --noog-blue: #2941ff;
+    --noog-pink: #F583D8;
+    --noog-white: #ededed;
+    --noog-purple: #A290BB;
+    --noog-purple2: #8026CC;
+    --space-s: 12px;
+    --space-m: 24px;
+    --space-l: 32px;
+    --radius-l: 22px;
+    --radius-xl: 28px;
+    --font-title: 2.5rem;
+    --font-tile-title: 1.4rem;
+    --shadow-tile: 0 6px 20px rgba(0, 0, 0, .18);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+.register-title {
+    display: flex;
+    justify-content: center;
+    color: white;
+    font-size: var(--font-title);
+    margin-bottom: var(--space-l);
+    font-weight: 300;
+    padding: 0 1rem;
+    text-align: center;
+}
+
+.register-wrapper {
+    background-color: var(--noog-white);
+    border-radius: var(--radius-xl);
+    max-width: 500px;
+    width: 100%;
+    box-shadow: var(--shadow-tile);
+    margin: 2rem auto;
+    padding: var(--space-l);
+}
+
+.register-form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-m);
+    margin-bottom: var(--space-m);
+}
+
+.register-form {
+    display: flex;
+    flex-direction: column;
+}
+
+    .register-form label {
+        margin-bottom: 8px;
+        font-weight: 400;
+        color: #333;
+        font-size: 1rem;
+    }
+
+    .register-form input {
+        padding: 12px 16px;
+        border-radius: var(--radius-l);
+        border: none;
+        background-color: #d4d4d4;
+        font-size: 1rem;
+        width: 100%;
+        transition: background-color 0.2s;
+    }
+
+        .register-form input:focus {
+            outline: none;
+            background-color: #c9c9c9;
+        }
+
+    .register-form span {
+        color: red;
+        font-size: 0.875rem;
+        margin-top: 4px;
+        min-height: 20px;
+    }
+
+div[asp-validation-summary] {
+    grid-column: 1 / -1;
+    color: red;
+    font-size: 0.875rem;
+}
+
+.button-group {
+    display: flex;
+    justify-content: space-between;
+    margin-top: var(--space-m);
+    gap: var(--space-m);
+}
+
+.btn-secondary,
+.btn-primary {
+    padding: 12px 32px;
+    border-radius: 25px;
+    border: none;
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s;
+    flex: 1;
+    min-width: 0;
+}
+
+.btn-secondary {
+    background-color: var(--noog-purple);
+}
+
+    .btn-secondary:hover {
+        background-color: #8c7ba8;
+        transform: translateY(-2px);
+    }
+
+.btn-primary {
+    background-color: var(--noog-blue);
+}
+
+    .btn-primary:hover {
+        background-color: #1f34cc;
+        transform: translateY(-2px);
+    }
+
+@media (max-width: 768px) {
+    :root {
+        --font-title: 2rem;
+        --space-l: 24px;
+        --space-m: 16px;
+    }
+
+    .register-title {
+        font-size: var(--font-title);
+        margin-bottom: var(--space-m);
+    }
+
+    .register-wrapper {
+        margin: 1.5rem;
+        padding: var(--space-m);
+        max-width: 100%;
+    }
+
+    .register-form-grid {
+        gap: var(--space-m);
+    }
+}
+
+
+@media (max-width: 576px) {
+    :root {
+        --font-title: 1.75rem;
+        --space-l: 20px;
+        --space-m: 12px;
+        --space-s: 8px;
+    }
+
+    .register-title {
+        font-size: var(--font-title);
+        margin-bottom: var(--space-m);
+    }
+
+    .register-wrapper {
+        margin: 1rem;
+        padding: var(--space-m);
+        border-radius: 20px;
+    }
+
+    .register-form-grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-m);
+    }
+
+    .register-form label {
+        font-size: 0.95rem;
+    }
+
+    .register-form input {
+        padding: 10px 14px;
+        font-size: 0.95rem;
+    }
+
+    .button-group {
+        flex-direction: column;
+        gap: var(--space-s);
+    }
+
+    .btn-secondary,
+    .btn-primary {
+        width: 100%;
+        padding: 12px 24px;
+    }
+}
+
+@media (max-width: 400px) {
+    :root {
+        --font-title: 1.5rem;
+        --radius-l: 18px;
+        --radius-xl: 18px;
+    }
+
+    .register-wrapper {
+        margin: 0.5rem;
+        padding: 1rem;
+    }
+
+    .register-form input {
+        padding: 10px 12px;
+        font-size: 0.9rem;
+    }
+
+    .btn-secondary,
+    .btn-primary {
+        padding: 10px 20px;
+        font-size: 0.95rem;
+    }
+}
+
+
+@media (min-width: 1200px) {
+    .register-wrapper {
+        max-width: 550px;
+    }
+}
+
+
+@media (max-height: 600px) and (orientation: landscape) {
+    .register-title {
+        margin-bottom: var(--space-s);
+        font-size: 1.75rem;
+    }
+
+    .register-wrapper {
+        margin: 1rem auto;
+        padding: var(--space-m);
+    }
+
+    .register-form-grid {
+        gap: var(--space-s);
+    }
+
+    .register-form input {
+        padding: 8px 12px;
+    }
+
+    .btn-secondary,
+    .btn-primary {
+        padding: 8px 24px;
+    }
+}
