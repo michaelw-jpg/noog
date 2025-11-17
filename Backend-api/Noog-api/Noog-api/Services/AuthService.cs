@@ -66,7 +66,7 @@ namespace Noog_api.Services
             return finalResponse;
         }
 
-        public async Task<LoginResponseDto?> LoginAsync(LoginDto dto)
+        public async Task <LoginResponseDto?> LoginAsync(LoginDto dto)
         {
             var user = await _users.FindByEmailAsync(dto.Email);
 

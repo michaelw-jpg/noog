@@ -26,5 +26,13 @@ namespace Noog_api.Repositories
             await _context.SaveChangesAsync();
             return projectGroupUser;
         }
+
+        public async Task<ProjectGroupUser> GetProjectGroupUserAsync(Guid ProjectGroupId, string email)
+        {
+            var result = await _context.ProjectGroupUsers
+                .Include(pgu => pgu.ApplicationUser)
+                .FirstOrDefaultAsync(pgu => pgu.ProjectGroupId == ProjectGroupId && pgu.ApplicationUser.Email == email);
+            return result;
+        }
     }
 }

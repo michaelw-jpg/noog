@@ -57,6 +57,46 @@ namespace Noog_api.Services
             return finalResult;
         }
 
+        public async Task <BaseResponseDto<ProjectGroup>> Patch(ProjectGroupPatchDto request)
+        {
+            var projectGroup = await _projectGroupRepository.GetGroupProjectByIdAsync(request.Id);
+            if (projectGroup is null)
+            {
+                 return new BaseResponseDto<ProjectGroup>(
+                    Enums.StatusCodesEnum.NotFound, "Project group not found", null);
+            }
+
+            GenericMapper.ApplyPatch(projectGroup, request);
+            var result = await _projectGroupRepository.PatchGroupProjectsAsync(projectGroup);
+
+            var response = new BaseResponseDto<ProjectGroup>(
+                Enums.StatusCodesEnum.Success, "Project group updated successfully", result);
+            return response;
+        }
+
+        public async Task <BaseResponseDto<bool>> AddUserToProjectGroupAsync(Guid projectGroupId, string email)
+        {
+            var doesExist = await _projectGroupUserService.GetProjectGroupUserAsync(projectGroupId, email);
+            if (doesExist is not null)
+            {
+                return new BaseResponseDto<bool>(
+                    Enums.StatusCodesEnum.Conflict, "User already in project group", false);
+            }
+
+
+
+            var projectGroupUser = new ProjectGroupUser
+            {
+                ProjectGroupId = projectGroupId,
+               // ApplicationUserId = userId,
+                IsAdmin = false
+            };
+            var result = await _projectGroupUserService.CreateProjectGroupUserAsync(projectGroupUser);
+            var response = new BaseResponseDto<bool>(
+                Enums.StatusCodesEnum.Success, "User added to project group successfully", true);
+            return response;
+        }
+
         public async Task<BaseResponseDto<ProjectGroupByIdResponse>> GetProjectGroupByIdAsync(Guid id)
         {
             var response = await _projectGroupRepository.GetGroupProjectByIdAsync(id);

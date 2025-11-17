@@ -17,5 +17,13 @@ namespace Noog_api.Services
             var result = await _groupUserRepo.CreateProjectGroupUserAsync(projectGroupUser);
             return result;
         }
+
+        public async Task<ProjectGroupUser> GetProjectGroupUserAsync(Guid ProjectGroupId, string email)
+        {
+            var result = await _groupUserRepo.GetProjectGroupUserAsync(ProjectGroupId, email);
+            return result;
+        }
+
+
     }
 }

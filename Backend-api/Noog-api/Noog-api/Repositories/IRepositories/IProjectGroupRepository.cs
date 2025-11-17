@@ -1,4 +1,6 @@
-﻿using Noog_api.Models;
+﻿using Noog_api.DTOs.BaseResponseDtos;
+using Noog_api.DTOs.ProjectGroup;
+using Noog_api.Models;
 using Noog_api.Models.Application;
 
 namespace Noog_api.Repositories.IRepositories
@@ -8,7 +10,7 @@ namespace Noog_api.Repositories.IRepositories
         Task<List<ProjectGroup>> GetAllGroupProjectAsync();
         Task<ProjectGroup?> GetGroupProjectByIdAsync(Guid id);
         Task<ProjectGroup> CreateGroupProjectsAsync(ProjectGroup projectGroup);
-        Task<ProjectGroup?> UpdateGroupProjectsAsync(Guid id, ProjectGroup updatedGroupProject);
-        Task<bool> DeleteGroupProjectAsync(int id);
+        Task<ProjectGroup> PatchGroupProjectsAsync(ProjectGroup request);
+        Task<bool> DeleteGroupProjectAsync(Guid id);
     }
 }

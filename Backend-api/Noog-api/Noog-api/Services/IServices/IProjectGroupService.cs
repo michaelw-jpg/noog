@@ -8,6 +8,6 @@ namespace Noog_api.Services.IServices
     {
         Task<BaseResponseDto<string?>> Create(ProjectGroupCreateDto request);
 
-        Task<BaseResponseDto<ProjectGroupByIdResponse>> GetProjectGroupByIdAsync(Guid id);
+        Task<BaseResponseDto<ProjectGroup>> Patch(ProjectGroupPatchDto request);
     }
 }

@@ -39,9 +39,11 @@ namespace Noog_api.Controllers
         }
 
         // PUT api/<ProjectGroupController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [HttpPatch]
+        public async Task<ActionResult<ProjectGroup>> Patch(ProjectGroupPatchDto request)
         {
+            var response = await _projectGroupService.Patch(request);
+            return ApiResponseHelper.ToActionResult(response);
         }
 
         // DELETE api/<ProjectGroupController>/5
