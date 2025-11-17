@@ -2,6 +2,7 @@
 {
     public class ProjectGroupViewModel
     {
+        public ProjectGroupByIdViewModel ProjectGroup { get; set; }
         public TopSectionViewModel TopSection { get; set; }
         public MeetingRoomViewModel MeetingRoom { get; set; }
         public ChatViewModel ChatRoom { get; set; }

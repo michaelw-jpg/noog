@@ -10,9 +10,11 @@ namespace Noog_mvc.Controllers
     public class ProjectGroupController : ProjectGroupBaseController
     {
         private readonly ProjectGroupService _service;
+        private readonly CallService _callService;
 
-        public ProjectGroupController(ProjectGroupService service)
+        public ProjectGroupController(ProjectGroupService service, CallService callService)
         {
+            _callService = callService;
             _service = service;
         }
 
@@ -103,7 +105,9 @@ namespace Noog_mvc.Controllers
         //Placeholder for functions
         public IActionResult Meeting()
         {
-            //TODO add function
+           
+            var callLink = _callService.StartCallAsync(ViewBag.ProjectGroupId);
+            ViewBag.CallLink = callLink; //maybe work?
             return View();
         }
         public IActionResult Chat()

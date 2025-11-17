@@ -17,4 +17,14 @@
                 Go back
         </a>
     </button>
+    @{
+        var link = ViewBag.CallLink as string;
+    }
+
+    @if (!string.IsNullOrEmpty(link))
+    {
+        <script>
+            window.open('@link', '_blank'); // opens in a new tab/window
+        </script>
+    }
 </article>
