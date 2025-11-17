@@ -15,5 +15,11 @@ namespace Noog_mvc.Services
         {
             return await _client.GetFromJsonAsync<TopSectionViewModel>($"ProjectGroup/{id}");
         }
+
+        public async Task<bool> AddUserToProjectGroup(AddUserToProjectGroup model)
+        {
+            var response = await _client.PostAsJsonAsync("ProjectGroup/AddUser", model);
+            return response.IsSuccessStatusCode;
+        }
     }
 }
