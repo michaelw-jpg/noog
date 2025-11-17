@@ -62,7 +62,7 @@ namespace Noog_api.Controllers
             {
                 return BadRequest(result.Errors);
             }
-            
+
             return Ok(result);
         }
         // GET api/<UserController>/currentUserLogin

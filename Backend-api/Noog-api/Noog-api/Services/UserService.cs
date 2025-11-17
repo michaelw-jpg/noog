@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Noog_api.Models;
 using Noog_api.Services.IServices;
+using Noog_api.DTOs;
+using Noog_api.DTOs.UserDtos;
 
 namespace Noog_api.Services
 {
@@ -80,37 +82,28 @@ namespace Noog_api.Services
             return await _userManager.DeleteAsync(user);
         }
 
-        public async Task<bool> UpdateByIdAsync(string userId, TUser updatedUser)
+        public async Task<IdentityResult> UpdateByIdAsync(string userId, TUser updatedUser)
         {
             var user = await _userManager.FindByIdAsync(userId);
 
             if (user == null)
             {
-                return false;
+                return IdentityResult.Failed(new IdentityError { Description = "User not found" });
             }
-            
-
-
 
             if (user is ApplicationUser existingUser && updatedUser is ApplicationUser newUser)
-            {   
+            {
                 existingUser.UserName = newUser.UserName;
                 existingUser.Email = newUser.Email;
                 existingUser.FirstName = newUser.FirstName;
                 existingUser.LastName = newUser.LastName;
-                existingUser.ImgProfile =  newUser.ImgProfile;
-                existingUser.PasswordHash = newUser.PasswordHash;
+                existingUser.ImgProfile = newUser.ImgProfile;
+                // TODO: Change password 
             }
 
             var result = await _userManager.UpdateAsync(user);
 
-            if (!result.Succeeded)
-            {
-                return false;
-            }
-
-            return true;
+           return result;
         }
-
     }
 }
