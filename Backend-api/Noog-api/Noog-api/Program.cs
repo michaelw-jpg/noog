@@ -62,6 +62,11 @@ namespace Noog_api
                 return new StreamClientFactory(StreamIOApiKey, streamApiSecret);
             });
 
+            builder.Services.ConfigureApplicationCookie(options =>
+            {
+                options.ExpireTimeSpan = TimeSpan.FromHours(2);
+                options.SlidingExpiration = true;
+            });
 
             builder.Services.JwtAuth(builder.Configuration);
             builder.Services.RolePolicy();

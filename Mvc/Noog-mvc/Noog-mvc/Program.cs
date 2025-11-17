@@ -26,6 +26,7 @@ namespace Noog_mvc
                     options.LogoutPath = "/Account/Logout";
                     options.AccessDeniedPath = "/Account/AccessDenied"; // placeholder for access denied path
                     options.ExpireTimeSpan = TimeSpan.FromHours(2);
+                    options.SlidingExpiration = true;
                 });
 
             builder.Services.AddAuthorization();
