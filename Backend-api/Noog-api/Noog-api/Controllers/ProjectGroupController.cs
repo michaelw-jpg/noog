@@ -30,6 +30,13 @@ namespace Noog_api.Controllers
             return ApiResponseHelper.ToActionResult(response);
         }
 
+        [HttpPost("AddUser")]
+        public async Task<ActionResult<ProjectGroupUser>> AddUserToProjectGroup(AddUserToProjectGroupDto request)
+        {
+            var response = await _projectGroupService.AddUserToProjectGroup(request);
+            return ApiResponseHelper.ToActionResult(response);
+        }
+
         // POST api/<ProjectGroupController>
         [HttpPost]
         public async Task<ActionResult<string?>> Create(ProjectGroupCreateDto request)
@@ -39,9 +46,11 @@ namespace Noog_api.Controllers
         }
 
         // PUT api/<ProjectGroupController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [HttpPatch]
+        public async Task<ActionResult<ProjectGroup>> Patch(ProjectGroupPatchDto request)
         {
+            var response = await _projectGroupService.Patch(request);
+            return ApiResponseHelper.ToActionResult(response);
         }
 
         // DELETE api/<ProjectGroupController>/5

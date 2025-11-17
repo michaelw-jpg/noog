@@ -50,6 +50,41 @@ namespace Noog_mvc.Controllers
             return View();
         }
 
+        public async Task<ActionResult> AddUser()
+        {
+           return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> AddUser(AddUserToProjectGroup model)
+        {
+            try
+            {
+                if(!ModelState.IsValid)
+                {
+                    
+                    return View(model);
+                }
+                var success = await _service.AddUserToProjectGroup(model);
+                if(success) //success
+                {
+                    return RedirectToAction("Index", new { projectGroupId = model.ProjectGroupId });
+                }
+                else
+                {
+                    ModelState.AddModelError("","failed to add user");
+                    return View(model);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", ex.Message);
+                return View(model);
+            }
+        }
+
         // POST: pgController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]

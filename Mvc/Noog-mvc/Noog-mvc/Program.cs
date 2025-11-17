@@ -15,6 +15,7 @@ namespace Noog_mvc
 
             builder.Services.AddScoped<DashboardService>();
             builder.Services.AddScoped<LoginService>();
+            builder.Services.AddScoped<RegisterUserService>();
             builder.Services.AddScoped<StorageService>();
             builder.Services.AddScoped<ProjectGroupService>();
 
@@ -56,7 +57,7 @@ namespace Noog_mvc
                 - Map them back to full GUIDs in your controller.
             */
 
-            // Tips: consider attribute routing for your multi-level routes — avoids this ambiguity entirely.
+            // Tips: consider attribute routing for your multi-level routes â€” avoids this ambiguity entirely.
             // [Route("Dashboard/ProjectGroup/{projectGroupId:guid}/[controller]/[action]")]
             // public class ProjectGroupController : Controller
 

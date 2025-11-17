@@ -26,7 +26,7 @@ namespace Noog_api.Services
 
             return response.Data?.Message ?? string.Empty;
         }
-        //TODO Figure out languege prompt
+        
         public enum PromptType
         {
             MeetingSummary, //general summary

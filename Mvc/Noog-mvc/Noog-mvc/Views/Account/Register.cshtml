@@ -1,0 +1,60 @@
+﻿@using Noog_mvc.Models.Register
+@model RegisterUserViewModel
+@{
+    ViewData["Title"] = "Register";
+}
+@section Styles {
+    <link rel="stylesheet" href="~/css/registerUser.css" asp-append-version="true" />
+}
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1 class="register-title">Create account</h1>
+
+<div class="register-wrapper">
+    <form asp-action="Register" method="post">
+        <div asp-validation-summary="ModelOnly"></div>
+
+        <div class="register-form-grid">
+            <div class="register-form">
+                <label asp-for="FirstName">First name:</label>
+                <input asp-for="FirstName" />
+                <span asp-validation-for="FirstName"></span>
+            </div>
+
+            <div class="register-form">
+                <label asp-for="LastName">Last name:</label>
+                <input asp-for="LastName" />
+                <span asp-validation-for="LastName"></span>
+            </div>
+
+            <div class="register-form">
+                <label asp-for="Email">Email:</label>
+                <input asp-for="Email" type="email" />
+                <span asp-validation-for="Email"></span>
+            </div>
+
+            <div class="register-form">
+                <label asp-for="Password">Password:</label>
+                <input asp-for="Password" type="password" />
+                <span asp-validation-for="Password"></span>
+            </div>
+            <div class="register-form">
+                <label asp-for="UserName">Username:</label>
+                <input asp-for="UserName" type="UserName" />
+                <span asp-validation-for="UserName"></span>
+             </div>
+             <div class ="register-form">
+                <label asp-for="ConfirmPassword">Confirm password:</label>
+                <input asp-for="ConfirmPassword" type="confirmPassword" />
+                <span asp-validation-for="ConfirmPassword"></span>
+             </div>
+        </div>
+
+        <div class="button-group">
+            <button type="button" class="btn-secondary" onclick="window.history.back()">Go back</button>
+            <button type="submit" class="btn-primary">Create</button>
+        </div>
+    </form>
+</div>
