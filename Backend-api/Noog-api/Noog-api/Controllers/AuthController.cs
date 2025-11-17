@@ -69,7 +69,7 @@ namespace Noog_api.Controllers
             {
                 HttpOnly = true,
                 Secure = true,
-                SameSite = SameSiteMode.Lax,
+                SameSite = SameSiteMode.None,
                 Expires = result.ExpiresAt,
                 IsEssential = true
             };
