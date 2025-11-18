@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using Noog_api.DTOs;
 using Noog_api.DTOs.BaseResponseDtos;
 using Noog_api.DTOs.StreamIODtos;
 using Noog_api.Helpers;
@@ -125,14 +126,14 @@ namespace Noog_api.Controllers
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
-        [HttpPost("calls/{callId}/join")]
-        public async Task<ActionResult<JoinCallDto>> JoinCall(Guid callId)
+        [HttpPost("calls/{groupProjectId}/join")]
+        public async Task<ActionResult<JoinCallDto>> JoinCall(Guid groupProjectId)
         {
             var userId = _currentUserService.UserId;
 
             var user = await _userService.FindByIdAsync(userId);
 
-            if (Guid.Empty==callId)
+            if (Guid.Empty == groupProjectId)
                 return BadRequest("callId is required.");
 
             if (user == null)
@@ -140,23 +141,23 @@ namespace Noog_api.Controllers
 
             var streamApiSecret = _configuration["StreamIo:ApiSecret"];
 
-            string guidAsString = callId.ToString();
+            string callId = groupProjectId.ToString();
 
-            var streamToken = GenerateStreamToken(guidAsString, streamApiSecret);
+            var streamToken = GenerateStreamToken(callId, streamApiSecret);
 
             // 1. Get or create StreamIO user
             var streamUser = await _streamIOService.CreateStreamIOUser(user);
 
-            // 3. Return a DTO to frontend can use to join the call
+            var frontendBaseUrl = _configuration["Vercel:baseUrl"];
+
+            var JoinUrl = $"{frontendBaseUrl}/?callId={callId}&userId={user.Id}&token={streamUser.Token}&image={streamUser.UserImage}";
+
+            // 3. Return a DTO with join call Url 
             var response = new JoinCallDto
             {
-                callId = guidAsString,
-                userName = streamUser.Name,
-                image = streamUser.UserImage,
-                token = streamUser.Token,
-                apikey = _configuration["StreamIo:ApiKey"]
+                joinUrl = JoinUrl,
             };
             return Ok(response);
-        }
+        }   
     }
 }
