@@ -13,5 +13,12 @@ namespace Noog_api.Services
             var result = await _groupStorageRepo.CreateGroupStorageAsync(groupStorage);
             return result;
         }
+
+        public async Task<GroupStorage?> GetGroupStorageById(Guid id)
+        {
+            var result = await _groupStorageRepo.GetGroupStorageByIdAsync(id);
+            return result;
+        }
     }
 }
+

@@ -13,5 +13,11 @@ namespace Noog_api.Repositories
             await _dbContext.SaveChangesAsync();
             return groupStorage;
         }
+
+        public async Task<GroupStorage?> GetGroupStorageByIdAsync(Guid id)
+        {
+            var groupStorage = await _dbContext.GroupStorages.FindAsync(id);
+            return groupStorage;
+        }
     }
 }

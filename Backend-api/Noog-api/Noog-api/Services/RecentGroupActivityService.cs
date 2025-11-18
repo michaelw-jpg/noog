@@ -26,16 +26,21 @@ namespace Noog_api.Services
 
         }
 
-        public async Task<string> AddNewActivityAsync(RecentGroupActivityRequest request)
+        public async Task<bool> AddNewActivityAsync(CreateRecentSummaryRequest request)
         {
            
             var newActivity = new RecentGroupActivity();
-            GenericMapper.ApplyPatch<RecentGroupActivity,RecentGroupActivityRequest>(newActivity, request);
+            GenericMapper.ApplyCreate<RecentGroupActivity,CreateRecentSummaryRequest>(newActivity, request);
+            try
+            {
+                await _recentGroupRepo.AddRecentGroupActivityAsync(newActivity);
+            }
+            catch (Exception ex)
+            {
 
-
-
-            await _recentGroupRepo.AddRecentGroupActivityAsync(newActivity);
-            return "Activity added successfully";
+                return false;
+            }
+            return true;
         }
     }
 }

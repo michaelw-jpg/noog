@@ -2,7 +2,7 @@
 
 namespace Noog_api.DTOs.RecentGroupActivity
 {
-    public class RecentGroupActivityRequest
+    public class CreateRecentSummaryRequest
     {
         public string Title { get; set; }
         public SourceType SourceType { get; set; }
