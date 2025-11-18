@@ -76,6 +76,7 @@ namespace Noog_api.Services
             var summary = new Summary();
             var response = new BaseResponseDto<SummaryResponseDto>();
            
+            
 
             GenericMapper.ApplyCreate(summary, Request);
             try
@@ -89,8 +90,8 @@ namespace Noog_api.Services
                 response.Message = ex.Message;
                 return response;
             }
+            //add a new RecentgroupActivity here later
 
-            
             response.Data = GenericMapper.ToDto<Summary, SummaryResponseDto>(summary);
             response.StatusCode = Enums.StatusCodesEnum.Created;
             response.Message = "Summary created successfully";
