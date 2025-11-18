@@ -1,0 +1,39 @@
+﻿﻿@using Noog_mvc.Models.ProjectGroup.Dtos
+@model ProjectGroupCreate
+
+@{
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+
+    ViewData["Title"] = "Create New Group Project";
+}
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+@section Styles {
+    <link rel="stylesheet" href="~/css/create-group-project-form.css" asp-append-version="true" />
+}
+
+<section class="form-container">
+    <h1>Create New Group Project</h1>
+
+    <form asp-action="Create" method="post">
+        <input type="hidden" name="returnUrl" value="@ViewBag.ReturnUrl" />
+
+        <div class="form-group">
+            <label asp-for="Name" class="form-label"></label>
+            <input asp-for=Name class="form-control" placeholder="Group Project Name" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="ImageUrl" class="form-label"></label>
+            <input asp-for=ImageUrl type="url" class="form-control" placeholder="https://example.com/image.jpg" />
+            <span asp-validation-for="ImageUrl" class="text-danger"></span>
+        </div>
+
+        <div asp-validation-summary="ModelOnly" class="text-danger validation-summary-errors"></div>
+
+        <div class="form-actions">
+            <button type="submit" class="">Create</button>
+        </div>
+    </form>
+</section>
