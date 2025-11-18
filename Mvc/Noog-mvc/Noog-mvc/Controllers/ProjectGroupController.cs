@@ -14,11 +14,13 @@ namespace Noog_mvc.Controllers
     {
         private readonly ProjectGroupService _service;
         private readonly IMemoryCache _cache;
+        private readonly CallService _callService;
 
-        public ProjectGroupController(ProjectGroupService service, IMemoryCache cache)
+        public ProjectGroupController(ProjectGroupService service, CallService callService, IMemoryCache cache)
         {
             _service = service;
             _cache = cache;
+            _callService = callService;
         }
 
         public async Task<IActionResult> Index(Guid projectGroupId)
@@ -143,7 +145,9 @@ namespace Noog_mvc.Controllers
         //Placeholder for functions
         public IActionResult Meeting()
         {
-            //TODO add function
+           
+            var callLink = _callService.StartCallAsync(ViewBag.ProjectGroupId);
+            ViewBag.CallLink = callLink; //maybe work?
             return View();
         }
         public IActionResult Chat()
