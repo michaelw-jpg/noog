@@ -20,6 +20,7 @@ namespace Noog_mvc
             builder.Services.AddScoped<RegisterUserService>();
             builder.Services.AddScoped<StorageService>();
             builder.Services.AddScoped<ProjectGroupService>();
+            builder.Services.AddScoped<CallService>();
 
             builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options =>

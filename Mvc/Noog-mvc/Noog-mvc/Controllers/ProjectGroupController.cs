@@ -25,15 +25,15 @@ namespace Noog_mvc.Controllers
 
         public async Task<IActionResult> Index(Guid projectGroupId)
         {
-            TopSectionViewModel vm2 = null;
             var response = await _service.GetProjectGroupDataById(projectGroupId);
+            
             var vm = new ProjectGroupViewModel
             {
                 TopSection = new TopSectionViewModel
                 {
-                    GroupName = vm2?.GroupName ?? "Project Alpha",
-                    GroupId = projectGroupId,
-                    GroupImg = vm2?.GroupImg ?? ""
+                    GroupId = response.ProjectGroup.GroupId,
+                    GroupName = response.ProjectGroup.GroupName,
+                    GroupImg = response.ProjectGroup.GroupImg
                 },
                 MeetingRoom = new MeetingRoomViewModel
                 {

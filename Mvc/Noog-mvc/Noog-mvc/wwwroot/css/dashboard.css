@@ -301,6 +301,8 @@ html, body {
 .project-icon {
     width: 35px;
     height: 35px;
+    aspect-ratio: 1 / 1;
+    border-radius: 100%;
     flex-shrink: 0;
 }
 .project-name {
