@@ -7,6 +7,7 @@ using Noog_api.DTOs.StreamIODtos;
 using Noog_api.Helpers;
 using Noog_api.Models;
 using Noog_api.Services;
+using Noog_api.Services.IServices;
 using StreamChat.Models;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -20,11 +21,16 @@ namespace Noog_api.Controllers
     {
         private readonly IConfiguration _configuration;
         private readonly StreamIOService _streamIOService;
+        private readonly ICurrentUserService _currentUserService;
+        private readonly IUserService<ApplicationUser> _userService;
 
-        public StreamIOController(IConfiguration configuration, StreamIOService streamIOService)
+        public StreamIOController(IConfiguration configuration, StreamIOService streamIOService, ICurrentUserService currentUserService, IUserService<ApplicationUser> userService)
         {
             _configuration = configuration;
             _streamIOService = streamIOService;
+            _currentUserService = currentUserService;
+            _userService = userService;
+
         }
 
         [HttpGet]
@@ -79,9 +85,23 @@ namespace Noog_api.Controllers
                 return BadRequest("User payload is missing.");
 
             // call service to create the user in Stream
-            var response = await _streamIOService.CreateStreamIOUser(user);
+            var streamUser = await _streamIOService.CreateStreamIOUser(user);
+
+            var response = new BaseResponseDto<StreamIOUserResponseDto>
+            {
+                StatusCode = Enums.StatusCodesEnum.Success,
+                Message = "StreamIO user created successfully",
+                Data = new StreamIOUserResponseDto
+                {
+                    Id = streamUser.Id,
+                    Name = streamUser.Name,
+                    Image = streamUser.UserImage,
+                    Token = streamUser.Token
+                }
+            };
 
             return ApiResponseHelper.ToActionResult<StreamIOUserResponseDto>(response);
+
         }
 
         private string GenerateStreamToken(string userId, string apiSecret)
@@ -103,6 +123,40 @@ namespace Noog_api.Controllers
             );
 
             return new JwtSecurityTokenHandler().WriteToken(token);
+        }
+
+        [HttpPost("calls/{callId}/join")]
+        public async Task<ActionResult<JoinCallDto>> JoinCall(Guid callId)
+        {
+            var userId = _currentUserService.UserId;
+
+            var user = await _userService.FindByIdAsync(userId);
+
+            if (Guid.Empty==callId)
+                return BadRequest("callId is required.");
+
+            if (user == null)
+                return BadRequest("User payload is missing.");
+
+            var streamApiSecret = _configuration["StreamIo:ApiSecret"];
+
+            string guidAsString = callId.ToString();
+
+            var streamToken = GenerateStreamToken(guidAsString, streamApiSecret);
+
+            // 1. Get or create StreamIO user
+            var streamUser = await _streamIOService.CreateStreamIOUser(user);
+
+            // 3. Return a DTO to frontend can use to join the call
+            var response = new JoinCallDto
+            {
+                callId = guidAsString,
+                userName = streamUser.Name,
+                image = streamUser.UserImage,
+                token = streamUser.Token,
+                apikey = _configuration["StreamIo:ApiKey"]
+            };
+            return Ok(response);
         }
     }
 }
