@@ -45,6 +45,10 @@ namespace Noog_mvc
                 });
      
 
+           builder.Services.AddHttpClient("ReactClient", client =>
+            {
+                client.BaseAddress = new Uri(builder.Configuration["ApiSettings:ReactUrl"]!);
+            });
 
 
             var app = builder.Build();

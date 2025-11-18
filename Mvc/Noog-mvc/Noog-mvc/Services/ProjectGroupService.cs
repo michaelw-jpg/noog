@@ -11,9 +11,9 @@ namespace Noog_mvc.Services
             _client = factory.CreateClient("NoogApi");
         }
 
-        public async Task<TopSectionViewModel> GetProjectGroupDataById(Guid id)
+        public async Task<ProjectGroupViewModel> GetProjectGroupDataById(Guid id)
         {
-            return await _client.GetFromJsonAsync<TopSectionViewModel>($"ProjectGroup/{id}");
+            return await _client.GetFromJsonAsync<ProjectGroupViewModel>($"ProjectGroup/{id}");
         }
 
         public async Task<bool> AddUserToProjectGroup(AddUserToProjectGroup model)
