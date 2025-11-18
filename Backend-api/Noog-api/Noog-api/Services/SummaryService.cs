@@ -1,17 +1,22 @@
 ﻿using Azure;
 using Noog_api.DTOs;
 using Noog_api.DTOs.BaseResponseDtos;
+using Noog_api.DTOs.RecentGroupActivity;
 using Noog_api.Mappers;
 using Noog_api.Models;
+using Noog_api.Models.Application.Enums;
 using Noog_api.Repositories.IRepositories;
 using Noog_api.Services.IServices;
 
 namespace Noog_api.Services
 {
-    public class SummaryService(ISummaryRepository repo) : ISummaryService
+    public class SummaryService(ISummaryRepository repo, IRecentGroupActivityService activityService,
+        IGroupStorageService groupStorage) : ISummaryService
     {
         private readonly ISummaryRepository _repo = repo;
-        
+        private readonly IRecentGroupActivityService _activityService = activityService;
+        private readonly IGroupStorageService _groupStorage = groupStorage;
+
 
         public async Task<BaseResponseDto<List<SummaryResponseDto>>> GetAllSummariesAsync()
         {
@@ -60,9 +65,9 @@ namespace Noog_api.Services
 
         }
 
-        public async Task<BaseResponseDto<SummaryResponseDto>> CreateSummaryAsync(CreateSummaryDto Request)
+        public async Task<BaseResponseDto<SummaryResponseDto>> CreateSummaryAsync(CreateSummaryDto request)
         {
-            if(string.IsNullOrWhiteSpace(Request.Title) || string.IsNullOrWhiteSpace(Request.Content))
+            if(string.IsNullOrWhiteSpace(request.Title) || string.IsNullOrWhiteSpace(request.Content))
             {
                 return new BaseResponseDto<SummaryResponseDto>
                 {
@@ -76,8 +81,9 @@ namespace Noog_api.Services
             var summary = new Summary();
             var response = new BaseResponseDto<SummaryResponseDto>();
            
+            
 
-            GenericMapper.ApplyCreate(summary, Request);
+            GenericMapper.ApplyCreate(summary, request);
             try
             {
                 await _repo.CreateSummaryAsync(summary);
@@ -90,10 +96,31 @@ namespace Noog_api.Services
                 return response;
             }
 
-            
+            try
+            {
+               
+                var activityDto = new CreateRecentSummaryRequest
+                {
+                    Title = $"New summary created: {summary.Title}",
+                    SourceType = SourceType.Storage,
+                    ProjectGroupId = request.ProjectGroupId,
+                };
+
+                await _activityService.AddNewActivityAsync(activityDto);
+            }
+            catch (Exception ex)
+            {
+                response.StatusCode = Enums.StatusCodesEnum.Created;
+                response.Message = "Summary created, but failed to create recent activity: " + ex.Message;
+                response.Data = GenericMapper.ToDto<Summary, SummaryResponseDto>(summary);
+                return response;
+            }
+           
+        
+
             response.Data = GenericMapper.ToDto<Summary, SummaryResponseDto>(summary);
             response.StatusCode = Enums.StatusCodesEnum.Created;
-            response.Message = "Summary created successfully";
+            response.Message = "Summary and recent activity created successfully ";
             
 
             return response;
