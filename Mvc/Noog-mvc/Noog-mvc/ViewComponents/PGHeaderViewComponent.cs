@@ -14,9 +14,15 @@ namespace Noog_mvc.ViewComponents
         {
             // Hopeful real code
             // Todo [Test if updates] - It might cache too good. And if so, remove the caching and let it 
-            if(!_cache.TryGetValue($"group-{projectGroupId}", out ProjectGroupViewModel groupData))
+            if(!_cache.TryGetValue($"group-{projectGroupId}", out TopSectionViewModel groupData))
             {
-                groupData = await _service.GetProjectGroupDataById(projectGroupId);
+                var response = await _service.GetProjectGroupDataById(projectGroupId);
+                groupData = new TopSectionViewModel
+                {
+                    GroupId = response.ProjectGroup.GroupId,
+                    GroupName = response.ProjectGroup.GroupName,
+                    GroupImg = response.ProjectGroup.GroupImg
+                };
                 _cache.Set($"group-{projectGroupId}", groupData, TimeSpan.FromMinutes(10));
             }
 
