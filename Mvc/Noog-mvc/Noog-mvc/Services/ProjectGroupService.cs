@@ -1,4 +1,7 @@
-﻿using Noog_mvc.Models.ProjectGroup;
+﻿using Newtonsoft.Json;
+using Noog_mvc.Models.ProjectGroup;
+using Noog_mvc.Models.ProjectGroup.Dtos;
+using System.Text;
 
 namespace Noog_mvc.Services
 {
@@ -19,6 +22,18 @@ namespace Noog_mvc.Services
         public async Task<bool> AddUserToProjectGroup(AddUserToProjectGroup model)
         {
             var response = await _client.PostAsJsonAsync("ProjectGroup/AddUser", model);
+            return response.IsSuccessStatusCode;
+        }
+
+        public async Task<bool> CreateGroupProject(ProjectGroupCreate model)
+        {
+            var jsonContent = new StringContent(
+                JsonConvert.SerializeObject(model),
+                Encoding.UTF8,
+                "application/json");
+
+            var response = await _client.PostAsync("ProjectGroup", jsonContent);
+
             return response.IsSuccessStatusCode;
         }
     }

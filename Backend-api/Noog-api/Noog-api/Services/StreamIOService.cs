@@ -1,5 +1,6 @@
 ﻿using Azure.Core;
 using Microsoft.AspNetCore.DataProtection;
+using Newtonsoft.Json.Linq;
 using Noog_api.DTOs.BaseResponseDtos;
 using Noog_api.DTOs.StreamIODtos;
 using Noog_api.Models;
@@ -20,10 +21,10 @@ namespace Noog_api.Services
             _StreamIOSecret = configuration["StreamIo:ApiSecret"];
             _StreamClientFactory = streamClientFactory;
         }
-
-        public async Task<BaseResponseDto<StreamIOUserResponseDto>> CreateStreamIOUser(ApplicationUser user)
+        //TODO: Maybe change name later 
+        public async Task<StreamIODTO> CreateStreamIOUser(ApplicationUser user)
         {
-            var streamIOUserDto = new StreamIODTO
+            var streamIODto = new StreamIODTO
             {
                 Id = user.Id.ToString(),
                 Name = $"{user.FirstName} {user.LastName}".Trim(),
@@ -36,36 +37,21 @@ namespace Noog_api.Services
             // request a new user obj 
             var request = new StreamIOUserRequest 
             {
-                Id = streamIOUserDto.Id,
-                Name = streamIOUserDto.Name,
+                Id = streamIODto.Id,
+                Name = streamIODto.Name,
                 Role = "User", //TODO: Lookin in to what kind of roles is in GET-STREAM IO
-                Image = streamIOUserDto.UserImage,
+                Image = streamIODto.UserImage,
             };
 
             //Create User based on request
             await userClient.UpsertAsync(request);
 
             //Create Token for user
-            var Token = userClient.CreateToken(request.Id, DateTimeOffset.UtcNow.AddDays(1));
+            var token = userClient.CreateToken(request.Id, DateTimeOffset.UtcNow.AddDays(1));
 
-            streamIOUserDto.Token = Token;
+            streamIODto.Token = token;
 
-            var response = new BaseResponseDto<StreamIOUserResponseDto>
-            {
-                StatusCode = Enums.StatusCodesEnum.Success,
-                Message = "StreamIO user created successfully",
-                Data = new StreamIOUserResponseDto
-                {
-                    Id = streamIOUserDto.Id,
-                    Name = streamIOUserDto.Name,
-                    Image = streamIOUserDto.UserImage,
-                    Token = streamIOUserDto.Token
-                }
-            };
-
-            return response;            
+            return streamIODto;
         }
-
-
     }
 }
