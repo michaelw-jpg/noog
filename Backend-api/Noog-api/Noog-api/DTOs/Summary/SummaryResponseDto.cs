@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Noog_api.DTOs
+namespace Noog_api.DTOs.Summary
 {
     public class SummaryResponseDto
     {

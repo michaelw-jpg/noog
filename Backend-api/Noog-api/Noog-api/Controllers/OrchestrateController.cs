@@ -1,8 +1,8 @@
 ﻿using Azure;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Noog_api.DTOs;
 using Noog_api.DTOs.BaseResponseDtos;
+using Noog_api.DTOs.Summary;
 using Noog_api.Helpers;
 using Noog_api.Services.IServices;
 
