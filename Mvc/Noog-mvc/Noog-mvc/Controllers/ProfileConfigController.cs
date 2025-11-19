@@ -5,11 +5,11 @@ using Noog_mvc.Models.User;
 
 namespace Noog_mvc.Controllers
 {
-    public class ProfileConfig : Controller
+    public class ProfileConfigController : Controller
     {
         private readonly ProfileConfigService _service;
 
-        public ProfileConfig( ProfileConfigService service)
+        public ProfileConfigController( ProfileConfigService service)
         {
             _service = service;
         }
