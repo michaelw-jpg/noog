@@ -1,4 +1,5 @@
-﻿using Noog_api.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using Noog_api.Data;
 using Noog_api.Models.Application;
 using Noog_api.Repositories.IRepositories;
 
@@ -16,7 +17,10 @@ namespace Noog_api.Repositories
 
         public async Task<GroupStorage?> GetGroupStorageByIdAsync(Guid id)
         {
-            var groupStorage = await _dbContext.GroupStorages.FindAsync(id);
+            var groupStorage = await _dbContext.GroupStorages
+                .Where(gs => gs.ProjectGroupId == id)
+                .FirstOrDefaultAsync();
+
             return groupStorage;
         }
     }

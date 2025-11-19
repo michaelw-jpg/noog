@@ -1,6 +1,6 @@
 ﻿namespace Noog_api.Enums
 {
-    enum LanguagesSupport
+    public enum LanguagesSupport
     {
         en, //Global English
         en_au, //Australian English

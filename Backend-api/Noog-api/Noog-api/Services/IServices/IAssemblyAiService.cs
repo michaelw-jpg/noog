@@ -1,4 +1,5 @@
-﻿using Noog_api.Models.AssemblyAi;
+﻿using Noog_api.Enums;
+using Noog_api.Models.AssemblyAi;
 
 namespace Noog_api.Services.IServices
 {
@@ -7,6 +8,6 @@ namespace Noog_api.Services.IServices
         Task<String> UploadFileAsync(string fileUrl);
         Task<Transcript> CreateTranscriptAsync(string audioUrl, string? language = null);
         Task<Transcript> WaitForTranscriptToProcess(Transcript transcript);
-        string? GetLanguageCode(string requestedLanguage);
+        LanguagesSupport? GetLanguageCode(string requestedLanguage);
     }
 }
