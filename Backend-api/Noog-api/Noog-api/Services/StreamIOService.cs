@@ -26,7 +26,7 @@ namespace Noog_api.Services
         {
             var streamIODto = new StreamIODTO
             {
-                Id = user.Id.ToString(),
+                Id = user.Id.ToString(), 
                 Name = $"{user.FirstName} {user.LastName}".Trim(),
                 UserImage = user.ImgProfile ?? "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcStltpfa69E9JTQOf5ZcyLGR8meBbxMFJxM0w&s"
             };
@@ -39,7 +39,7 @@ namespace Noog_api.Services
             {
                 Id = streamIODto.Id,
                 Name = streamIODto.Name,
-                //TODO: Lookin in to what kind of roles is in GET-STREAM IO
+                Role = "user", 
                 Image = streamIODto.UserImage,
             };
 
