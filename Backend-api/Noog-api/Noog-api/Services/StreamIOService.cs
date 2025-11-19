@@ -39,7 +39,7 @@ namespace Noog_api.Services
             {
                 Id = streamIODto.Id,
                 Name = streamIODto.Name,
-                Role = "user", //TODO: Lookin in to what kind of roles is in GET-STREAM IO
+                Role = "user", 
                 Image = streamIODto.UserImage,
             };
 

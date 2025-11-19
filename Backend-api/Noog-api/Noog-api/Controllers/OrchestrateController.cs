@@ -16,7 +16,7 @@ namespace Noog_api.Controllers
 
 
         [HttpGet]
-        public async Task<ActionResult<SummaryResponseDto>> Orchestrate(string audioUrl,Guid projectGroupId, string? language = null)
+        public async Task<ActionResult<SummaryResponseDto>> Orchestrate(string audioUrl,Guid projectGroupId, string? language)
            
         {
             if (string.IsNullOrWhiteSpace(audioUrl))
