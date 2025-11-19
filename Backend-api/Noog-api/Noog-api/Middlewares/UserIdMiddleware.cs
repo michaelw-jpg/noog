@@ -20,7 +20,8 @@ namespace Noog_api.Middlewares
             var excludedPaths = new List<string>
             {
                 "/api/auth/login",
-                "/api/auth/register"
+                "/api/auth/register",
+                "/api/orchestrate"
             };
             if (excludedPaths.Any(path => requestedPathFromContext.StartsWith(path)))
             {

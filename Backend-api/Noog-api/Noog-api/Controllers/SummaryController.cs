@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Noog_api.DTOs;
 using Noog_api.DTOs.BaseResponseDtos;
+using Noog_api.DTOs.Summary;
 using Noog_api.Helpers;
 using Noog_api.Services.IServices;
 
@@ -35,7 +35,7 @@ namespace Noog_api.Controllers
 
         // POST api/<SummaryController>
         [HttpPost]
-        public async Task <ActionResult<SummaryResponseDto>> Post([FromBody] CreateSummaryDto request)
+        public async Task <ActionResult<SummaryResponseDto>> Post([FromBody] CreateSummaryRequestDto request)
         {
             var response = await _summaryService.CreateSummaryAsync(request);
             return ApiResponseHelper.ToActionResult(response);

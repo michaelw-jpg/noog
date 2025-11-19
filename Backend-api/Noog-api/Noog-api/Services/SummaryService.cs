@@ -1,7 +1,7 @@
 ﻿using Azure;
-using Noog_api.DTOs;
 using Noog_api.DTOs.BaseResponseDtos;
 using Noog_api.DTOs.RecentGroupActivity;
+using Noog_api.DTOs.Summary;
 using Noog_api.Mappers;
 using Noog_api.Models;
 using Noog_api.Models.Application.Enums;
@@ -65,7 +65,7 @@ namespace Noog_api.Services
 
         }
 
-        public async Task<BaseResponseDto<SummaryResponseDto>> CreateSummaryAsync(CreateSummaryDto request)
+        public async Task<BaseResponseDto<SummaryResponseDto>> CreateSummaryAsync(CreateSummaryRequestDto request)
         {
             if(string.IsNullOrWhiteSpace(request.Title) || string.IsNullOrWhiteSpace(request.Content))
             {
@@ -80,10 +80,17 @@ namespace Noog_api.Services
 
             var summary = new Summary();
             var response = new BaseResponseDto<SummaryResponseDto>();
-           
-            
+            var groupStorage = await _groupStorage.GetGroupStorageById(request.ProjectGroupId);
+            var SummaryCreate = new CreateSummaryDto
+            {
+                Title = request.Title,
+                Content = request.Content,
+                GroupStorageId = groupStorage.Id
+            };
 
-            GenericMapper.ApplyCreate(summary, request);
+
+
+            GenericMapper.ApplyCreate(summary, SummaryCreate);
             try
             {
                 await _repo.CreateSummaryAsync(summary);

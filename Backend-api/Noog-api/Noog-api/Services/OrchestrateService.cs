@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
-using Noog_api.DTOs;
 using Noog_api.DTOs.BaseResponseDtos;
+using Noog_api.DTOs.Summary;
 using Noog_api.Enums;
 using Noog_api.Models.AssemblyAi;
 using Noog_api.Services.IServices;
@@ -57,7 +57,7 @@ namespace Noog_api.Services
 
             }
 
-            var createSummaryDto = new CreateSummaryDto
+            var createSummaryDto = new CreateSummaryRequestDto
             {
                 Title = "Auto-generated Summary", //need to ask ai for a title later
                 Content = openAiResponse.Data.Message,

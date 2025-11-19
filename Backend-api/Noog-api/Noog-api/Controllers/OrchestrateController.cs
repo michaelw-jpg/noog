@@ -1,8 +1,8 @@
 ﻿using Azure;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Noog_api.DTOs;
 using Noog_api.DTOs.BaseResponseDtos;
+using Noog_api.DTOs.Summary;
 using Noog_api.Helpers;
 using Noog_api.Services.IServices;
 
@@ -15,7 +15,7 @@ namespace Noog_api.Controllers
         private readonly IOrchestrateService _orchestrate = orchestrate;
 
 
-        [HttpGet("orchestrate")]
+        [HttpGet]
         public async Task<ActionResult<SummaryResponseDto>> Orchestrate(string audioUrl,Guid projectGroupId, string? language = null)
            
         {
