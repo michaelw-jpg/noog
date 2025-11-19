@@ -18,12 +18,15 @@ namespace Noog_api.Services
         private readonly ISummaryService _summaryService = summaryService;
 
 
-        public async Task<BaseResponseDto<SummaryResponseDto>> OrchestrateAsync(string audioUrl,  Guid projectGroupId,
-            string? language = "swedish", PromptType? type = PromptType.MeetingSummary )
-            
+        public async Task<BaseResponseDto<SummaryResponseDto>> OrchestrateAsync(string audioUrl, Guid projectGroupId,
+            string? language, PromptType? type)           
         {
             if (string.IsNullOrWhiteSpace(audioUrl))
                 throw new ArgumentException("Audio URL cannot be empty.", nameof(audioUrl));
+
+            language ??= "swedish";
+            type ??= PromptType.MeetingSummary;
+
             // Step 1: Upload the audio file to AssemblyAI
             string uploadedUrl = await _assemblyService.UploadFileAsync(audioUrl);
             // Step 2: Create a transcript request
@@ -47,7 +50,7 @@ namespace Noog_api.Services
 
 
             // Step 4: Get summary from OpenAI          
-            var openAiResponse = await _openAiService.GetChatResponseAsync(type.Value,completedTranscript.Text);
+            var openAiResponse = await _openAiService.GetChatResponseAsync(type.Value,completedTranscript.Text, language);
 
             if(openAiResponse.StatusCode != StatusCodesEnum.Success)
             {

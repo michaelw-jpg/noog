@@ -1,10 +1,11 @@
-﻿using System.Net.Http;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Noog_api.Enums;
+using Noog_api.Models.AssemblyAi;
+using Noog_api.Services.IServices;
+using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
-using Noog_api.Models.AssemblyAi;
-using Noog_api.Services.IServices;
-using Noog_api.Enums;
 namespace Noog_api.Services
 {
     public class AssemblyAiService : IAssemblyAiService
@@ -49,14 +50,14 @@ namespace Noog_api.Services
             }
         }
 
-        public async Task<Transcript> CreateTranscriptAsync(string audioUrl, string? language = null)
+        public async Task<Transcript> CreateTranscriptAsync(string audioUrl, string? language)
         {
             var languageCode = GetLanguageCode(language);
             
             var data = new
             {
                 audio_url = audioUrl,
-                language_code = languageCode
+                language_code = languageCode.ToString()
             };
             
             var content = new StringContent(JsonSerializer.Serialize(data), Encoding.UTF8, "application/json");
@@ -123,17 +124,15 @@ namespace Noog_api.Services
 
         // Returns language model to transcribe in the requested language
         //Note: Universal model is unreliable and 
-        public string? GetLanguageCode(string requestedLanguage)
+        public LanguagesSupport? GetLanguageCode(string requestedLanguage)
         {
             if (string.IsNullOrWhiteSpace(requestedLanguage) || requestedLanguage.Equals("auto", StringComparison.OrdinalIgnoreCase))
                 return null; // Universal model
-
-
             var key = requestedLanguage.ToLower().Trim();
 
             return LanguageMap.TryGetValue(key, out var language)
-                ? key.ToString()
-                : null;
+                ? language      
+                : null;         
         }
     }
 }

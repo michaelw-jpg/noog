@@ -56,7 +56,7 @@ namespace Noog_api.Services
             return result;
         }
         //Change transcript id to the audio from assemblyAi and add input of Transcript class
-        public async Task<BaseResponseDto<OpenAIResponseDto>> GetChatResponseAsync(PromptType type, string transcript)
+        public async Task<BaseResponseDto<OpenAIResponseDto>> GetChatResponseAsync(PromptType type, string transcript, string language)
         {
             
             if (!Prompts.TryGetValue(type, out var template))
@@ -65,11 +65,12 @@ namespace Noog_api.Services
             }
             
 
-            string finalPrompt = "Context: You are an assistant transcribing a voice call according to the transcript provided.";
+            string finalPrompt = transcript;
 
             var chatClient = _client.GetChatClient(_deployment);
 
-            var system = $"Context: You are an assistant transcribing a voice call according to the transcript provided. :{type.ToString()}";
+            var system = $"Context: You are an assistant transcribing a voice call according to the transcript provided with the following style:{type.ToString()} " +
+                $"In the following Language: {language}";
             var chatHistory = new List<ChatMessage>
             {
                 new SystemChatMessage(system),
