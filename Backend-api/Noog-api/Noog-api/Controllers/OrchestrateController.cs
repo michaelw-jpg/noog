@@ -15,7 +15,7 @@ namespace Noog_api.Controllers
         private readonly IOrchestrateService _orchestrate = orchestrate;
 
 
-        [HttpGet("orchestrate")]
+        [HttpGet]
         public async Task<ActionResult<SummaryResponseDto>> Orchestrate(string audioUrl,Guid projectGroupId, string? language = null)
            
         {
