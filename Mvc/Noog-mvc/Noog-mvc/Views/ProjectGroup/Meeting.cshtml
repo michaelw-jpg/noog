@@ -23,7 +23,7 @@
     @if (!string.IsNullOrEmpty(link))
     {
         <script>
-            window.open('@link', '_blank'); // opens in a new tab/window
+            window.open('@System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(link)', '_blank'); // opens in a new tab/window
         </script>
     }
 </article>
