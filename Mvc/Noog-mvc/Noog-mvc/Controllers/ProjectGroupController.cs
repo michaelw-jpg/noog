@@ -143,10 +143,10 @@ namespace Noog_mvc.Controllers
         }
 
         //Placeholder for functions
-        public IActionResult Meeting()
+        public async Task<IActionResult> Meeting()
         {
            
-            var callLink = _callService.StartCallAsync(ViewBag.ProjectGroupId);
+            var callLink = await _callService.StartCallAsync(ViewBag.ProjectGroupId);
             ViewBag.CallLink = callLink; //maybe work?
             return View();
         }

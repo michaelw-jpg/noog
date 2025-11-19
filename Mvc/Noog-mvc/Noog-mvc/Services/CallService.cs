@@ -1,4 +1,6 @@
-﻿namespace Noog_mvc.Services
+﻿using Noog_mvc.Models.ProjectGroup.Dtos;
+
+namespace Noog_mvc.Services
 {
     public class CallService
     {
@@ -7,24 +9,25 @@
 
         public CallService(IHttpClientFactory factory, ProjectGroupService groupService)
         {
-            _client = factory.CreateClient("BaseUrl");
+            _client = factory.CreateClient("NoogApi");
             _groupService = groupService;
 
         }
 
-        public async Task<string> StartCallAsync(Guid ProjectGroupId)
+        public async Task<string> StartCallAsync(Guid projectGroupId)
         {
-            var result = await _groupService.GetProjectGroupDataById(ProjectGroupId);
-            var callid = result.MeetingRoom.CallId;
+           
+            
 
-            var reactResponse = await _client.PostAsJsonAsync($"streamio/calls/{callid}/join", callid);
-            if (!reactResponse.IsSuccessStatusCode)
+            var response = await _client.PostAsJsonAsync($"streamio/calls/{projectGroupId}/join", projectGroupId);
+            if (!response.IsSuccessStatusCode)
             {
                 throw new Exception("Failed to start call.");
             }
-            var joinLink = await reactResponse.Content.ReadFromJsonAsync<string>();
+
+            var content = await response.Content.ReadFromJsonAsync<JoinCallDto>();
             //open newn window with joinlink
-            return joinLink;
+            return content.joinUrl;
         }
     }
 }
