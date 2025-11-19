@@ -126,14 +126,14 @@ namespace Noog_api.Controllers
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
-        [HttpPost("calls/{groupProjectId}/join")]
-        public async Task<ActionResult<JoinCallDto>> JoinCall(Guid groupProjectId)
+        [HttpPost("calls/{projectGroupId}/join")]
+        public async Task<ActionResult<JoinCallDto>> JoinCall(Guid projectGroupId)
         {
             var userId = _currentUserService.UserId;
 
             var user = await _userService.FindByIdAsync(userId);
 
-            if (Guid.Empty == groupProjectId)
+            if (Guid.Empty == projectGroupId)
                 return BadRequest("callId is required.");
 
             if (user == null)
@@ -141,7 +141,7 @@ namespace Noog_api.Controllers
 
             var streamApiSecret = _configuration["StreamIo:ApiSecret"];
 
-            string callId = groupProjectId.ToString();
+            string callId = projectGroupId.ToString();
 
             var streamToken = GenerateStreamToken(callId, streamApiSecret);
 
