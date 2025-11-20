@@ -5,16 +5,18 @@ using Microsoft.AspNetCore.Mvc;
 using Noog_mvc.Models.Login;
 using Noog_mvc.Models.Register;
 using Noog_mvc.Services;
+using Noog_mvc.Services.AuthService;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 
 namespace Noog_mvc.Controllers
 {
-    public class AccountController( LoginService loginService, RegisterUserService regiserService) : Controller
+    public class AccountController( LoginService loginService, RegisterUserService regiserService, LogoutService logoutService) : Controller
     {
        
         LoginService _loginService = loginService;
         RegisterUserService _registerService = regiserService;
+        LogoutService _logoutService = logoutService;
 
         // GET: LoginController
         public ActionResult Login()
@@ -130,7 +132,14 @@ namespace Noog_mvc.Controllers
 
             return View(model);
         }
-    }
+        [HttpPost]
+        public async Task<IActionResult> Logout()
+        {
+            var result = await _logoutService.LogoutAsync();
 
-   
+            return RedirectToAction("Login");
+
+        }
+    }
+ 
 }
