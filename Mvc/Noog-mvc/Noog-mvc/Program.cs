@@ -14,7 +14,7 @@ namespace Noog_mvc
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
-
+            builder.Services.AddTransient<DelegatingHandlerWithJwt>();
             builder.Services.AddScoped<DashboardService>();
             builder.Services.AddScoped<LoginService>();
             builder.Services.AddScoped<RegisterUserService>();
@@ -39,11 +39,7 @@ namespace Noog_mvc
             {
                 client.BaseAddress = new Uri(builder.Configuration["ApiSettings:BaseUrl"]!);
             })
-                .AddHttpMessageHandler(provider =>
-                {
-                    var httpContextAccessor = provider.GetRequiredService<IHttpContextAccessor>();
-                    return new DelegatingHandlerWithJwt(httpContextAccessor);
-                });
+                .AddHttpMessageHandler<DelegatingHandlerWithJwt>();
      
 
            builder.Services.AddHttpClient("ReactClient", client =>

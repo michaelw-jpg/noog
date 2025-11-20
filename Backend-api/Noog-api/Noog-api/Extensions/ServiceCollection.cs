@@ -38,17 +38,21 @@ namespace Noog_api.Extensions
                     OnMessageReceived = ctx =>
                     {
                         Console.WriteLine($"COOKIE RECEIVED? {ctx.Request.Cookies.ContainsKey(cookieName)}");
-                        
 
-
-                        if (string.IsNullOrEmpty(ctx.Token) &&
-                            ctx.Request.Cookies.TryGetValue(cookieName, out var token) &&
-                            !string.IsNullOrWhiteSpace(token))
-
+                        // This will log the header token if present
+                        if (ctx.Request.Headers.TryGetValue("Authorization", out var authHeader))
                         {
-                            ctx.Token = token;
-                            Console.WriteLine($"TOKEN BEFORE PARSE: {token}");
+                            Console.WriteLine($"Authorization header token: {authHeader}");
                         }
+
+                        //if (string.IsNullOrEmpty(ctx.Token) &&
+                        //    ctx.Request.Cookies.TryGetValue(cookieName, out var token) &&
+                        //    !string.IsNullOrWhiteSpace(token))
+
+                        //{
+                        //    ctx.Token = token;
+                        //    Console.WriteLine($"TOKEN BEFORE PARSE: {token}");
+                        //}
                         return Task.CompletedTask;
                     }
                 };

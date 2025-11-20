@@ -22,8 +22,9 @@ namespace Noog_api.Services.Dashboard
 
         public async Task<BaseResponseDto<DashboardDataResponseDto>> GetDashboardDataAsync()
         {
+            var userID = _currentUserService.UserId;
             var recentActivities = await _groupActivityService.GetTopThreeLatestActivitesAsync();
-            var userInfo = await _userService.FindByIdAsync(_currentUserService.UserId);
+            var userInfo = await _userService.FindByIdAsync(userID);
 
             var response = new BaseResponseDto<DashboardDataResponseDto>();
 

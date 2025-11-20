@@ -25,7 +25,7 @@ namespace Noog_mvc.ViewComponents
             if (!_cache.TryGetValue("sidebar-projects", out IEnumerable<ProjectGroupDto> groups))
             {
                 groups = await _service.GetUserProjectGroupsAsync();
-                _cache.Set("sidebar-projects", groups, TimeSpan.FromMinutes(10));
+                //_cache.Set("sidebar-projects", groups, TimeSpan.FromMinutes(10));
             }
 
             // Force the ViewComponent to re-render even when cache hit
