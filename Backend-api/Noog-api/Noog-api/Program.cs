@@ -78,8 +78,7 @@ namespace Noog_api
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
-            builder.Services.AddDbContext<NoogDbContext>(options => 
-                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+        
 
             builder.Services.AddScoped<IOpenAiService, OpenAiService>();
             builder.Services.AddScoped<IOpenAiPromptService, OpenAiPromptService>();
@@ -133,7 +132,7 @@ namespace Noog_api
 
             app.UseAuthorization();
 
-            app.UseMiddleware<UserIdMiddleware>();
+            //app.UseMiddleware<UserIdMiddleware>();
 
             app.MapIdentityApi<ApplicationUser>();
             app.MapControllers();

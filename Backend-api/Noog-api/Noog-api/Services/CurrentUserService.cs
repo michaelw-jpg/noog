@@ -11,21 +11,23 @@ namespace Noog_api.Services
         {
             _httpContextAccessor = httpContextAccessor;
         }
-        public Guid UserId { get; set; }
-
-        public void SetUserId()
+        public Guid UserId
         {
-            var claim = _httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            if(claim != null)
+            get
             {
-                UserId = Guid.Parse(claim);
-            }
-            else
-            {
-                throw new Exception("Invalid User ID in token.");
-            }
+                var claim = _httpContextAccessor.HttpContext?.User
+                    .FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
+                if (claim != null && Guid.TryParse(claim, out var userId))
+                {
+                    return userId;
+                }
+
+                throw new UnauthorizedAccessException("User is not authenticated.");
+            }
         }
+
+      
 
     }
 }
