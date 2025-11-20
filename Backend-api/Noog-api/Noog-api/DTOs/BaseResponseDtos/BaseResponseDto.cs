@@ -2,7 +2,7 @@
 
 namespace Noog_api.DTOs.BaseResponseDtos
 {
-    public class BaseResponseDto <T>
+    public class BaseResponseDto<T>
     {
         public StatusCodesEnum StatusCode { get; set; }
         public string Message { get; set; } = string.Empty;

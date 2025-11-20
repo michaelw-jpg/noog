@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Noog_api.DTOs
+namespace Noog_api.DTOs.Summary
 {
     public class PatchSummaryDto
     {

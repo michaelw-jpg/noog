@@ -20,5 +20,12 @@ namespace Noog_api.Repositories
                 .ToListAsync();
             return result;
         }
+
+        public async Task<RecentGroupActivity> AddRecentGroupActivityAsync(RecentGroupActivity activity)
+        {
+            await _context.RecentGroupActivities.AddAsync(activity);
+            await _context.SaveChangesAsync();
+            return activity;
+        }
     }
 }

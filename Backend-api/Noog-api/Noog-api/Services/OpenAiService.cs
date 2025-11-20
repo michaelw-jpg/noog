@@ -56,19 +56,21 @@ namespace Noog_api.Services
             return result;
         }
         //Change transcript id to the audio from assemblyAi and add input of Transcript class
-        public async Task<BaseResponseDto<OpenAIResponseDto>> GetChatResponseAsync(PromptType type)
+        public async Task<BaseResponseDto<OpenAIResponseDto>> GetChatResponseAsync(PromptType type, string transcript, string language)
         {
-            string transcript = "generate a random meeting transcript for 1000 words";
+            
             if (!Prompts.TryGetValue(type, out var template))
             {
                 throw new ArgumentException($"No prompt found for {type}");
             }
+            
 
-            string finalPrompt = template.Replace("{transcript}", transcript);
+            string finalPrompt = transcript;
 
             var chatClient = _client.GetChatClient(_deployment);
 
-            var system = "You are a helpfull assistant be clear and concise. ";
+            var system = $"Context: You are an assistant transcribing a voice call according to the transcript provided with the following style:{type.ToString()} " +
+                $"In the following Language: {language}";
             var chatHistory = new List<ChatMessage>
             {
                 new SystemChatMessage(system),

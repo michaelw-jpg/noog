@@ -7,14 +7,13 @@
 }
 
 <article style="align-content: center">
-    <h1 style="color: white; ">Meeting Page is under construction</h1>
-    <h3 style="color: white">Meeting Page is under construction</h3>
-    <p style="color: white">If it was constructed it would probably be in React anyway</p>
+    <h1 style="color: white; ">Meeting underway</h1>
+    <h3 style="color: white">Connecting to meeting...</h3>
     <button>
         <a  asp-action="Index" 
             asp-controller="ProjectGroup" 
             asp-route-projectGroupId="@ViewBag.ProjectGroupId">
-                Go back
+                Return to dashboard
         </a>
     </button>
     @{
@@ -24,7 +23,7 @@
     @if (!string.IsNullOrEmpty(link))
     {
         <script>
-            window.open('@link', '_blank'); // opens in a new tab/window
+            window.open('@System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(link)', '_blank'); // opens in a new tab/window
         </script>
     }
 </article>

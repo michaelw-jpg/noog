@@ -9,6 +9,6 @@ namespace Noog_api.Services.IServices
     {
         Task<BaseResponseDto<OpenAIResponseDto>> GetChatResponseAsync(string prompt);
         //Add Transcript class input
-        Task<BaseResponseDto<OpenAIResponseDto>> GetChatResponseAsync(PromptType type);
+        Task<BaseResponseDto<OpenAIResponseDto>> GetChatResponseAsync(PromptType type, string transcript, string language);
     }
 }

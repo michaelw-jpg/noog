@@ -96,6 +96,8 @@ namespace Noog_api
             builder.Services.AddScoped<IRecentGroupActivityRepo, RecentGroupActivityRepo>();
             builder.Services.AddScoped<IProjectGroupService, ProjectGroupService>();
             builder.Services.AddScoped<IProjectGroupRepository, ProjectGroupRepository>();
+            builder.Services.AddScoped<IOrchestrateService, OrchestrateService>();
+            builder.Services.AddScoped<IAssemblyAiService, AssemblyAiService>();
 
             builder.Services.AddScoped<IGroupMeetingService, GroupMeetingService>();
             builder.Services.AddScoped<IGroupMeetingRepo, GroupMeetingRepo>();

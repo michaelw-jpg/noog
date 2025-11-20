@@ -1,5 +1,5 @@
 ﻿@using Noog_mvc.Models.ProjectGroup
-@model ProjectGroupViewModel
+@model TopSectionViewModel
 
 @{
     // This ensures the top section knows which group is currently being viewed
@@ -8,7 +8,7 @@
 
 <section>
     <article class="pg-header" href="@Url.Action("Index", "ProjectGroup", new { projectGroupId = currentGroupId })">
-        <h1 class="pg-title">@Model?.TopSection.GroupName</h1>
+        <h1 class="pg-title">@Model?.GroupName</h1>
         <button >
             <a asp-action="AddUser" 
                asp-controller="ProjectGroup" 
@@ -18,9 +18,9 @@
                Add User
 			</a>
         </button>
-        @if (!string.IsNullOrWhiteSpace(Model?.TopSection.GroupImg))
+        @if (!string.IsNullOrWhiteSpace(Model?.GroupImg))
         {
-            <img src="@Model.TopSection.GroupImg" alt="@Model.TopSection.GroupName logo" class="pg-call-icon" />
+            <img src="@Model.GroupImg" alt="@Model.GroupName logo" class="pg-call-icon" />
         }
         else
         {

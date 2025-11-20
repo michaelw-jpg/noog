@@ -25,15 +25,15 @@ namespace Noog_mvc.Controllers
 
         public async Task<IActionResult> Index(Guid projectGroupId)
         {
-            TopSectionViewModel vm2 = null;
             var response = await _service.GetProjectGroupDataById(projectGroupId);
+            
             var vm = new ProjectGroupViewModel
             {
                 TopSection = new TopSectionViewModel
                 {
-                    GroupName = vm2?.GroupName ?? "Project Alpha",
-                    GroupId = projectGroupId,
-                    GroupImg = vm2?.GroupImg ?? ""
+                    GroupId = response.ProjectGroup.GroupId,
+                    GroupName = response.ProjectGroup.GroupName,
+                    GroupImg = response.ProjectGroup.GroupImg
                 },
                 MeetingRoom = new MeetingRoomViewModel
                 {
@@ -143,10 +143,10 @@ namespace Noog_mvc.Controllers
         }
 
         //Placeholder for functions
-        public IActionResult Meeting()
+        public async Task<IActionResult> Meeting()
         {
            
-            var callLink = _callService.StartCallAsync(ViewBag.ProjectGroupId);
+            var callLink = await _callService.StartCallAsync(ViewBag.ProjectGroupId);
             ViewBag.CallLink = callLink; //maybe work?
             return View();
         }
