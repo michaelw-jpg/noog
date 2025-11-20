@@ -2,7 +2,7 @@
 using Noog_mvc.Models.Login;
 using System.Security.Claims;
 
-namespace Noog_mvc.Services
+namespace Noog_mvc.Services.AuthService
 {
     public class LoginService
     {
