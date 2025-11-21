@@ -1,0 +1,57 @@
+﻿<div id="cookie-banner" class="cookie-banner" style="display: none">
+    <p>
+        We use cookies to improve your experience.
+        Necessary cookies are always active, and analytics cookies help us understand site usage.
+        <a asp-controller="Home" asp-action="Privacy">Learn more</a>
+    </p>
+    <button id="accept-analytics">Accept analytics cookies</button>
+    <button id="decline-analytics">Decline</button>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const banner = document.getElementById('cookie-banner');
+        const consent = localStorage.getItem('analyticsConsent');
+
+        let analyticsLoaded = false;
+
+        // If user hasn't made a choice yet, show the banner
+        if (consent === null) {
+            banner.style.display = 'block';
+        }
+        // If user already has accepted, load analytics
+        if (consent === 'accepted') {
+            loadAnalytics();
+        }
+
+        // If accepted, set the choice made in local storage, don't display the banner and load analytics
+        document.getElementById('accept-analytics').onclick = function () {
+            localStorage.setItem('analyticsConsent', 'accepted');
+            banner.style.display = 'none';
+            loadAnalytics();
+        };
+
+        // If declined, set the choice made in local storage, don't display the banner
+        document.getElementById('decline-analytics').onclick = function () {
+            localStorage.setItem('analyticsConsent', 'declined');
+            banner.style.display = 'none';
+        };
+
+        function loadAnalytics() {
+
+            if (analyticsLoaded) return;
+            analyticsLoaded = true;
+            // Creates a script tag and appends it in the _layout.cshtml head section
+            const script = document.createElement('script');
+            script.src = 'https://www.googletagmanager.com/gtag/js?id=G-12ZY607JL3';
+            script.async = true;
+            document.head.appendChild(script);
+
+            // The google analytics Google tag configuration
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-12ZY607JL3');
+        };
+    });
+</script>

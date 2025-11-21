@@ -10,7 +10,7 @@ namespace Noog_api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    // [Authorize]
+    //[Authorize]
     // TODO - Reenable when a user can log in through mvc
     public class DashboardController : ControllerBase
     {
@@ -25,6 +25,7 @@ namespace Noog_api.Controllers
         [HttpGet]
         public async Task<ActionResult<DashboardDataResponseDto>> GetDashboardData()
         {
+            Console.WriteLine(HttpContext.User.Identity.Name);
             var response = await _dashboardService.GetDashboardDataAsync();
 
             return ApiResponseHelper.ToActionResult(response);

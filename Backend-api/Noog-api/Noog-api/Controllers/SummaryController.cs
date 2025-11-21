@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Noog_api.DTOs;
 using Noog_api.DTOs.BaseResponseDtos;
+using Noog_api.DTOs.Summary;
 using Noog_api.Helpers;
 using Noog_api.Services.IServices;
 
@@ -15,37 +15,29 @@ namespace Noog_api.Controllers
     {
        private readonly ISummaryService _summaryService = summaryService;
 
-        // GET: api/<SummaryController>
-        [HttpGet]
-        public async Task <ActionResult<List<SummaryResponseDto>>> GetAllSummeries()
+        // GET: /summary/projectgroup/{pgId}
+        [HttpGet("projectgroup/{pgId}")]
+        public async Task <ActionResult<List<SummaryResponseDto>>> GetAllSummaries(string pgId)
         {
-            var response = await _summaryService.GetAllSummariesAsync();
+            var response = await _summaryService.GetAllSummariesAsync(pgId);
 
             return ApiResponseHelper.ToActionResult(response);
 
         }
 
-        // GET api/<SummaryController>/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<SummaryResponseDto>> GetByID(int id)
+        // GET: /summary/{id}/projectgroup/{pgId}
+        [HttpGet("{id}/projectgroup/{pgId}")]
+        public async Task<ActionResult<SummaryResponseDto>> GetByID(int id, string pgId)
         {
-            var response = await _summaryService.GetSummaryByIdAsync(id);
+            var response = await _summaryService.GetSummaryByIdAsync(id, pgId);
             return ApiResponseHelper.ToActionResult(response);
         }
 
         // POST api/<SummaryController>
         [HttpPost]
-        public async Task <ActionResult<SummaryResponseDto>> Post([FromBody] CreateSummaryDto request)
+        public async Task <ActionResult<SummaryResponseDto>> Post([FromBody] CreateSummaryRequestDto request)
         {
             var response = await _summaryService.CreateSummaryAsync(request);
-            return ApiResponseHelper.ToActionResult(response);
-        }
-
-        // PUT api/<SummaryController>/5
-        [HttpPatch("{id}")]
-        public async Task <ActionResult<SummaryResponseDto>> Patch(int id, [FromBody] PatchSummaryDto request)
-        {
-            var response = await _summaryService.UpdateSummaryAsync(id, request);
             return ApiResponseHelper.ToActionResult(response);
         }
 
@@ -55,9 +47,6 @@ namespace Noog_api.Controllers
         {
             var response = await _summaryService.DeleteSummaryAsync(id);
             return ApiResponseHelper.ToActionResult(response);
-            {
-
-            }
         }
     }
 }

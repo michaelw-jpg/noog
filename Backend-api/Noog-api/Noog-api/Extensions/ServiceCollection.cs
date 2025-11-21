@@ -29,7 +29,7 @@ namespace Noog_api.Extensions
                     ValidateAudience = true,
                     ValidateIssuerSigningKey = true,
                     ValidateLifetime = true,
-                    ClockSkew = TimeSpan.FromMinutes(3),
+                    ClockSkew = TimeSpan.FromMinutes(5),
                     RoleClaimType = ClaimTypes.Role
                 };
 
@@ -37,12 +37,22 @@ namespace Noog_api.Extensions
                 {
                     OnMessageReceived = ctx =>
                     {
-                        if (string.IsNullOrEmpty(ctx.Token) &&
-                            ctx.Request.Cookies.TryGetValue(cookieName, out var token) &&
-                            !string.IsNullOrWhiteSpace(token))
+                        Console.WriteLine($"COOKIE RECEIVED? {ctx.Request.Cookies.ContainsKey(cookieName)}");
+
+                        // This will log the header token if present
+                        if (ctx.Request.Headers.TryGetValue("Authorization", out var authHeader))
                         {
-                            ctx.Token = token;
+                            Console.WriteLine($"Authorization header token: {authHeader}");
                         }
+
+                        //if (string.IsNullOrEmpty(ctx.Token) &&
+                        //    ctx.Request.Cookies.TryGetValue(cookieName, out var token) &&
+                        //    !string.IsNullOrWhiteSpace(token))
+
+                        //{
+                        //    ctx.Token = token;
+                        //    Console.WriteLine($"TOKEN BEFORE PARSE: {token}");
+                        //}
                         return Task.CompletedTask;
                     }
                 };

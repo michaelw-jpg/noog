@@ -4,97 +4,83 @@ using Noog_api.DTOs;
 using Noog_api.DTOs.BaseResponseDtos;
 using Noog_api.DTOs.Dashboard;
 using Noog_api.Mappers;
+using Noog_api.Models;
+using Noog_api.Models.Application;
+using Noog_api.Services.IServices;
 
 namespace Noog_api.Services.Dashboard
 {
-    public class DashboardService : IDashboardService
+    public class DashboardService(IRecentGroupActivityService groupActivityService, IUserService<ApplicationUser> userService,
+        ICurrentUserService currentUserService, IProjectGroupUserService projectGroupUserService ) : IDashboardService
     {
-        private readonly DashboardDependenciesMocker _mocker = new DashboardDependenciesMocker();
-        // private readonly IUserService _userService;
-        // private readonly IRecentProjectActivityService _activityService;
-        // private readonly IProjectGroupService _pgService;
-
-        // ctor *Tab*
+        private readonly IRecentGroupActivityService _groupActivityService = groupActivityService;
+        private readonly IUserService<ApplicationUser> _userService = userService;
+        private readonly ICurrentUserService _currentUserService = currentUserService;
+        private readonly IProjectGroupUserService _pgUserService = projectGroupUserService;
 
 
-        /* TODO - Perhaps a small extension class to retrieve Identity specific data from claims
-
-        public static class ClaimsPrincipalExtensions
-        {
-            public static Guid GetUserId(this ClaimsPrincipal user)
-            {
-                var claim = user.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-                return Guid.TryParse(claim, out var id) ? id : Guid.Empty;
-            }
-
-            public static string? GetUserEmail(this ClaimsPrincipal user)
-            {
-                return user.FindFirst(ClaimTypes.Email)?.Value;
-            }
-        }
-         
-         */
 
         public async Task<BaseResponseDto<DashboardDataResponseDto>> GetDashboardDataAsync()
         {
-            // var userId = User.GetUserId();
-            // var recentActivities = await _activityService.GetRecentActivitiesAsync(userId: userId);
-            // var userInfo = await _userService.GetUserInfoAsync(userId: userId);
-
-            // TODO - Discuss tables like users and groupprojects
-            // TODO - This responseDto isn't flat and won't probably reflect a model. 
-
-
-
-            var result = _mocker.GetMockedDashboardData();
+            var userID = _currentUserService.UserId;
+            var recentActivities = await _groupActivityService.GetTopThreeLatestActivitesAsync();
+            var userInfo = await _userService.FindByIdAsync(userID);
 
             var response = new BaseResponseDto<DashboardDataResponseDto>();
 
-            if (result == null)
+            if (userInfo == null)
             {
                 response.StatusCode = Enums.StatusCodesEnum.NotFound;
-                response.Message = "Dashboard Data not found";
+                response.Message = "Error getting user";
 
-                return await Task.FromResult(response);
+                return response;
             }
 
-            // var dtoList = GenericMapper.ToDto<DashboardData, DashboardDataResponseDto>(result);
-            response.Data = result;
+            var dtoRecentActivities = new List<DashboardDataRecentActivity>();
+
+            foreach (var activity in recentActivities)
+            {
+                var dtoActivity = new DashboardDataRecentActivity
+                {
+                    ActivityTitle = activity.Title,
+                    ProjectGroupName = activity.ProjectGroup?.Name,
+                    ProjectGroupImageUrl = activity.ProjectGroup?.ImageUrl,
+                    Source = activity.SourceType.ToString()
+                };
+                dtoRecentActivities.Add(dtoActivity);
+            }
+
+            var userDto = new DashboardDataUserInfo
+            {
+                UserName = userInfo.UserName,
+                ProfileImageUrl = userInfo.ImgProfile
+            };
+
+            var dashboardData = new DashboardDataResponseDto
+            {
+                RecentActivities = dtoRecentActivities,
+                User = userDto
+            };
+
+            response.Data = dashboardData;
             response.StatusCode = Enums.StatusCodesEnum.Success;
             response.Message = "Dashboard Data loaded successfully";
+            return response;
 
-
-            return await Task.FromResult(response);
         }
 
         public async Task<BaseResponseDto<List<ProjectGroupResponseDto>>> GetDashboardUserProjectGroupsAsync()
         {
-            // var userId = User.GetUserId();
-            // var result = await _pgService.GetAllProjectGroupsByUserAsync(userId: userId);
+            var result = await _pgUserService.GetProjectGroupUsersByCurrentUserAsync();
+            var projectGroups = result.Select(pgu => pgu.ProjectGroup).ToList();
 
 
+            var dtoList = GenericMapper.ToDtoList<ProjectGroup, ProjectGroupResponseDto>(projectGroups);
+            var response = new BaseResponseDto<List<ProjectGroupResponseDto>>(
+                Enums.StatusCodesEnum.Success, "ProjectGroups loaded successfully", dtoList);
 
-            var result = _mocker.GetMockedGroupProjects();
 
-            var response = new BaseResponseDto<List<ProjectGroupResponseDto>>();
-
-            if (result == null || !result.Any())
-            {
-                response.Data = new List<ProjectGroupResponseDto>();
-                response.StatusCode = Enums.StatusCodesEnum.Success;
-                response.Message = "No ProjectGroups found";
-            }
-            else
-            {
-                // var dtoList = GenericMapper.ToDtoList<ProjectGroup, ProjectGroupResponseDto>(result);
-                var dtoList = result;
-
-                response.Data = dtoList;
-                response.StatusCode = Enums.StatusCodesEnum.Success;
-                response.Message = "ProjectGroups loaded successfully";
-            }
-
-            return await Task.FromResult(response);
+            return response;
         }
     }
 }

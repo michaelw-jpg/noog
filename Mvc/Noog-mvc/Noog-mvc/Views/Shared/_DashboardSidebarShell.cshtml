@@ -26,7 +26,10 @@
         <div class="sidebar-separator"></div>
 
         <!-- Add New Project Button -->
-        <a href="#" class="add-project-button-wrapper">
+        <a  asp-controller="ProjectGroup" 
+            asp-action="Create" 
+            asp-route-returnUrl="@Context.Request.Path" 
+            class="add-project-button-wrapper">
             <svg xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
                 class="add-project-icon"

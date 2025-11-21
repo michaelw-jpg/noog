@@ -1,6 +1,90 @@
 ﻿@{
     ViewData["Title"] = "Privacy Policy";
+    ViewData["MetaDescription"] = "Register Page";
 }
-<h1>@ViewData["Title"]</h1>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
 
-<p>Use this page to detail your site's privacy policy.</p>
+<div class="main-box" style="max-width: 90%; display: flex; flex-direction: column;">
+    <h1>@ViewData["Title"]</h1>
+    <p>Last updated: 2025</p>
+
+    <p>Your privacy is important to us. This page explains how Noog handles data when you use our service.</p>
+
+    <ol>
+        <li>
+            <h4>Information You Provide</h4>
+            <p>When you create an account or join a group project, we store basic information such as: </p>
+            <ul>
+                <li>Email address</li>
+                <li>Name or username</li>
+                <li>Group memberships</li>
+            </ul>
+            <p>This data is used only to allow you to log in and collaborate with others.</p>
+        </li>
+        
+        <li>
+            <h4>Meeting Data and Recordings</h4>
+            <p>If you choose to record a meeting:</p>
+            <ul>
+                <li>The audio is processed by AssemblyAI to generate a transcript</li>
+                <li>The transcript is sent to ChatGPT to create a summary</li>
+                <li>The summary is stored in your group project's storage area</li>
+            </ul>
+            <p>
+                We do not manually review, modify, or share your recordings, transcripts, or summaries.
+                Recordings and transcripts are visible only to members of the group project.
+            </p>
+        </li>
+
+        <li>
+            <h4>Cookies</h4>
+            <p>We use essential cookies to keep you signed in and maintain application functionality.</p>
+            <p>We may also use optional analytics cookies (only with your consent) to understand how visitors use the site.</p>
+        </li>
+
+        <li>
+            <h4>Third-Party Services</h4>
+            <p>To provide core functionality, Noog uses:</p>
+            <ul>
+                <li>Stream.io — for video calls</li>
+                <li>AssemblyAI — for transcription</li>
+                <li>OpenAI (ChatGPT) — for summaries</li>
+            </ul>
+            <p>These services receive only the data necessary to perform their tasks.</p>
+        </li>
+
+        <li>
+            <h4>Data Security</h4>
+            <p>We take reasonable technical measures to protect your data.</p>
+            <p>However, as this is an MVP project, we cannot guarantee absolute security.</p>
+        </li>
+
+        <li>
+            <h4>Your Rights</h4>
+            <p>You may request:</p>
+            <ul>
+                <li>Access to your stored summaries</li>
+                <li>Removal of your account</li>
+                <li>Deletion of stored summaries or transcripts</li>
+            </ul>
+            <p>To make a request, please contact the development team.</p>
+        </li>
+
+        <li>
+            <h4>Contact</h4>
+            <p>Noog is developed by a student team:</p>
+            <p>Simon, Matheus, Oliver & Michael.</p>
+        </li>
+
+    </ol>
+
+    <p>If you have questions about privacy, data usage, or security, you can reach us directly.</p>
+
+</div>
+
+
+
+
+

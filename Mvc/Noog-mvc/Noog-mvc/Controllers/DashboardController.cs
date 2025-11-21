@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Noog_mvc.Helpers;
 using Noog_mvc.Services;
 
@@ -12,6 +13,8 @@ namespace Noog_mvc.Controllers
         {
             _service = service;
         }
+
+        [Authorize]
         public async Task<IActionResult> Index()
         {
             var model = await _service.GetDashboardDataAsync();

@@ -19,6 +19,10 @@ using System;
 using System.Text;
 using System.Threading.Tasks;
 using Noog_api.Services.Dashboard;
+using Noog_api.Services.ProjectGroupServices;
+using Noog_api.Services.UserServices;
+using Noog_api.Services.AuthServices;
+using Noog_api.Repositories.GroupRepos;
 
 namespace Noog_api
 {
@@ -62,6 +66,11 @@ namespace Noog_api
                 return new StreamClientFactory(StreamIOApiKey, streamApiSecret);
             });
 
+            builder.Services.ConfigureApplicationCookie(options =>
+            {
+                options.ExpireTimeSpan = TimeSpan.FromHours(2);
+                options.SlidingExpiration = true;
+            });
 
             builder.Services.JwtAuth(builder.Configuration);
             builder.Services.RolePolicy();
@@ -73,8 +82,7 @@ namespace Noog_api
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
-            builder.Services.AddDbContext<NoogDbContext>(options => 
-                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+        
 
             builder.Services.AddScoped<IOpenAiService, OpenAiService>();
             builder.Services.AddScoped<IOpenAiPromptService, OpenAiPromptService>();
@@ -83,7 +91,27 @@ namespace Noog_api
             builder.Services.AddScoped<IUserService<ApplicationUser>, UserService<ApplicationUser>>();
             builder.Services.AddScoped<IAuthService, AuthService>();
             builder.Services.AddScoped<IDashboardService, DashboardService>();
+            builder.Services.AddHttpContextAccessor();
+            builder.Services.AddScoped<ICurrentUserService, CurrentUserService>();
+            builder.Services.AddScoped<IRecentGroupActivityService, RecentGroupActivityService>();
+            builder.Services.AddScoped<IProjectGroupUserService, ProjectGroupUserService>();
             builder.Services.AddScoped<TokenService>();
+            builder.Services.AddScoped<IProjectGroupUserRepo, ProjectGroupUserRepo>();
+            builder.Services.AddScoped<IRecentGroupActivityRepo, RecentGroupActivityRepo>();
+            builder.Services.AddScoped<IProjectGroupService, ProjectGroupService>();
+            builder.Services.AddScoped<IProjectGroupRepository, ProjectGroupRepository>();
+            builder.Services.AddScoped<IOrchestrateService, OrchestrateService>();
+            builder.Services.AddScoped<IAssemblyAiService, AssemblyAiService>();
+
+            builder.Services.AddScoped<IGroupMeetingService, GroupMeetingService>();
+            builder.Services.AddScoped<IGroupMeetingRepo, GroupMeetingRepo>();
+
+            builder.Services.AddScoped<IGroupStorageService, GroupStorageService>();
+            builder.Services.AddScoped<IGroupStorageRepo, GroupStorageRepo>();
+            
+            builder.Services.AddScoped<IProjectGroupService, ProjectGroupService>();
+            builder.Services.AddScoped<IProjectGroupRepository, ProjectGroupRepository>();
+
 
             builder.Services.AddHttpClient<AssemblyAiService>();
 
@@ -105,8 +133,11 @@ namespace Noog_api
             app.UseExceptionHandler(options => { });
 
             app.UseHttpsRedirection();
+            app.UseAuthentication();
 
             app.UseAuthorization();
+
+            //app.UseMiddleware<UserIdMiddleware>();
 
             app.MapIdentityApi<ApplicationUser>();
             app.MapControllers();

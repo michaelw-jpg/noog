@@ -24,12 +24,11 @@ body {
 /* ====== Header och navigation ====== */
 .main-nav {
     background-color: var(--secoundary-color);
-    padding: 0,9em;
     z-index: 1000;
     border-radius: 54px;
     position: relative;
     margin: 1rem;
-    padding: 10px
+    padding: 12px
 }
 
 .nav-container {
@@ -37,7 +36,18 @@ body {
     align-items: center;
     justify-content: space-between;
     max-width: 1450px;
-    position: relative;
+    margin: 0 auto;
+}
+
+.left-container {
+    display: flex;
+    align-content: center;
+    gap: 2rem;
+}
+
+.right-container{
+    display:flex;
+    align-items: center;
 }
 
 /* ====== Navigation länkar ====== */
@@ -48,7 +58,6 @@ body {
     list-style: none;
     margin: 0;
     padding-left: 2;
-    
 }
 
 .nav-links a {
@@ -67,7 +76,7 @@ body {
 /* ====== Login-knappen ====== */
 .login-link {
     text-decoration: none;
-    text-align:center;
+    text-align: center;
     background-color: #3b82f6;
     color: #fff !important;
     font-weight: 230;
@@ -75,6 +84,7 @@ body {
     padding: 7px;
     transition: background-color 0.2s ease;
     width: 80px;
+
 }
 
     .login-link:hover {
@@ -231,4 +241,30 @@ body {
 .simon {
     color: #F085DA;
     font-weight: bold;
+}
+
+/* ====== Cookie banner Styling ====== */
+
+.cookie-banner {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #222;
+    color: white;
+    padding: 1em;
+    text-align: center;
+    z-index: 1000;
+}
+.cookie-banner button {
+    margin: 0 5px;
+    background: #555;
+    border: none;
+    color: white;
+    padding: 0.5em 1em;
+    cursor: pointer;
+    border-radius: 3px;
+}
+.cookie-banner button:hover {
+    background: #777;
 }

@@ -1,0 +1,29 @@
+﻿@{
+    Layout = "~/Views/Shared/_PGDashboard.cshtml";
+}
+
+@{
+    ViewData["Title"] = "Project Group Meeting";
+}
+
+<article style="align-content: center">
+    <h1 style="color: white; ">Meeting underway</h1>
+    <h3 style="color: white">Connecting to meeting...</h3>
+    <button>
+        <a  asp-action="Index" 
+            asp-controller="ProjectGroup" 
+            asp-route-projectGroupId="@ViewBag.ProjectGroupId">
+                Return to dashboard
+        </a>
+    </button>
+    @{
+        var link = ViewBag.CallLink as string;
+    }
+
+    @if (!string.IsNullOrEmpty(link))
+    {
+        <script>
+            window.open('@System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(link)', '_blank'); // opens in a new tab/window
+        </script>
+    }
+</article>

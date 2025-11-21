@@ -2,20 +2,13 @@
 @using Noog_mvc.Models.DashboardSidebar
 @model IEnumerable<ProjectGroupDto> 
 
+@{
+    var currentId = ViewData["CurrentGroupId"]?.ToString();
+    var hasActiveGroup = !string.IsNullOrEmpty(currentId);
+}
+
 <ul>
     <!-- Hardcoded -->
-    <li>
-        <a href="#" class="project-link">
-            <img src="~/images/project-icon.png" alt="Icon" class="project-icon" />
-            <span class="project-name">Project Alpha</span>
-        </a>
-    </li>
-    <li>
-        <a href="#" class="project-link">
-            <img src="~/images/project-icon.png" alt="Icon" class="project-icon" />
-            <span class="project-name">Project Beta</span>
-        </a>
-    </li>
     <!-- If api returns groupprojects -->
     @foreach (var group in Model)
     {
@@ -23,8 +16,10 @@
             ? Url.Content("~/images/project-icon.png")
             : group.ImageUrl;
 
-        <li>
-            <a href="@Url.Action("Details", "ProjectGroup", new { id = group.Id })" class="project-link">
+        var isActive = hasActiveGroup && (group.Id.ToString() == currentId);
+
+        <li class="@(isActive ? "active" : "" )">
+            <a href="@Url.Action("Index", "ProjectGroup", new { projectGroupid = group.Id })" class="project-link">
                 <img src="@pgImage" alt="@group.Title" class="project-icon" />
                 <span class="project-name">@group.Title</span>
             </a>

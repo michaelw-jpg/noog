@@ -6,10 +6,10 @@
     {
         return source switch
         {
-            "Chat" => Url.Content("~/images/NO-ICON-YET-FOR-CHAT-icon.png"),
+            "Chat" => Url.Content("~/images/chat-icon.png"),
             "Meeting" or "Call" => Url.Content("~/images/meeting-icon.png"),
-            "Storage" or "Summary" => Url.Content("~/images/document-icon.png"),
-            _ => Url.Content("~/images/NO-DEFAULT-ICON-YET-icon.png")
+            "Storage" or "Summary" => Url.Content("~/images/storage-icon.png"),
+            _ => Url.Content("~/images/default-icon.png")
         };
     }
 }
@@ -17,44 +17,27 @@
 <div class="recents-section">
     <h2 class="recents-title">Recents:</h2>
     <div class="recents-list">
-        <div class="recent-card">
-            <div class="recent-left">
-                <img src="~/images/project-icon.png" class="project-icon" alt="Project" />
-                <span class="recents-project-name">Project Alpha</span>
-            </div>
-            <div class="recent-center">Meeting from yesterday at 12:45</div>
-            <div class="recent-right">
-                <img src="~/images/meeting-icon.png" alt="Meeting" class="recent-icon" />
-            </div>
-        </div>
-
-        <div class="recent-card">
-            <div class="recent-left">
-                <img src="~/images/project-icon.png" class="project-icon" alt="Project" />
-                <span class="recents-project-name">Project Beta</span>
-            </div>
-            <div class="recent-center">Summary done</div>
-            <div class="recent-right">
-                <img src="~/images/document-icon.png" alt="Document" class="recent-icon" />
-            </div>
-        </div>
-
-        @foreach (var item in Model)
+        @if (!Model.Any())
         {
-            var pgImage = string.IsNullOrEmpty(item.ProjectGroupImageUrl) 
-                ? Url.Content("~/images/project-icon.png") 
-                : item.ProjectGroupImageUrl;
-            
             <div class="recent-card">
-                <div class="recent-left">
-                    <img src="@pgImage" class="project-icon" alt="@item.ProjectGroupName" />
-                    <span class="recents-project-name">@item.ProjectGroupName</span>
-                </div>
-                <div class="recent-center">@item.ActivityTitle</div>
-                <div class="recent-right">
-                    <img src="@GetSourceIcon(item.Source)" alt="@item.Source" class="recent-icon" />
-                </div>
+
+                <div class="recent-center">No recent activities yet...</div>
+
             </div>
         }
+        @foreach(var activity in Model)
+        {
+            <div class="recent-card">
+                <div class="recent-left">
+                    <img src="~/images/project-icon.png" class="project-icon" alt="Project" />
+                    <span class="recents-project-name">@activity.ProjectGroupName</span>
+                </div>
+                <div class="recent-center">@activity.ActivityTitle</div>
+                <div class="recent-right">
+                    <img src="@GetSourceIcon(activity.Source)" alt="@activity.Source" class="recent-icon" />
+                </div>
+            </div>
+		}
+        
     </div>
 </div>

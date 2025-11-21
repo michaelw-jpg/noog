@@ -25,7 +25,7 @@ namespace Noog_api.Controllers
         [HttpPost("summary/prompt")]
         public async Task<ActionResult<OpenAIResponseDto>> GetChatResponse([FromBody] PromptType type)
         {
-            var resposne = await _openAiService.GetChatResponseAsync(type);
+            var resposne = await _openAiService.GetChatResponseAsync(type.ToString());
             return ApiResponseHelper.ToActionResult(resposne);
 
         }
