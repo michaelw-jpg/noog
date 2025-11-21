@@ -8,7 +8,7 @@ using Noog_api.Models.Application.Enums;
 using Noog_api.Repositories.IRepositories;
 using Noog_api.Services.IServices;
 
-namespace Noog_api.Services
+namespace Noog_api.Services.ProjectGroupServices
 {
     public class SummaryService(ISummaryRepository repo, IRecentGroupActivityService activityService,
         IGroupStorageService groupStorage) : ISummaryService

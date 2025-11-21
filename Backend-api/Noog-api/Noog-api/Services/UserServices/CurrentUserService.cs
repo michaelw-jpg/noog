@@ -2,7 +2,7 @@
 using StreamChat.Models;
 using System.Security.Claims;
 
-namespace Noog_api.Services
+namespace Noog_api.Services.UserServices
 {
     public class CurrentUserService : ICurrentUserService
     {
