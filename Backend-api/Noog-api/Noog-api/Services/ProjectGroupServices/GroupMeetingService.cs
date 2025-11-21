@@ -3,7 +3,7 @@ using Noog_api.Repositories;
 using Noog_api.Repositories.IRepositories;
 using Noog_api.Services.IServices;
 
-namespace Noog_api.Services
+namespace Noog_api.Services.ProjectGroupServices
 {
     public class GroupMeetingService(IGroupMeetingRepo groupMeetingRepo) : IGroupMeetingService
     {

@@ -6,7 +6,7 @@ using Noog_api.Models.Application;
 using Noog_api.Repositories.IRepositories;
 using System.Runtime.InteropServices;
 
-namespace Noog_api.Repositories
+namespace Noog_api.Repositories.GroupRepos
 {
     public class ProjectGroupRepository(NoogDbContext context) : IProjectGroupRepository
     {
@@ -36,11 +36,12 @@ namespace Noog_api.Repositories
             return await _context.ProjectGroups.ToListAsync();
         }
 
-        public async Task<ProjectGroup?> GetGroupProjectByIdAsync(Guid id)
+        public async Task<ProjectGroup?> GetGroupProjectByIdAsync(Guid id, Guid currentUserId)
         {
             var result = await _context.ProjectGroups
                 .AsNoTracking()
                 .Include(pg => pg.GroupMeeting)
+                .Include(pg => pg.ProjectGroupUsers)
                 .FirstOrDefaultAsync(pg => pg.Id == id);
 
 

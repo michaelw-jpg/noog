@@ -5,7 +5,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace Noog_api.Services
+namespace Noog_api.Services.AuthServices
 {
     public class TokenService
     {

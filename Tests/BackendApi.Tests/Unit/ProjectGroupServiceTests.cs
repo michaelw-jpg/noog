@@ -4,8 +4,8 @@ using Noog_api.DTOs.ProjectGroup;
 using Noog_api.Enums;
 using Noog_api.Models.Application;
 using Noog_api.Repositories.IRepositories;
-using Noog_api.Services;
 using Noog_api.Services.IServices;
+using Noog_api.Services.ProjectGroupServices;
 using NSubstitute;
 using Xunit;
 

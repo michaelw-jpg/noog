@@ -9,15 +9,19 @@
 <section>
     <article class="pg-header" href="@Url.Action("Index", "ProjectGroup", new { projectGroupId = currentGroupId })">
         <h1 class="pg-title">@Model?.GroupName</h1>
-        <button >
-            <a asp-action="AddUser" 
-               asp-controller="ProjectGroup" 
-               asp-route-projectGroupId="@currentGroupId" 
-               class="" 
-               aria-label="Add User">
-               Add User
-			</a>
-        </button>
+		@if (Model?.IsAdmin == true)
+        {
+            <button>
+                <a asp-action="AddUser"
+                   asp-controller="ProjectGroup"
+                   asp-route-projectGroupId="@currentGroupId"
+                   class=""
+                   aria-label="Add User">
+                    Add User
+                </a>
+            </button>
+        }
+     
         @if (!string.IsNullOrWhiteSpace(Model?.GroupImg))
         {
             <img src="@Model.GroupImg" alt="@Model.GroupName logo" class="pg-call-icon" />
