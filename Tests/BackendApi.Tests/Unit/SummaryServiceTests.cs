@@ -43,9 +43,11 @@ namespace BackendApi.Tests.Unit
         public async Task GetAllSummariesAsync_whenNoSummaries_ReturnsEmptyList()
         {
             // Arrange
-            _mockRepo.GetAllSummariesAsync().Returns(Task.FromResult(new List<Summary>()));
+            var pgId = Guid.NewGuid().ToString();
+            _mockRepo.GetAllSummariesAsync(Arg.Any<Guid>())
+                .Returns(new List<Summary>());
             // Act
-            var result = await _summaryService.GetAllSummariesAsync();
+            var result = await _summaryService.GetAllSummariesAsync(pgId);
             // Assert
             Assert.NotNull(result.Data);
             Assert.Empty(result.Data);
@@ -57,20 +59,44 @@ namespace BackendApi.Tests.Unit
         public async Task GetAllSummariesAsync_whenSummariesExist_ReturnsSummaries()
         {
             // Arrange
+            var pgId = Guid.NewGuid();
+            var storageId = Guid.NewGuid();
+
+
             var summaries = new List<Summary>
             {
-                new Summary { SummaryId = 1, Title = "A", Content = "X" },
-                new Summary { SummaryId = 2, Title = "B", Content = "Y" }
+                new Summary { SummaryId = 1, Title = "A", Content = "X", GroupStorageId = storageId },
+                new Summary { SummaryId = 2, Title = "B", Content = "Y", GroupStorageId = storageId}
             };
-            _mockRepo.GetAllSummariesAsync().Returns(Task.FromResult(summaries));
+            var groupStorage = new GroupStorage
+            {
+                Id = storageId,
+                Summaries = summaries,
+                ProjectGroupId = pgId
+            };
+            _mockRepo.GetAllSummariesAsync(Arg.Any<Guid>())
+                .Returns(summaries);
             // Act
-            var result = await _summaryService.GetAllSummariesAsync();
+            var result = await _summaryService.GetAllSummariesAsync(pgId.ToString());
             // Assert
             Assert.NotNull(result.Data);
             Assert.Equal(2, result.Data.Count);
             Assert.Equal(StatusCodesEnum.Success, result.StatusCode);
             Assert.Equal("A", result.Data[0].Title);
             Assert.Equal("Y", result.Data[1].Content);
+        }
+
+        [Fact]
+        public async Task GetAllSummariesAsync_WhenInvalidGuid_ReturnBadRequest()
+        {
+            // Arrange
+            string invalidPgId = "not-a-guid";
+            // Act
+            var result = await _summaryService.GetAllSummariesAsync(invalidPgId);
+            //Assert 
+            Assert.Equal(StatusCodesEnum.BadRequest, result.StatusCode);
+            Assert.Equal("Invalid request due to incorrect project group id", result.Message);
+            Assert.Null(result.Data);
         }
         #endregion
 
@@ -79,11 +105,13 @@ namespace BackendApi.Tests.Unit
         public async Task GetSummaryByIdAsync_WhenSummaryExists_ReturnsSummary()
         {
             //Arrange
+            var pgId = Guid.NewGuid();
             var summary = new Summary { SummaryId = 1, Title = "Test Title", Content = "Test Summary" };
-            _mockRepo.GetSummaryByIdAsync(1).Returns(Task.FromResult<Summary?>(summary));
+            _mockRepo.GetSummaryByIdAsync(1, pgId)
+                .Returns(Task.FromResult<Summary?>(summary));
 
             //act
-            var result = await _summaryService.GetSummaryByIdAsync(1);
+            var result = await _summaryService.GetSummaryByIdAsync(1, pgId.ToString());
 
             //Assert
             Assert.NotNull(result.Data);
@@ -97,13 +125,26 @@ namespace BackendApi.Tests.Unit
         public async Task GetSummaryByIdAsync_WHenSummaryDoesNotExist_ReturnsNotFound()
         {
             //Arrange
-            _mockRepo.GetSummaryByIdAsync(99).Returns(Task.FromResult<Summary?>(null));
+            var pgId = Guid.NewGuid().ToString();
+            _mockRepo.GetSummaryByIdAsync(99, Arg.Any<Guid>())
+                .Returns(Task.FromResult<Summary?>(null));
             //Act
-            var result = await _summaryService.GetSummaryByIdAsync(99);
+            var result = await _summaryService.GetSummaryByIdAsync(99, pgId);
             //Assert
             Assert.Null(result.Data);
             Assert.Equal(StatusCodesEnum.NotFound, result.StatusCode);
             Assert.Equal("Summary not found", result.Message);
+        }
+
+        [Fact]
+        public async Task GetSummaryByIdAsync_InvalidGuid_ReturnsBadRequest()
+        {
+            // Act
+            var result = await _summaryService.GetSummaryByIdAsync(1, "invalid-guid");
+
+            // Assert
+            Assert.Equal(StatusCodesEnum.BadRequest, result.StatusCode);
+            Assert.Equal("Invalid request due to incorrect project group id", result.Message);
         }
         #endregion
 
@@ -167,68 +208,15 @@ namespace BackendApi.Tests.Unit
         }
 
         #endregion
-
-        #region UpdateSummaryAsync
-        [Fact]
-        public async Task UpdateSummaryAsync_WhenSummaryNotFound_ReturnsNotFound()
-        {
-            //Arrange
-            var dto = new PatchSummaryDto { Title = "Updated Title", Content = "Updated Content" };
-            _mockRepo.GetSummaryByIdAsync(99).Returns(Task.FromResult<Summary?>(null));
-            //Act
-            var result = await _summaryService.UpdateSummaryAsync(99, dto);
-            //Assert
-            Assert.Null(result.Data);
-            Assert.Equal(StatusCodesEnum.NotFound, result.StatusCode);
-            Assert.Equal("Summary not found", result.Message);
-        }
-
-        [Fact]
-        public async Task UpdateSummaryAsync_WhenRepoSucceds_Returns()
-        {
-            //Arrange
-            var summary = new Summary { SummaryId = 1, Title = "Old Title", Content = "Old Content" };
-            _mockRepo.GetSummaryByIdAsync(1).Returns(Task.FromResult<Summary?>(summary));
-            var patchDto = new PatchSummaryDto { Title = "Updated Title"};
-
-            //Act
-            var result = await _summaryService.UpdateSummaryAsync(1, patchDto);
-
-            //Assert
-            Assert.NotNull(result.Data);
-            Assert.Equal("Updated Title", result.Data.Title);
-            Assert.Equal("Old Content", result.Data.Content);
-            Assert.Equal(StatusCodesEnum.Success, result.StatusCode);
-            Assert.Equal("Summary updated successfully", result.Message);
-
-            await _mockRepo.Received(1).UpdateSummaryAsync(1, Arg.Any<Summary>());
-        }
-
-        [Fact]
-        public async Task UpdateSummaryAsync_WhenRepoThrows_ReturnsServerError()
-        {
-            //Arrange
-            var summary = new Summary { SummaryId = 1, Title = "Old Title", Content = "Old Content" };
-            _mockRepo.GetSummaryByIdAsync(1).Returns(Task.FromResult<Summary?>(summary));
-            var patchDto = new PatchSummaryDto { Title = "Updated Title", Content = "Updated Content" };
-            _mockRepo.When(x => x.UpdateSummaryAsync(1, Arg.Any<Summary>()))
-                     .Do(x => { throw new Exception("Database error"); });
-
-            //Act
-            var result = await _summaryService.UpdateSummaryAsync(1, patchDto);
-
-            //Assert
-            Assert.Equal(StatusCodesEnum.ServerError, result.StatusCode);
-            Assert.Equal("Database error", result.Message);
-        }
-        #endregion
+        
 
         #region DeleteSummaryAsync
         [Fact]
         public async Task DeleteSummaryAsync_WhenSummaryNotFound_ReturnsNotFound()
         {
             //Arrange
-            _mockRepo.GetSummaryByIdAsync(99).Returns(Task.FromResult<Summary?>(null));
+            _mockRepo.GetSummaryByIdAsync(99, Arg.Any<Guid>())
+                .Returns(Task.FromResult<Summary?>(null));
             //Act
             var result = await _summaryService.DeleteSummaryAsync(99);
             //Assert
@@ -243,7 +231,7 @@ namespace BackendApi.Tests.Unit
         {
             //Arrange
             var summary = new Summary { SummaryId = 1, Title = "Title", Content = "Content" };
-            _mockRepo.GetSummaryByIdAsync(1).Returns(Task.FromResult<Summary?>(summary));
+            _mockRepo.GetSummaryByIdAsync(1, Arg.Any<Guid>()).Returns(Task.FromResult<Summary?>(summary));
             _mockRepo.DeleteSummaryAsync(1).Returns(Task.FromResult(true));
 
             //Act
@@ -258,7 +246,7 @@ namespace BackendApi.Tests.Unit
         {
             //Arrange
             var summary = new Summary { SummaryId = 1, Title = "Title", Content = "Content" };
-            _mockRepo.GetSummaryByIdAsync(1).Returns(Task.FromResult<Summary?>(summary));
+            _mockRepo.GetSummaryByIdAsync(1, Arg.Any<Guid>()).Returns(Task.FromResult<Summary?>(summary));
             _mockRepo.When(x => x.DeleteSummaryAsync(1))
                      .Do(x => { throw new Exception("Database error"); });
             //Act

@@ -1,9 +1,24 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Http.Extensions;
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Noog_mvc</title>
+
+    <title>@ViewData["Title"] - Noog</title>
+
+    <!-- Basic meta data - description, indexing for data scraping -->
+    <meta name="description" content="@(ViewData["MetaDescription"] ?? "Default Noog Meta Description")"/>
+    <meta name="robots" content="@(ViewData["Robots"] ?? "index, follow")" />
+
+    <!-- Canonical Url - if pages are identical in content this ensures uniqueness -->
+    <link rel="canonical" href="@(ViewData["CanonicalUrl"] ?? Context.Request.GetDisplayUrl())" />
+
+    <!-- Structured Data -->
+    @RenderSection("StructuredData", required: false)
+    
+
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     @RenderSection("Styles", required: false)
     <link rel="stylesheet" href="~/Noog_mvc.styles.css" asp-append-version="true" />
@@ -19,7 +34,7 @@
                 <div class="left-container">
                     <ul class="nav-links" id="nav-links">
                         <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                        <li><a asp-area="" asp-controller="Home" asp-action="Privacy">Om oss</a></li>
+                        <li><a asp-area="" asp-controller="Home" asp-action="About">Om oss</a></li>
                         <li>
                             <a class="login-link-child" asp-area="" asp-controller="Account" asp-action="Login">Login</a>
                         </li>

@@ -11,14 +11,20 @@ namespace Noog_api.Repositories
         private readonly NoogDbContext _context = context;
         
 
-        public async Task<List<Summary>> GetAllSummariesAsync()
+        public async Task<List<Summary>> GetAllSummariesAsync(Guid pgId)
         {
-            return await _context.Summaries.ToListAsync();
+            return await _context.Summaries
+                .Where(s => s.GroupStorage.ProjectGroupId == pgId)
+                .ToListAsync();
         }
 
-        public async Task<Summary?> GetSummaryByIdAsync(int id)
+        public async Task<Summary?> GetSummaryByIdAsync(int id, Guid pgId)
         {
-            return await _context.Summaries.FindAsync(id);
+            return await _context.Summaries
+                .Where(s => s.GroupStorage.ProjectGroupId == pgId
+                    && s.SummaryId == id)   
+                .FirstOrDefaultAsync();
+
         }
 
         public async Task<Summary> CreateSummaryAsync(Summary summary)

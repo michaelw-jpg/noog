@@ -2,12 +2,13 @@
 @model RegisterUserViewModel
 @{
     ViewData["Title"] = "Register";
+    ViewData["MetaDescription"] = "Register Page";
+    ViewData["Robots"] = "noindex,nofollow";
+
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @section Styles {
     <link rel="stylesheet" href="~/css/registerUser.css" asp-append-version="true" />
-}
-@{
-    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h1 class="register-title">Create account</h1>

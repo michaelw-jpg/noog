@@ -485,7 +485,7 @@ namespace Noog_api.Migrations
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid?>("GroupStorageId")
+                    b.Property<Guid>("GroupStorageId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("ModifiedAt")
@@ -501,22 +501,6 @@ namespace Noog_api.Migrations
                     b.HasIndex("GroupStorageId");
 
                     b.ToTable("Summaries");
-
-                    b.HasData(
-                        new
-                        {
-                            SummaryId = 1,
-                            Content = "This is the content of the first summary.",
-                            CreatedAt = new DateTime(2025, 10, 13, 12, 30, 0, 0, DateTimeKind.Utc),
-                            Title = "First Summary"
-                        },
-                        new
-                        {
-                            SummaryId = 2,
-                            Content = "This is the content of the second summary.",
-                            CreatedAt = new DateTime(2025, 10, 14, 8, 15, 0, 0, DateTimeKind.Utc),
-                            Title = "Second Summary"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
@@ -646,7 +630,9 @@ namespace Noog_api.Migrations
                 {
                     b.HasOne("Noog_api.Models.Application.GroupStorage", "GroupStorage")
                         .WithMany("Summaries")
-                        .HasForeignKey("GroupStorageId");
+                        .HasForeignKey("GroupStorageId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("GroupStorage");
                 });
