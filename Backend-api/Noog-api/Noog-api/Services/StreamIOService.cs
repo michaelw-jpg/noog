@@ -5,6 +5,9 @@ using Noog_api.DTOs.StreamIODtos;
 using Noog_api.Models;
 using StreamChat.Clients;
 using StreamChat.Models;
+using System.Security.AccessControl;
+using System.Text.RegularExpressions;
+using static System.Net.WebRequestMethods;
 
 namespace Noog_api.Services
 {
@@ -13,12 +16,17 @@ namespace Noog_api.Services
         private readonly string _StreamIOApiKey;
         private readonly string _StreamIOSecret;
         private readonly StreamClientFactory _StreamClientFactory;
-        
-        public StreamIOService(IConfiguration configuration, StreamClientFactory streamClientFactory)
+        private readonly string _ExpressApi;
+        private readonly HttpClient _http;
+
+        public StreamIOService(IConfiguration configuration, StreamClientFactory streamClientFactory, HttpClient http)
         {
             _StreamIOApiKey = configuration["StreamIo:ApiKey"];
             _StreamIOSecret = configuration["StreamIo:ApiSecret"];
             _StreamClientFactory = streamClientFactory;
+            _ExpressApi = configuration["ExpressApi:ApiUrl"];
+            _http = http;
+
         }
 
         public async Task<BaseResponseDto<StreamIOUserResponseDto>> CreateStreamIOUser(ApplicationUser user)
@@ -34,7 +42,7 @@ namespace Noog_api.Services
             var userClient = _StreamClientFactory.GetUserClient();
 
             // request a new user obj 
-            var request = new StreamIOUserRequest 
+            var request = new StreamIOUserRequest
             {
                 Id = streamIOUserDto.Id,
                 Name = streamIOUserDto.Name,
@@ -66,6 +74,38 @@ namespace Noog_api.Services
             return response;            
         }
 
+        //Test Controller method to create a callId in Express
+        public async Task<bool> CreateStreamIOCallId(Guid id)
+        {
+            // Korrekt URL enligt Express-routes
+            var url = $"{_ExpressApi}/StreamIOVideoCall/calls/{id}";
 
+            var payload = new
+            {
+                callType = "default"
+            };
+
+            try
+            {
+                var response = await _http.PostAsJsonAsync(url, payload);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    var error = await response.Content.ReadAsStringAsync();
+                    Console.WriteLine("Express error: " + error);
+                    return false;
+                }
+
+                var json = await response.Content.ReadAsStringAsync();
+                Console.WriteLine("Express response: " + json);
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error calling Express: " + ex.Message);
+                return false;
+            }
+        }
     }
 }
