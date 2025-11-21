@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Noog_mvc.Helpers;
 using Noog_mvc.Services;
+using Noog_mvc.Services.AuthService;
 
 namespace Noog_mvc
 {
@@ -21,6 +22,7 @@ namespace Noog_mvc
             builder.Services.AddScoped<StorageService>();
             builder.Services.AddScoped<ProjectGroupService>();
             builder.Services.AddScoped<CallService>();
+            builder.Services.AddScoped<LogoutService>();
 
             builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options =>
