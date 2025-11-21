@@ -35,8 +35,8 @@ namespace Noog_api.Services
         {
             var chatClient = _client.GetChatClient(_deployment);
 
-            var context = "Context: You are an assistant transcribing a voice call according to the transcript provided.Your task is to read the transcript below and write a concise summary.";
-            var context2 = "Context: You are an assistant transcribing a voice call according to the transcript provided.Your task is to read the transcript below and write a concise summary. but translate to swedish";
+            var context = "Context: You are an assistant transcribing a voice call according to the transcript provided. Your task is to read the transcript below and write a concise summary.";
+            var context2 = "Context: You are an assistant transcribing a voice call according to the transcript provided. Your task is to read the transcript below and write a concise summary. but translate to swedish";
 
             List<ChatMessage> chatHistory = [
             new SystemChatMessage(context2),
