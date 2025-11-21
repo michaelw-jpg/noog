@@ -6,18 +6,162 @@
     var currentGroupId = ViewData["CurrentGroupId"]?.ToString();
 }
 
+<style>
+    .pg-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 1rem 1rem;
+        gap: 1rem;
+    }
+
+    .pg-title {
+        flex: 1;
+        margin: 0;
+        font-size: 2rem;
+        color: white;
+    }
+
+    .pg-actions {
+        display: flex;
+        gap: 0.75rem;
+        align-items: center;
+    }
+
+    .btn-header {
+        background: rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 1.5rem;
+        padding: 0.65rem 1.5rem;
+        color: white;
+        text-decoration: none;
+        font-size: 0.95rem;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        white-space: nowrap;
+    }
+
+        .btn-header:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            color: white;
+        }
+
+        .btn-header i {
+            font-size: 0.9rem;
+        }
+
+    .pg-call-icon {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        object-fit: cover;
+    }
+
+    /* Tablet responsiveness */
+    @@media (max-width: 768px) {
+        .pg-header {
+            padding: 1rem 1.5rem;
+        }
+
+        .pg-title {
+            font-size: 1.5rem;
+        }
+
+        .btn-header {
+            padding: 0.55rem 1.25rem;
+            font-size: 0.9rem;
+        }
+
+        .pg-call-icon {
+            width: 45px;
+            height: 45px;
+        }
+    }
+
+    /* Mobile responsiveness */
+    @@media (max-width: 480px) {
+        .pg-header {
+            flex-wrap: wrap;
+            padding: 1rem;
+            gap: 0.75rem;
+        }
+
+        .pg-title {
+            font-size: 1.35rem;
+            flex: 1 1 100%;
+            order: 1;
+        }
+
+        .pg-actions {
+            flex: 1;
+            order: 3;
+            justify-content: flex-start;
+        }
+
+        .pg-call-icon {
+            order: 2;
+            width: 40px;
+            height: 40px;
+            margin-left: auto;
+        }
+
+        .btn-header {
+            padding: 0.5rem 1rem;
+            font-size: 0.85rem;
+        }
+
+            .btn-header i {
+                font-size: 0.85rem;
+            }
+
+        .pg-divider {
+            margin: 0 1rem;
+        }
+    }
+
+    /* Very small devices */
+    @@media (max-width: 360px) {
+        .pg-actions {
+            gap: 0.5rem;
+        }
+
+        .btn-header {
+            padding: 0.45rem 0.85rem;
+            font-size: 0.8rem;
+        }
+    }
+</style>
+
 <section>
-    <article class="pg-header" href="@Url.Action("Index", "ProjectGroup", new { projectGroupId = currentGroupId })">
+    <article class="pg-header">
         <h1 class="pg-title">@Model?.GroupName</h1>
-        <button >
-            <a asp-action="AddUser" 
-               asp-controller="ProjectGroup" 
-               asp-route-projectGroupId="@currentGroupId" 
-               class="" 
+
+        <div class="pg-actions">
+            <a asp-action="AddUser"
+               asp-controller="ProjectGroup"
+               asp-route-projectGroupId="@currentGroupId"
+               class="btn-header"
                aria-label="Add User">
-               Add User
-			</a>
-        </button>
+                <i class="fas fa-user-plus"></i>
+                <span>Add User</span>
+            </a>
+
+            <a asp-action="Edit"
+               asp-controller="ProjectGroup"
+               asp-route-projectGroupId="@currentGroupId"
+               class="btn-header"
+               aria-label="Edit Project Group">
+                <i class="fas fa-edit"></i>
+                <span>Edit</span>
+            </a>
+        </div>
         @if (!string.IsNullOrWhiteSpace(Model?.GroupImg))
         {
             <img src="@Model.GroupImg" alt="@Model.GroupName logo" class="pg-call-icon" />

@@ -1,0 +1,338 @@
+﻿@model Noog_mvc.Models.ProjectGroup.ProjectGroupEditViewModel
+
+@{
+    ViewData["Title"] = "Edit Project Group";
+}
+
+<style>
+    .edit-container {
+        min-height: 75vh;
+        background: #2941ff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1.5rem;
+    }
+
+    .edit-card {
+        background: #f5f5f5;
+        border-radius: 1.5rem;
+        padding: 2rem;
+        max-width: 500px;
+        width: 100%;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    }
+
+    .edit-title {
+        text-align: center;
+        font-size: 1.75rem;
+        font-weight: 300;
+        color: #333;
+        margin-bottom: 1.5rem;
+    }
+
+    .form-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .form-group {
+        display: flex;
+        flex-direction: column;
+    }
+
+        .form-group label {
+            font-size: 0.95rem;
+            color: #333;
+            margin-bottom: 0.4rem;
+            font-weight: 400;
+        }
+
+        .form-group input {
+            background: #d1d1d1;
+            border: none;
+            border-radius: 1.25rem;
+            padding: 0.75rem 1.25rem;
+            font-size: 0.95rem;
+            color: #333;
+            transition: background 0.3s ease;
+        }
+
+            .form-group input:focus {
+                outline: none;
+                background: #c5c5c5;
+            }
+
+            .form-group input::placeholder {
+                color: #888;
+            }
+
+    .image-preview {
+        margin-top: 0.75rem;
+        text-align: center;
+    }
+
+        .image-preview label {
+            font-size: 0.9rem;
+            color: #333;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .image-preview img {
+            max-width: 150px;
+            max-height: 150px;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+    .button-group {
+        display: flex;
+        justify-content: space-between;
+        gap: 0.75rem;
+        margin-top: 1.5rem;
+    }
+
+    .btn-custom {
+        flex: 1;
+        border: none;
+        border-radius: 1.25rem;
+        padding: 0.75rem 1.5rem;
+        font-size: 0.95rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-block;
+        text-align: center;
+    }
+
+    .btn-back {
+        background: #9ca3af;
+        color: white;
+    }
+
+        .btn-back:hover {
+            background: #6b7280;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(156, 163, 175, 0.4);
+        }
+
+    .btn-save {
+        background: #4d7df7;
+        color: white;
+    }
+
+        .btn-save:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+            background: #2941ff;
+        }
+
+    .alert {
+        border-radius: 0.75rem;
+        padding: 0.75rem;
+        margin-bottom: 1rem;
+        font-size: 0.9rem;
+    }
+
+    .text-danger {
+        color: #ef4444;
+        font-size: 0.8rem;
+        margin-top: 0.25rem;
+    }
+
+    .form-text {
+        color: #6b7280;
+        font-size: 0.8rem;
+        margin-top: 0.25rem;
+    }
+
+    @@media (max-width: 768px) {
+        .edit-container {
+            padding: 1rem;
+        }
+
+        .edit-card {
+            padding: 1.75rem;
+            border-radius: 1.25rem;
+        }
+
+        .edit-title {
+            font-size: 1.5rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .form-grid {
+            gap: 0.875rem;
+            margin-bottom: 0.875rem;
+        }
+
+        .form-group input {
+            padding: 0.7rem 1.1rem;
+            font-size: 0.9rem;
+        }
+
+        .button-group {
+            gap: 0.65rem;
+        }
+
+        .btn-custom {
+            padding: 0.7rem 1.25rem;
+            font-size: 0.9rem;
+        }
+    }
+
+    /* Mobile devices (480px and below) */
+    @@media (max-width: 480px) {
+        .edit-container {
+            padding: 1rem;
+            align-items: flex-start;
+            padding-top: 1.5rem;
+        }
+
+        .edit-card {
+            padding: 1.5rem;
+            border-radius: 1rem;
+            max-width: 100%;
+        }
+
+        .edit-title {
+            font-size: 1.35rem;
+            margin-bottom: 1rem;
+        }
+
+        .form-grid {
+            gap: 0.875rem;
+            margin-bottom: 0.875rem;
+        }
+
+        .form-group label {
+            font-size: 0.875rem;
+            margin-bottom: 0.35rem;
+        }
+
+        .form-group input {
+            padding: 0.65rem 1rem;
+            font-size: 0.875rem;
+            border-radius: 1rem;
+        }
+
+        .image-preview img {
+            max-width: 120px;
+            max-height: 120px;
+        }
+
+        .button-group {
+            flex-direction: column;
+            gap: 0.65rem;
+            margin-top: 1.25rem;
+        }
+
+        .btn-custom {
+            width: 100%;
+            padding: 0.75rem 1.25rem;
+            font-size: 0.9rem;
+            border-radius: 1rem;
+        }
+
+        .alert {
+            padding: 0.75rem;
+            font-size: 0.875rem;
+        }
+
+        .text-danger,
+        .form-text {
+            font-size: 0.75rem;
+        }
+    }
+
+    /* Very small devices (360px and below) */
+    @@media (max-width: 360px) {
+        .edit-container {
+            padding: 0.75rem;
+            padding-top: 1.25rem;
+        }
+
+        .edit-card {
+            padding: 1.25rem;
+            border-radius: 0.875rem;
+        }
+
+        .edit-title {
+            font-size: 1.25rem;
+        }
+
+        .form-group input {
+            padding: 0.6rem 0.875rem;
+            font-size: 0.8rem;
+        }
+
+        .btn-custom {
+            padding: 0.7rem 1rem;
+            font-size: 0.875rem;
+        }
+    }
+</style>
+
+<div class="edit-container">
+    <div class="edit-card">
+        <h1 class="edit-title">Edit Project Group</h1>
+
+        @if (TempData["Error"] != null)
+        {
+            <div class="alert alert-danger" role="alert">
+                @TempData["Error"]
+            </div>
+        }
+
+        <form asp-action="Edit" method="post">
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(m => m.Id)
+
+            <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+
+            <div class="form-grid">
+                <div class="form-group">
+                    <label asp-for="Name">Group Name:</label>
+                    <input asp-for="Name" placeholder="Enter group name" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="ImageUrl">Image URL:</label>
+                    <input asp-for="ImageUrl" placeholder="https://example.com/image.jpg" />
+                    <span asp-validation-for="ImageUrl" class="text-danger"></span>
+                    <small class="form-text">Optional: Enter a URL to an image for the group</small>
+                </div>
+            </div>
+
+            @if (!string.IsNullOrEmpty(Model.ImageUrl))
+            {
+                <div class="image-preview">
+                    <label>Current Image:</label>
+                    <div>
+                        <img src="@Model.ImageUrl" alt="Current group image" />
+                    </div>
+                </div>
+            }
+
+            <div class="button-group">
+                <a asp-action="Index" asp-route-projectGroupId="@Model.Id" class="btn-custom btn-back">
+                    Go back
+                </a>
+                <button type="submit" class="btn-custom btn-save">
+                    Save
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
