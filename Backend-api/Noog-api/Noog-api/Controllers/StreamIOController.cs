@@ -160,40 +160,6 @@ namespace Noog_api.Controllers
             return Ok(response);
         }   
 
-        [HttpPost("calls/{callId}/join")]
-        public async Task<ActionResult<JoinCallDto>> JoinCall(Guid callId)
-        {
-            var userId = _currentUserService.UserId;
-
-            var user = await _userService.FindByIdAsync(userId);
-
-            if (Guid.Empty==callId)
-                return BadRequest("callId is required.");
-
-            if (user == null)
-                return BadRequest("User payload is missing.");
-
-            var streamApiSecret = _configuration["StreamIo:ApiSecret"];
-
-            string guidAsString = callId.ToString();
-
-            var streamToken = GenerateStreamToken(guidAsString, streamApiSecret);
-
-            // 1. Get or create StreamIO user
-            var streamUser = await _streamIOService.CreateStreamIOUser(user);
-
-            // 3. Return a DTO to frontend can use to join the call
-            var response = new JoinCallDto
-            {
-                callId = guidAsString,
-                userName = streamUser.Name,
-                image = streamUser.UserImage,
-                token = streamUser.Token,
-                apikey = _configuration["StreamIo:ApiKey"]
-            };
-            return Ok(response);
-        }
-
         [HttpPost("create-callid/{callId}")]
         public async Task<IActionResult> CreateCallId(Guid callId)
         {
