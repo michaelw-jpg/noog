@@ -87,6 +87,7 @@ namespace Noog_api
             builder.Services.AddScoped<IUserService<ApplicationUser>, UserService<ApplicationUser>>();
             builder.Services.AddScoped<IAuthService, AuthService>();
             builder.Services.AddScoped<IDashboardService, DashboardService>();
+            builder.Services.AddHttpContextAccessor();
             builder.Services.AddScoped<ICurrentUserService, CurrentUserService>();
             builder.Services.AddScoped<IRecentGroupActivityService, RecentGroupActivityService>();
             builder.Services.AddScoped<IProjectGroupUserService, ProjectGroupUserService>();

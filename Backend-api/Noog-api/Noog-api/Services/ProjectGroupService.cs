@@ -25,10 +25,11 @@ namespace Noog_api.Services
 
             var projectGroupResult = await _projectGroupRepository.CreateGroupProjectsAsync(projectGroupRequest);
 
+            var currentUserId = _currentUser.UserId;
             var groupProjectUser = new ProjectGroupUser
             {
                 ProjectGroupId = projectGroupResult.Id,
-                ApplicationUserId = _currentUser.UserId,
+                ApplicationUserId = currentUserId,
                 IsAdmin = true
             };
             var groupProjectUserResult = await _projectGroupUserService.CreateProjectGroupUserAsync(groupProjectUser);
@@ -124,7 +125,8 @@ namespace Noog_api.Services
         public async Task<BaseResponseDto<ProjectGroupUser>>AddUserToProjectGroup(AddUserToProjectGroupDto request)
         {
           
-            var isAdmin = await _projectGroupUserService.IsUserProjectGroupAdminAsync(request.ProjectGroupId, _currentUser.UserId);
+            var currentUserId = _currentUser.UserId;
+            var isAdmin = await _projectGroupUserService.IsUserProjectGroupAdminAsync(request.ProjectGroupId, currentUserId);
             if (!isAdmin)
             {
                 return new BaseResponseDto<ProjectGroupUser>(

@@ -25,6 +25,7 @@ namespace Noog_api.Controllers
         [HttpGet]
         public async Task<ActionResult<DashboardDataResponseDto>> GetDashboardData()
         {
+            Console.WriteLine(HttpContext.User.Identity.Name);
             var response = await _dashboardService.GetDashboardDataAsync();
 
             return ApiResponseHelper.ToActionResult(response);
