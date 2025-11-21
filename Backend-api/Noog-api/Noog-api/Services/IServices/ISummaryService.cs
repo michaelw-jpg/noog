@@ -5,11 +5,10 @@ namespace Noog_api.Services.IServices
 {
     public interface ISummaryService
     {
-        Task<BaseResponseDto<List<SummaryResponseDto>>> GetAllSummariesAsync();
+        Task<BaseResponseDto<List<SummaryResponseDto>>> GetAllSummariesAsync(string pgId);
 
-        Task<BaseResponseDto<SummaryResponseDto>> GetSummaryByIdAsync(int id);
+        Task<BaseResponseDto<SummaryResponseDto>> GetSummaryByIdAsync(int id, string pgId);
         Task<BaseResponseDto<SummaryResponseDto>> CreateSummaryAsync(CreateSummaryRequestDto Request);
-        Task<BaseResponseDto<SummaryResponseDto>> UpdateSummaryAsync(int id, PatchSummaryDto updatedSummary);
 
         Task<BaseResponseDto<int>> DeleteSummaryAsync(int id);
     }

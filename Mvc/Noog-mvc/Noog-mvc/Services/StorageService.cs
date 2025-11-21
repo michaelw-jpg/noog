@@ -14,9 +14,9 @@ namespace Noog_mvc.Services
         }
 
         // Todo [API Call]Not tested with API running
-        public async Task<List<StorageSummary>> GetSummaryList()
+        public async Task<List<StorageSummary>> GetSummaryList(string pgId)
         {
-            var response = await _client.GetAsync("summary");
+            var response = await _client.GetAsync($"summary/projectgroup/{pgId}");
 
             response.EnsureSuccessStatusCode();
 
@@ -24,9 +24,9 @@ namespace Noog_mvc.Services
             return summaries ?? new List<StorageSummary>();
         }
         // Todo [API Call]Not tested with API running
-        public async Task<SummaryDisplayDto> GetSummarybyId(int id)
+        public async Task<SummaryDisplayDto> GetSummarybyId(int id, string pgId)
         {
-            var response = await _client.GetAsync($"summary/{id}");
+            var response = await _client.GetAsync($"summary/{id}/projectgroup/{pgId}");
 
             response.EnsureSuccessStatusCode();
 

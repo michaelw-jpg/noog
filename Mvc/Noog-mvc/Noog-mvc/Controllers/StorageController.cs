@@ -10,8 +10,9 @@ namespace Noog_mvc.Controllers
         private readonly StorageService _service = service;
         public async Task<IActionResult> Index()
         {
-           
-            var model = await _service.GetSummaryList();
+            string pgId = ViewBag.ProjectGroupId.ToString();
+            
+            var model = await _service.GetSummaryList(pgId);
 
          
             // Styling - Se Figma 
@@ -20,8 +21,8 @@ namespace Noog_mvc.Controllers
 
         public async Task<IActionResult> Summary(int id)
         {
-            
-            var model = await _service.GetSummarybyId(id);
+            string pgId = ViewBag.ProjectGroupId.ToString();
+            var model = await _service.GetSummarybyId(id, pgId);
             
             // Styling - Se Figma 
             return View(model);

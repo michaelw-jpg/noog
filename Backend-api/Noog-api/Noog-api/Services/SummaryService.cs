@@ -18,9 +18,17 @@ namespace Noog_api.Services
         private readonly IGroupStorageService _groupStorage = groupStorage;
 
 
-        public async Task<BaseResponseDto<List<SummaryResponseDto>>> GetAllSummariesAsync()
+        public async Task<BaseResponseDto<List<SummaryResponseDto>>> GetAllSummariesAsync(string pgId)
         {
-            var result = await _repo.GetAllSummariesAsync();
+            var isGuid = Guid.TryParse(pgId, out Guid parsedPgId);
+
+            if (!isGuid)
+                return new BaseResponseDto<List<SummaryResponseDto>>(
+                    Enums.StatusCodesEnum.BadRequest, 
+                    "Invalid request due to incorrect project group id", 
+                    null);
+
+            var result = await _repo.GetAllSummariesAsync(parsedPgId);
 
             var response = new BaseResponseDto<List<SummaryResponseDto>>();
 
@@ -42,9 +50,17 @@ namespace Noog_api.Services
             return response;
         }
 
-        public async Task<BaseResponseDto<SummaryResponseDto>> GetSummaryByIdAsync(int id)
+        public async Task<BaseResponseDto<SummaryResponseDto>> GetSummaryByIdAsync(int id, string pgId)
         {
-            var result = await _repo.GetSummaryByIdAsync(id);
+            var isGuid = Guid.TryParse(pgId, out Guid parsedPgId);
+
+            if (!isGuid)
+                return new BaseResponseDto<SummaryResponseDto>(
+                    Enums.StatusCodesEnum.BadRequest,
+                    "Invalid request due to incorrect project group id",
+                    null);
+
+            var result = await _repo.GetSummaryByIdAsync(id, parsedPgId);
             var response = new BaseResponseDto<SummaryResponseDto>();
             
             if(result == null)
@@ -131,41 +147,6 @@ namespace Noog_api.Services
             
 
             return response;
-        }
-
-        public async Task<BaseResponseDto<SummaryResponseDto>> UpdateSummaryAsync(int id, PatchSummaryDto updatedSummary)
-        {
-            var summary = await _repo.GetSummaryByIdAsync(id);
-            if(summary == null)
-            {
-                return new BaseResponseDto<SummaryResponseDto>
-                {
-                    StatusCode = Enums.StatusCodesEnum.NotFound,
-                    Message = "Summary not found"
-                };
-            }
-
-            var response = new BaseResponseDto<SummaryResponseDto>();
-            GenericMapper.ApplyPatch(summary, updatedSummary);
-
-            try
-            {
-                await _repo.UpdateSummaryAsync(id, summary);
-            }
-            catch (Exception ex)
-            {
-                response.Data = GenericMapper.ToDto<Summary, SummaryResponseDto>(summary);
-                response.StatusCode = Enums.StatusCodesEnum.ServerError;
-                response.Message = ex.Message;
-                return response;
-
-            }
-            response.Data = GenericMapper.ToDto<Summary, SummaryResponseDto>(summary);
-            response.StatusCode = Enums.StatusCodesEnum.Success;
-            response.Message = "Summary updated successfully";
-            return response;
-
-            
         }
 
         public async Task<BaseResponseDto<int>> DeleteSummaryAsync(int id)
