@@ -143,14 +143,14 @@ namespace Noog_api.Controllers
 
             string callId = projectGroupId.ToString();
 
-            var streamToken = GenerateStreamToken(callId, streamApiSecret);
-
-            // 1. Get or create StreamIO user
+            // Create and fetch user
             var streamUser = await _streamIOService.CreateStreamIOUser(user);
+
+            var streamToken = GenerateStreamToken(callId, streamApiSecret);            
 
             var frontendBaseUrl = _configuration["Vercel:baseUrl"];
 
-            var JoinUrl = $"{frontendBaseUrl}/?callId={callId}&userId={user.Id}&token={streamUser.Token}&image={streamUser.UserImage}";
+            var JoinUrl = $"{frontendBaseUrl}/?callId={callId}&userId={user.Id}&name={user.FirstName}&token={streamUser.Token}&image={streamUser.UserImage}";
 
             // 3. Return a DTO with join call Url 
             var response = new JoinCallDto
