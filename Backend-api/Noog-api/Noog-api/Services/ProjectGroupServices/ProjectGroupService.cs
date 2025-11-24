@@ -9,8 +9,10 @@ using Noog_api.Services.IServices;
 namespace Noog_api.Services.ProjectGroupServices
 {
     public class ProjectGroupService(IProjectGroupRepository projectGroupRepository, ICurrentUserService currentUser,
-        IProjectGroupUserService projectGroupUserService, IGroupMeetingService groupMeetingService, IGroupStorageService groupStorageService) : IProjectGroupService
+        IProjectGroupUserService projectGroupUserService, IGroupMeetingService groupMeetingService, IGroupStorageService groupStorageService,
+        StreamIOService iOService) : IProjectGroupService
     {
+        private readonly StreamIOService _streamIOService = iOService;
         private readonly IProjectGroupRepository _projectGroupRepository = projectGroupRepository;
         private readonly ICurrentUserService _currentUser = currentUser;
         private readonly IProjectGroupUserService _projectGroupUserService = projectGroupUserService;
@@ -32,14 +34,16 @@ namespace Noog_api.Services.ProjectGroupServices
                 ApplicationUserId = currentUserId,
                 IsAdmin = true
             };
+            var streamIDisCreated = await _streamIOService.CreateStreamIOCallId(projectGroupResult.Id);
             var groupProjectUserResult = await _projectGroupUserService.CreateProjectGroupUserAsync(groupProjectUser);
             
             //get callid from microservice
             var GroupMeeting = new GroupMeeting
             {
-                CallId = "placeholder-call-id",
+                CallId = projectGroupResult.Id.ToString(),
                 ProjectGroupId = projectGroupResult.Id
             };
+
             
             //maybe add groupchat at one point
             var groupMeetingResult = await _groupMeetingService.CreateGroupMeetingAsync(GroupMeeting);
@@ -53,7 +57,7 @@ namespace Noog_api.Services.ProjectGroupServices
             //maybe add groupchat at one point
 
             var finalResult = new BaseResponseDto<string>(
-                Enums.StatusCodesEnum.Created, "Project group created", "");
+                Enums.StatusCodesEnum.Created, "Project group created ", "");
 
             return finalResult;
         }
