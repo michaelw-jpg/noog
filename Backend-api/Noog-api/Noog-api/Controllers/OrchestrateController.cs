@@ -22,22 +22,25 @@ namespace Noog_api.Controllers
             if (dto == null)
                 return BadRequest("Request body is missing.");
 
-            Console.WriteLine("Raw projectGroupId:" + dto.projectGroupId);
-
-            Console.WriteLine("Raw DTO JSON:");
-            Console.WriteLine(System.Text.Json.JsonSerializer.Serialize(dto));
-
-            if (string.IsNullOrWhiteSpace(dto.projectGroupId))
-                return BadRequest("ProjectGroupId cannot be empty.");
-
-            var trimmedId = dto.projectGroupId.Trim();
-            if (!Guid.TryParse(trimmedId, out var projectGuid))
-                return BadRequest($"Invalid ProjectGroupId format: {trimmedId}");
-
             if (string.IsNullOrWhiteSpace(dto.audioUrl))
                 return BadRequest("Audio URL cannot be empty.");
 
-            var response = await _orchestrate.OrchestrateAsync(dto.audioUrl, projectGuid, dto.language);
+            Console.WriteLine(dto.projectGroupId);
+
+            string guidToParse = dto.projectGroupId;
+
+            Console.WriteLine(guidToParse);
+
+            foreach (var item in guidToParse)
+            {
+                Console.Write($"{item},");
+            }
+
+            bool isGuid = Guid.TryParse(guidToParse, out Guid parsedGuid);
+
+            Console.WriteLine(parsedGuid);
+
+            var response = await _orchestrate.OrchestrateAsync(dto.audioUrl, parsedGuid, dto.language);
             return ApiResponseHelper.ToActionResult(response);
 
         }
