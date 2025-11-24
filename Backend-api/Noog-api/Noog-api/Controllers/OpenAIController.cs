@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Identity.Client;
 using Noog_api.DTOs;
 using Noog_api.DTOs.BaseResponseDtos;
+using Noog_api.Enums;
 using Noog_api.Helpers;
 using Noog_api.Models.AssemblyAi;
 using Noog_api.Services.IServices;

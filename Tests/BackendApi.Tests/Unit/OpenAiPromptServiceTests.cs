@@ -3,11 +3,14 @@ using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
 using Noog_api.DTOs;
 using Noog_api.DTOs.BaseResponseDtos;
+using Noog_api.Enums;
 using Noog_api.Models;
+using Noog_api.Models.AssemblyAi;
 using Noog_api.Services;
 using Noog_api.Services.IServices;
 using NSubstitute;
 using OpenAI.Responses;
+using StreamChat.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,9 +23,8 @@ namespace BackendApi.Tests.Unit
 {
     public class OpenAiPromptServiceTests
     {
-        // TODO [Oliver] - Uppdatera tester
+        //TODO[Oliver] - Uppdatera tester
 
-        /*
         private readonly IOpenAiService _openAiMock;
         private readonly OpenAiPromptService _promptServiceMock;
 
@@ -36,131 +38,148 @@ namespace BackendApi.Tests.Unit
         public async Task CreatePromptAsync_WithExecutiveSummary_CallsWithCorrectPrompt()
         {
             //Arrange
+            var transcript = "This is a meeting transcript with project discussions";
+            var language = "English";
             var expectedResponse = new BaseResponseDto<OpenAIResponseDto>
             {
                 Data = new OpenAIResponseDto
                 {
-                    Message = "This is a meeting summary"
+                    Title = "Executive summary",
+                    Summary = "This is a meeting summary"
                 }
             };
 
             _openAiMock
-                .GetChatResponseAsync(Arg.Any<string>())
+                .GetChatResponseAsync(Arg.Any<PromptType>(), Arg.Any<string>(), Arg.Any<string>())
                 .Returns(expectedResponse);
 
             //Act
-            var result = await _promptServiceMock.CreatePromptAsync(OpenAiPromptService.PromptType.ExecutiveSummary);
+            var result = await _promptServiceMock.CreatePromptAsync(PromptType.ExecutiveSummary, transcript, language);
 
-            //Assert
-            Assert.Equal("This is a meeting summary", result);
+
+
+           // Assert
             await _openAiMock.Received(1).GetChatResponseAsync(
-                Arg.Is<string>(s =>
-                    s.Contains("Highligt") &&
-                    s.Contains("Keep it under 300 words")));
+                Arg.Is<PromptType>(pt => pt == PromptType.ExecutiveSummary),
+                Arg.Is<string>(s => s == transcript),
+                Arg.Is<string>(l => l == language));
         }
         [Fact]
         public async Task CreatePromptAsync_WithInsightExtraciontSummary_CallsWithCorrectPrompt()
         {
             //Arrange
+            var transcript = "This is the meeting transcript focused on insight extraction.";
+            var language = "English";
             var expectedResponse = new BaseResponseDto<OpenAIResponseDto>
             {
                 Data = new OpenAIResponseDto
                 {
-                    Message = "This is an insight meeting summary"
+                    Title = "Extraction insight summary",
+                    Summary = "This is an insight meeting summary"
                 }
             };
 
             _openAiMock
-                .GetChatResponseAsync(Arg.Any<string>())
+                 .GetChatResponseAsync(Arg.Any<PromptType>(), Arg.Any<string>(), Arg.Any<string>())
                 .Returns(expectedResponse);
 
-            //Act
-            var result = await _promptServiceMock.CreatePromptAsync(OpenAiPromptService.PromptType.InsightExtractionSummary);
+            // Act
+            var result = await _promptServiceMock.CreatePromptAsync(PromptType.InsightExtractionSummary, transcript, language);
 
             //Assert
-            Assert.Equal("This is an insight meeting summary", result);
             await _openAiMock.Received(1).GetChatResponseAsync(
-                Arg.Is<string>(s =>
-                    s.Contains("Extract insight") &&
-                    s.Contains("strategy budget and timelines")));
+                 Arg.Is<PromptType>(pt => pt == PromptType.InsightExtractionSummary),
+                 Arg.Is<string>(s => s == transcript),
+                 Arg.Is<string>(l => l == language));
         }
         [Fact]
         public async Task CreatePromptAsync_WithClientCallSummary_CallsWithCorrectPrompt()
         {
             //Arrange
+            var transcript = "This is the meeting transcript for client call summary.";
+            var language = "English";
             var expectedResponse = new BaseResponseDto<OpenAIResponseDto>
             {
                 Data = new OpenAIResponseDto
                 {
-                    Message = "This is a client call summary"
+                    Title = "Client call summary",
+                    Summary = "This is a client call summary"
                 }
             };
 
             _openAiMock
-                .GetChatResponseAsync(Arg.Any<string>())
+                .GetChatResponseAsync(Arg.Any<PromptType>(), Arg.Any<string>(), Arg.Any<string>())
                 .Returns(expectedResponse);
 
-            //Act
-            var result = await _promptServiceMock.CreatePromptAsync(OpenAiPromptService.PromptType.ClientCallSummary);
+            // Act
+            var result = await _promptServiceMock.CreatePromptAsync(PromptType.ClientCallSummary, transcript, language);
 
             //Assert
-            Assert.Equal("This is a client call summary", result);
             await _openAiMock.Received(1).GetChatResponseAsync(
-                Arg.Is<string>(s =>
-                    s.Contains("client summary") &&
-                    s.Contains("Use a professional tone")));
+                Arg.Is<PromptType>(pt => pt == PromptType.ClientCallSummary),
+                Arg.Is<string>(s => s == transcript),
+                Arg.Is<string>(l => l == language));
         }
         [Fact]
         public async Task CreatePromptAsync_WithDetailesSummary_CallsWithCorrectPrompt()
         {
             //Arrange
+            var transcript = "This is the meeting transcript summamry focused on details.";
+            var language = "English";
             var expectedResponse = new BaseResponseDto<OpenAIResponseDto>
             {
                 Data = new OpenAIResponseDto
                 {
-                    Message = "Detailed Summary with key points highlighted"
+                    Title = "Detailed summary",
+                    Summary = "Detailed Summary with key points highlighted"
                 }
             };
 
             _openAiMock
-                .GetChatResponseAsync(Arg.Any<string>())
+                .GetChatResponseAsync(Arg.Any<PromptType>(), Arg.Any<string>(), Arg.Any<string>())
                 .Returns(expectedResponse);
 
             //Act
-            var result = await _promptServiceMock.CreatePromptAsync(OpenAiPromptService.PromptType.DetailedSummary);
+            var result = await _promptServiceMock.CreatePromptAsync(PromptType.DetailedSummary, transcript, language);
 
             //Assert
-            Assert.Equal("Detailed Summary with key points highlighted", result);
             await _openAiMock.Received(1).GetChatResponseAsync(
-                Arg.Is<string>(s =>
-                    s.Contains("Provide a structured summary") &&
-                    s.Contains("Open Questions or Follow-ups")));
+                Arg.Is<PromptType>(pt => pt == PromptType.DetailedSummary),
+                Arg.Is<string>(s => s == transcript),
+                Arg.Is<string>(l => l == language));
         }
         [Theory]
-        [InlineData(PromptType.ExecutiveSummary)]
-        [InlineData(PromptType.DetailedSummary)]
-        [InlineData(PromptType.ClientCallSummary)]
-        [InlineData(PromptType.InsightExtractionSummary)]
-        public async Task CreatePromptAsync_TwoPromptTypes_CallsOpenAiSerive(PromptType type)
+        [InlineData(PromptType.ExecutiveSummary, "English", "Executive summary")]
+        [InlineData(PromptType.DetailedSummary, "English", "Detailed summary")]
+        [InlineData(PromptType.ClientCallSummary, "English", "Client call summary")]
+        [InlineData(PromptType.InsightExtractionSummary, "English", "Insight extraction summary")]
+        public async Task CreatePromptAsync_TwoPromptTypes_CallsOpenAiSerive(PromptType type, string language, string expectedMessage)
         {
             //Arrange
+            var transcript = "Test transcrip";
             var expectedResponse = new BaseResponseDto<OpenAIResponseDto>
             {
                 Data = new OpenAIResponseDto
                 {
-                    Message = "Meeting summary"
-                }
+                    Title = "Cooked",
+                    Summary = expectedMessage
+                },
             };
             _openAiMock
-                .GetChatResponseAsync(Arg.Any<string>())
-                .Returns(expectedResponse);
+               .GetChatResponseAsync(Arg.Any<PromptType>(), Arg.Any<string>(), Arg.Any<string>())
+               .ReturnsForAnyArgs(Task.FromResult(expectedResponse));
 
             //Act
-            var result = await _promptServiceMock.CreatePromptAsync(type);
+            var result = await _promptServiceMock.CreatePromptAsync(type, transcript, language);
 
             //Assert
-            await _openAiMock.Received(1).GetChatResponseAsync(Arg.Any<string>());
+            Assert.NotNull(result);
+            Assert.Equal(expectedMessage, result);
+            await _openAiMock.Received(1).GetChatResponseAsync(
+                Arg.Is<PromptType>(pt => pt == type),
+                Arg.Any<string>(),
+                Arg.Is<string>(l => l == language));
         }
-        */
+
     }
 }

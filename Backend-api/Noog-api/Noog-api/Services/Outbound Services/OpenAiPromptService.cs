@@ -1,4 +1,6 @@
-﻿using Noog_api.Services.IServices;
+﻿using Noog_api.Enums;
+using Noog_api.Models.AssemblyAi;
+using Noog_api.Services.IServices;
 
 namespace Noog_api.Services
 {
@@ -11,30 +13,18 @@ namespace Noog_api.Services
             _openAiService = openAiService;
         }
 
-        public async Task<string> CreatePromptAsync(PromptType type)
+        public async Task<string> CreatePromptAsync(PromptType type, string transcript, string language)
         {
-            string transcript = "Genereate a random meeting transcript of a 1000 words";
-            if (!Prompts.TryGetValue(type, out var template))
+            if (!Prompts.ContainsKey(type))
             {
                 throw new ArgumentException($"No prompt found for {type}");
             }
 
-            string finalPrompt = template.Replace("{transcript}", transcript);
-
-            var response = await _openAiService.GetChatResponseAsync(finalPrompt);
+            var response = await _openAiService.GetChatResponseAsync(type, transcript, language);
 
             return response.Data?.Summary ?? string.Empty;
         }
         
-        public enum PromptType
-        {
-            MeetingSummary, //general summary
-            ExecutiveSummary,//Highligt main topics with action items and assigend owners and deadlines
-            DetailedSummary,//Agenda, key points, decisions Made followuup and action items
-            InsightExtractionSummary,//Extract insight challanges and oppertuinites and emphasis impact on strategy budget and timelines
-            ClientCallSummary,//Create a client simmary include client geals conserns objections and propores solutions and next steps use professional tone
-
-        }
 
         public static readonly Dictionary<PromptType, string> Prompts = new()
         {
