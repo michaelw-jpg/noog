@@ -62,8 +62,8 @@ namespace Noog_api.Services
 
             var createSummaryDto = new CreateSummaryRequestDto
             {
-                Title = "Auto-generated Summary", //need to ask ai for a title later
-                Content = openAiResponse.Data.Message,
+                Title = openAiResponse.Data.Title ?? "Auto-generated Summary Title", 
+                Content = openAiResponse.Data.Summary,
                 ProjectGroupId = projectGroupId
             };
             var summaryResult = await _summaryService.CreateSummaryAsync(createSummaryDto);
