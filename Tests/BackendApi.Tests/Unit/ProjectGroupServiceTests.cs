@@ -4,6 +4,7 @@ using Noog_api.DTOs.ProjectGroup;
 using Noog_api.Enums;
 using Noog_api.Models.Application;
 using Noog_api.Repositories.IRepositories;
+using Noog_api.Services;
 using Noog_api.Services.IServices;
 using Noog_api.Services.ProjectGroupServices;
 using NSubstitute;
@@ -19,7 +20,7 @@ namespace BackendApi.Tests.Unit
         private readonly IProjectGroupUserService _projectGroupUserService;
         private readonly IGroupMeetingService _groupMeetingService;
         private readonly IGroupStorageService _groupStorageService;
-
+        private readonly StreamIOService _streamIOService;
         private readonly ProjectGroupService _service;
 
 
@@ -31,13 +32,15 @@ namespace BackendApi.Tests.Unit
             _projectGroupUserService = Substitute.For<IProjectGroupUserService>();
             _groupMeetingService = Substitute.For<IGroupMeetingService>();
             _groupStorageService = Substitute.For<IGroupStorageService>();
+            _streamIOService = Substitute.For<StreamIOService>();
 
             _service = new ProjectGroupService(
                 _projectRepo,
                 _currentUser,
                 _projectGroupUserService,
                 _groupMeetingService,
-                _groupStorageService
+                _groupStorageService,
+                _streamIOService
             );
         }
 
