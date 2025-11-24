@@ -32,6 +32,17 @@ namespace Noog_api
         {
             var builder = WebApplication.CreateBuilder(args);
 
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAll", policy =>
+                {
+                    policy
+                        .AllowAnyOrigin()    
+                        .AllowAnyHeader()    
+                        .AllowAnyMethod();   
+                });
+            });
+
             // Add services to the container.
             builder.Services.AddDbContext<NoogDbContext>(opt =>
                 opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
@@ -132,7 +143,10 @@ namespace Noog_api
 
             app.UseExceptionHandler(options => { });
 
+            app.UseCors("AllowAll");
+
             app.UseHttpsRedirection();
+            
             app.UseAuthentication();
 
             app.UseAuthorization();
