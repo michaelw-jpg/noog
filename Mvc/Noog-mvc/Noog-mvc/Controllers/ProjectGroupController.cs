@@ -34,7 +34,9 @@ namespace Noog_mvc.Controllers
                 {
                     GroupId = response.ProjectGroup.GroupId,
                     GroupName = response.ProjectGroup.GroupName,
-                    GroupImg = response.ProjectGroup.GroupImg
+                    GroupImg = response.ProjectGroup.GroupImg,
+                    IsAdmin = response.IsAdmin
+
                 },
                 MeetingRoom = new MeetingRoomViewModel
                 {

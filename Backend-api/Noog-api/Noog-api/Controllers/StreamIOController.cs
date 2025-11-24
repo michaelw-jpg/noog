@@ -159,5 +159,21 @@ namespace Noog_api.Controllers
             };
             return Ok(response);
         }   
+
+        [HttpPost("create-callid/{callId}")]
+        public async Task<IActionResult> CreateCallId(Guid callId)
+        {
+            if (callId == Guid.Empty)
+                return BadRequest("callId required");
+
+            // Detta kommer anropa ditt Express.js API via HttpClient
+            var success = await _streamIOService.CreateStreamIOCallId(callId);
+
+            return Ok(new
+            {
+                callId,
+                success
+            });
+        }
     }
 }

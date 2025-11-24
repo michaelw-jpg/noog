@@ -6,7 +6,7 @@ using Noog_api.Models.Application;
 using Noog_api.Repositories.IRepositories;
 using Noog_api.Services.IServices;
 
-namespace Noog_api.Services
+namespace Noog_api.Services.ProjectGroupServices
 {
     public class ProjectGroupService(IProjectGroupRepository projectGroupRepository, ICurrentUserService currentUser,
         IProjectGroupUserService projectGroupUserService, IGroupMeetingService groupMeetingService, IGroupStorageService groupStorageService) : IProjectGroupService
@@ -60,7 +60,9 @@ namespace Noog_api.Services
 
         public async Task <BaseResponseDto<ProjectGroup>> Patch(ProjectGroupPatchDto request)
         {
-            var projectGroup = await _projectGroupRepository.GetGroupProjectByIdAsync(request.Id);
+            
+            var currentUserId = _currentUser.UserId;
+            var projectGroup = await _projectGroupRepository.GetGroupProjectByIdAsync(request.Id, currentUserId );
             if (projectGroup is null)
             {
                  return new BaseResponseDto<ProjectGroup>(
@@ -100,7 +102,8 @@ namespace Noog_api.Services
 
         public async Task<BaseResponseDto<ProjectGroupByIdResponse>> GetProjectGroupByIdAsync(Guid id)
         {
-            var response = await _projectGroupRepository.GetGroupProjectByIdAsync(id);
+            var currentUserId = _currentUser.UserId;
+            var response = await _projectGroupRepository.GetGroupProjectByIdAsync(id,currentUserId);
 
             if (response == null)
             {
@@ -113,6 +116,8 @@ namespace Noog_api.Services
                 ProjectGroup = GenericMapper.ToDto<ProjectGroup,ProjectGroupById>(response),
                 GroupMeeting = GenericMapper.ToDto<GroupMeeting, GroupMeetingInfo>(response.GroupMeeting)
             };
+            data.IsAdmin = response.ProjectGroupUsers
+                .Any(pgu => pgu.ApplicationUserId == currentUserId && pgu.IsAdmin);
 
             var result = new BaseResponseDto<ProjectGroupByIdResponse>(
                 Enums.StatusCodesEnum.Success, "Project group retrieved successfully", data);

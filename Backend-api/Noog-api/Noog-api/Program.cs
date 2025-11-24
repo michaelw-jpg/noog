@@ -19,6 +19,10 @@ using System;
 using System.Text;
 using System.Threading.Tasks;
 using Noog_api.Services.Dashboard;
+using Noog_api.Services.ProjectGroupServices;
+using Noog_api.Services.UserServices;
+using Noog_api.Services.AuthServices;
+using Noog_api.Repositories.GroupRepos;
 
 namespace Noog_api
 {
@@ -27,6 +31,17 @@ namespace Noog_api
         public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAll", policy =>
+                {
+                    policy
+                        .AllowAnyOrigin()    
+                        .AllowAnyHeader()    
+                        .AllowAnyMethod();   
+                });
+            });
 
             // Add services to the container.
             builder.Services.AddDbContext<NoogDbContext>(opt =>
@@ -128,7 +143,10 @@ namespace Noog_api
 
             app.UseExceptionHandler(options => { });
 
+            app.UseCors("AllowAll");
+
             app.UseHttpsRedirection();
+            
             app.UseAuthentication();
 
             app.UseAuthorization();

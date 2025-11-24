@@ -2,7 +2,7 @@
 using Noog_api.Models.Application;
 using Noog_api.Repositories.IRepositories;
 
-namespace Noog_api.Repositories
+namespace Noog_api.Repositories.GroupRepos
 {
     public class GroupMeetingRepo(NoogDbContext dbContext) : IGroupMeetingRepo
     {

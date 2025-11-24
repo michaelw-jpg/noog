@@ -7,7 +7,7 @@ using Noog_api.Models.Application;
 using Noog_api.Repositories.IRepositories;
 using Noog_api.Services.IServices;
 
-namespace Noog_api.Services
+namespace Noog_api.Services.ProjectGroupServices
 {
     public class RecentGroupActivityService(IProjectGroupUserService projectGroupUser, IRecentGroupActivityRepo recentGroupRepo) : IRecentGroupActivityService
     {
@@ -30,7 +30,7 @@ namespace Noog_api.Services
         {
            
             var newActivity = new RecentGroupActivity();
-            GenericMapper.ApplyCreate<RecentGroupActivity,CreateRecentSummaryRequest>(newActivity, request);
+            GenericMapper.ApplyCreate(newActivity, request);
             try
             {
                 await _recentGroupRepo.AddRecentGroupActivityAsync(newActivity);

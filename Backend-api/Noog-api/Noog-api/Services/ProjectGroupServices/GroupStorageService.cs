@@ -2,7 +2,7 @@
 using Noog_api.Repositories.IRepositories;
 using Noog_api.Services.IServices;
 
-namespace Noog_api.Services
+namespace Noog_api.Services.ProjectGroupServices
 {
     public class GroupStorageService(IGroupStorageRepo groupStorageRepo) : IGroupStorageService
     {
