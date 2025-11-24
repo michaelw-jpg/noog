@@ -51,7 +51,7 @@ namespace Noog_api.Services
 
                 Instructions:
                 - Return a concise summary in {{summaryLanguage}}. 
-                - Additional instruction: {{additionalInstruction}}
+                - Additional instructions: {{additionalInstruction}}
                 - Return a title for the summary.
                 - Return your answer strictly as valid JSON.
                 - Use the following schema:
