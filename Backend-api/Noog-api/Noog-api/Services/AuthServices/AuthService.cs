@@ -8,7 +8,7 @@ using Noog_api.Repositories.IRepositories;
 using Noog_api.Services.IServices;
 using System.Data;
 
-namespace Noog_api.Services
+namespace Noog_api.Services.AuthServices
 {
     public class AuthService : IAuthService
     {

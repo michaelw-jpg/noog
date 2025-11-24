@@ -142,26 +142,29 @@
 <section>
     <article class="pg-header">
         <h1 class="pg-title">@Model?.GroupName</h1>
+		@if (Model?.IsAdmin == true)
+        {
+            <div class="pg-actions">
+              <a asp-action="AddUser"
+                 asp-controller="ProjectGroup"
+                 asp-route-projectGroupId="@currentGroupId"
+                 class="btn-header"
+                 aria-label="Add User">
+                  <i class="fas fa-user-plus"></i>
+                  <span>Add User</span>
+             </a>
 
-        <div class="pg-actions">
-            <a asp-action="AddUser"
-               asp-controller="ProjectGroup"
-               asp-route-projectGroupId="@currentGroupId"
-               class="btn-header"
-               aria-label="Add User">
-                <i class="fas fa-user-plus"></i>
-                <span>Add User</span>
-            </a>
-
-            <a asp-action="Edit"
-               asp-controller="ProjectGroup"
-               asp-route-projectGroupId="@currentGroupId"
-               class="btn-header"
-               aria-label="Edit Project Group">
-                <i class="fas fa-edit"></i>
-                <span>Edit</span>
-            </a>
-        </div>
+              <a asp-action="Edit"
+                 asp-controller="ProjectGroup"
+                 asp-route-projectGroupId="@currentGroupId"
+                 class="btn-header"
+                 aria-label="Edit Project Group">
+                  <i class="fas fa-edit"></i>
+                  <span>Edit</span>
+              </a>
+          </div>
+        }
+     
         @if (!string.IsNullOrWhiteSpace(Model?.GroupImg))
         {
             <img src="@Model.GroupImg" alt="@Model.GroupName logo" class="pg-call-icon" />

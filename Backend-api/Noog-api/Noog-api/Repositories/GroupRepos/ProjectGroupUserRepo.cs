@@ -6,7 +6,7 @@ using Noog_api.Repositories.IRepositories;
 using Noog_api.Services;
 using Noog_api.Services.IServices;
 
-namespace Noog_api.Repositories
+namespace Noog_api.Repositories.GroupRepos
 {
     public class ProjectGroupUserRepo(NoogDbContext context, ICurrentUserService currentUserService,
         IUserService<ApplicationUser> userService) : IProjectGroupUserRepo

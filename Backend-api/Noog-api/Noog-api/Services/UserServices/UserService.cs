@@ -6,7 +6,7 @@ using Noog_api.Services.IServices;
 using Noog_api.DTOs;
 using Noog_api.DTOs.UserDtos;
 
-namespace Noog_api.Services
+namespace Noog_api.Services.UserServices
 {
     public class UserService<TUser> : IUserService<TUser> where TUser : class
     {
