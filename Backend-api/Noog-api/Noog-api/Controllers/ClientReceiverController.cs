@@ -31,9 +31,6 @@ namespace Noog_api.Controllers
                 var transcript = await _assemblyAiService.CreateTranscriptAsync(uploadedUrl, request.Language);
 
                 var completed = await _assemblyAiService.WaitForTranscriptToProcess(transcript);
-
-                
-
                 return Ok(completed);
             }
             catch (Exception ex)
