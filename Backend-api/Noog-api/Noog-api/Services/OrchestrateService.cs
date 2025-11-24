@@ -7,6 +7,7 @@ using Noog_api.Services.IServices;
 using OpenAI.Responses;
 using StreamChat.Models;
 using static Noog_api.Services.OpenAiPromptService;
+using PromptType = Noog_api.Enums.PromptType;
 
 namespace Noog_api.Services
 {

@@ -1,5 +1,6 @@
 ﻿using Noog_api.DTOs.BaseResponseDtos;
 using Noog_api.DTOs.Summary;
+using Noog_api.Enums;
 using static Noog_api.Services.OpenAiPromptService;
 
 namespace Noog_api.Services.IServices
