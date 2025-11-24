@@ -150,7 +150,7 @@ namespace Noog_api.Controllers
 
             var frontendBaseUrl = _configuration["Vercel:baseUrl"];
 
-            var JoinUrl = $"{frontendBaseUrl}/?callId={callId}&userId={user.Id}&name={user.FirstName}&token={streamUser.Token}&image={streamUser.UserImage}";
+            var JoinUrl = $"{frontendBaseUrl}/?callId={callId}&userId={user.Id}&name={user.UserName}&token={streamUser.Token}&image={streamUser.UserImage}";
 
             // 3. Return a DTO with join call Url 
             var response = new JoinCallDto
