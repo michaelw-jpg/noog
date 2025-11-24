@@ -27,53 +27,47 @@ namespace Noog_api.Services
                 throw new Exception("OpenAI configuration is missing");
 
             _client = new AzureOpenAIClient(new Uri(endpoint), new AzureKeyCredential(apiKey));
-
-
         }
 
-        public async Task<BaseResponseDto<OpenAIResponseDto>> GetChatResponseAsync(string prompt)
-        {
-            var chatClient = _client.GetChatClient(_deployment);
-
-            var context = "Context: You are an assistant transcribing a voice call according to the transcript provided. Your task is to read the transcript below and write a concise summary.";
-            var context2 = "Context: You are an assistant transcribing a voice call according to the transcript provided. Your task is to read the transcript below and write a concise summary. but translate to swedish";
-
-            List<ChatMessage> chatHistory = [
-            new SystemChatMessage(context2),
-            new UserChatMessage(prompt),
-            ];
-
-            var response = await chatClient.CompleteChatAsync(chatHistory);
-            var assistantMessage = response.Value.Content[0].Text;
-            
-            var result = new BaseResponseDto<OpenAIResponseDto>();
-            result.Data = new OpenAIResponseDto
-            {
-                Message = assistantMessage
-            };
-
-            result.StatusCode = Enums.StatusCodesEnum.Success;
-            return result;
-        }
-        //Change transcript id to the audio from assemblyAi and add input of Transcript class
+        
         public async Task<BaseResponseDto<OpenAIResponseDto>> GetChatResponseAsync(PromptType type, string transcript, string language)
         {
             
-            if (!Prompts.TryGetValue(type, out var template))
+            if (!Prompts.TryGetValue(type, out var additionalInstruction))
             {
-                throw new ArgumentException($"No prompt found for {type}");
+                throw new ArgumentException($"No instruction found for {type}");
             }
-            
 
+            string summaryLanguage = language ?? "the same language as the transcript";
             string finalPrompt = transcript;
 
             var chatClient = _client.GetChatClient(_deployment);
 
-            var system = $"Context: You are an assistant transcribing a voice call according to the transcript provided with the following style:{type.ToString()} " +
-                $"In the following Language: {language}";
+
+            var context =
+               $$"""
+                Context: 
+                You are an assistant summarizing a voice transcript. 
+
+                Instructions:
+                - Return a concise summary in {{summaryLanguage}}. 
+                - Additional instruction: {{additionalInstruction}}
+                - Return a title for the summary.
+                - Return your answer strictly as valid JSON.
+                - Use the following schema:
+
+                { 
+                    "title": "string", 
+                    "summary": "string" 
+                }
+
+                Important:                
+                - Do Not add explanation, commentary, or any extra text outside the JSON object. 
+                """;
+
             var chatHistory = new List<ChatMessage>
             {
-                new SystemChatMessage(system),
+                new SystemChatMessage(context),
                 new UserChatMessage(finalPrompt),
             };
 
@@ -81,15 +75,122 @@ namespace Noog_api.Services
 
             var assistantMessage = response.Value.Content[0].Text;
 
-            return new BaseResponseDto<OpenAIResponseDto>
+            if (assistantMessage == null)
             {
-                Data = new OpenAIResponseDto
+                return new BaseResponseDto<OpenAIResponseDto>(
+                    Enums.StatusCodesEnum.NotFound,
+                    "No response from OpenAi.",
+                    null);
+            }
+
+            OpenAIResponseDto parsed;
+
+            var jsonOptions = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+
+            try
+            {
+                parsed = JsonSerializer.Deserialize<OpenAIResponseDto>(assistantMessage, jsonOptions);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Failed to deserialize JSON from model:");
+                Console.WriteLine(assistantMessage);
+                Console.WriteLine(ex);
+
+                // Create response with empty fields so service doesn't crash
+                parsed = new OpenAIResponseDto
                 {
-                    Message = assistantMessage
-                },
+                    Title = "Invalid JSON From Model",
+                    Summary = assistantMessage
+                };
+            }
+
+            var result = new BaseResponseDto<OpenAIResponseDto>
+            {
+                Data = parsed,
                 StatusCode = Enums.StatusCodesEnum.Success
             };
 
+
+            return result;
+        }
+
+        
+        public async Task<BaseResponseDto<OpenAIResponseDto>> GetChatResponseAsync(string prompt)
+        {
+            var chatClient = _client.GetChatClient(_deployment);
+
+            var context =
+                """
+                Context: 
+                You are an assistant summarizing a voice transcript. 
+
+                Instructions:
+                - Return a concise summary in the same language as the transcript. 
+                - Return a title for the summary.
+                - Return your answer strictly as valid JSON.
+                - Use the following schema:
+
+                { 
+                    "title": "string", 
+                    "summary": "string" 
+                }
+
+                Important:                
+                - Do Not add explanation, commentary, or any extra text outside the JSON object. 
+                """;
+
+            var chatHistory = new List<ChatMessage>
+            {
+                new SystemChatMessage(context),
+                new UserChatMessage(prompt),
+            };
+
+            var response = await chatClient.CompleteChatAsync(chatHistory, new ChatCompletionOptions { Temperature = 0.2f, MaxOutputTokenCount = 600 });
+            var assistantMessage = response.Value.Content[0].Text;
+
+
+            if (assistantMessage == null)
+            {
+                return new BaseResponseDto<OpenAIResponseDto>(
+                    Enums.StatusCodesEnum.NotFound,
+                    "No response from OpenAi.",
+                    null);
+            }
+
+            OpenAIResponseDto parsed;
+
+            var jsonOptions = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            };
+
+            try
+            {
+                parsed = JsonSerializer.Deserialize<OpenAIResponseDto>(assistantMessage, jsonOptions);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Failed to deserialize JSON from model:");
+                Console.WriteLine(assistantMessage);
+                Console.WriteLine(ex);
+
+                // Create response with empty fields so service doesn't crash
+                parsed = new OpenAIResponseDto
+                {
+                    Title = "Invalid JSON From Model",
+                    Summary = assistantMessage
+                };
+            }
+
+            var result = new BaseResponseDto<OpenAIResponseDto>
+            {
+                Data = parsed,
+                StatusCode = Enums.StatusCodesEnum.Success
+            };
+
+
+            return result;
         }
     }
 }

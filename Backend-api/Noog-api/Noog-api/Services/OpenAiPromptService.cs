@@ -17,14 +17,13 @@ namespace Noog_api.Services
             if (!Prompts.TryGetValue(type, out var template))
             {
                 throw new ArgumentException($"No prompt found for {type}");
-
             }
 
             string finalPrompt = template.Replace("{transcript}", transcript);
 
             var response = await _openAiService.GetChatResponseAsync(finalPrompt);
 
-            return response.Data?.Message ?? string.Empty;
+            return response.Data?.Summary ?? string.Empty;
         }
         
         public enum PromptType

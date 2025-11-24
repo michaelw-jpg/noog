@@ -2,6 +2,8 @@
 {
     public class OpenAIResponseDto
     {
-        public string? Message { get; set; }
+        public required string Title { get; set; }
+        public required string Summary { get; set; }
+
     }
 }
