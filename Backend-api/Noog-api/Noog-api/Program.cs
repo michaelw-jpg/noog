@@ -19,6 +19,10 @@ using System;
 using System.Text;
 using System.Threading.Tasks;
 using Noog_api.Services.Dashboard;
+using Noog_api.Services.ProjectGroupServices;
+using Noog_api.Services.UserServices;
+using Noog_api.Services.AuthServices;
+using Noog_api.Repositories.GroupRepos;
 
 namespace Noog_api
 {
