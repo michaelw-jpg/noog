@@ -22,7 +22,7 @@ namespace Noog_api.Services
 
             var response = await _openAiService.GetChatResponseAsync(type, transcript, language);
 
-            return response.Data?.Message ?? string.Empty;
+            return response.Data?.Summary ?? string.Empty;
         }
         
 

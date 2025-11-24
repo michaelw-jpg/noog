@@ -44,7 +44,8 @@ namespace BackendApi.Tests.Unit
             {
                 Data = new OpenAIResponseDto
                 {
-                    Message = "This is a meeting summary"
+                    Title = "Executive summary",
+                    Summary = "This is a meeting summary"
                 }
             };
 
@@ -73,7 +74,8 @@ namespace BackendApi.Tests.Unit
             {
                 Data = new OpenAIResponseDto
                 {
-                    Message = "This is an insight meeting summary"
+                    Title = "Extraction insight summary",
+                    Summary = "This is an insight meeting summary"
                 }
             };
 
@@ -100,7 +102,8 @@ namespace BackendApi.Tests.Unit
             {
                 Data = new OpenAIResponseDto
                 {
-                    Message = "This is a client call summary"
+                    Title = "Client call summary",
+                    Summary = "This is a client call summary"
                 }
             };
 
@@ -127,7 +130,8 @@ namespace BackendApi.Tests.Unit
             {
                 Data = new OpenAIResponseDto
                 {
-                    Message = "Detailed Summary with key points highlighted"
+                    Title = "Detailed summary",
+                    Summary = "Detailed Summary with key points highlighted"
                 }
             };
 
@@ -157,7 +161,8 @@ namespace BackendApi.Tests.Unit
             {
                 Data = new OpenAIResponseDto
                 {
-                    Message = expectedMessage
+                    Title = "Cooked",
+                    Summary = expectedMessage
                 },
             };
             _openAiMock
