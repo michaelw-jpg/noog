@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Noog_mvc.Models.ProjectGroup;
 using Noog_mvc.Models.ProjectGroup.Dtos;
+using System.Net.Http;
 using System.Text;
 
 namespace Noog_mvc.Services
@@ -35,6 +36,27 @@ namespace Noog_mvc.Services
             var response = await _client.PostAsync("ProjectGroup", jsonContent);
 
             return response.IsSuccessStatusCode;
+        }
+
+        public async Task<bool> PatchProjectGroup(ProjectGroupEditViewModel model)
+        {
+            var patchDto = new ProjectGroupPatchDto
+            {
+                Id = model.Id,
+                Name = model.Name,
+                ImageUrl = model.ImageUrl
+            };
+
+            var response = await _client.PatchAsJsonAsync( $"projectGroup/Patch", patchDto);
+
+            if (response.IsSuccessStatusCode)
+            {
+                return true;
+            }
+
+            var errorContent = await response.Content.ReadAsStringAsync();
+
+            return false;
         }
     }
 }

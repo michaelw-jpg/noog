@@ -4,6 +4,7 @@ using Microsoft.Extensions.Caching.Memory;
 using Noog_mvc.Models.ProjectGroup;
 using Noog_mvc.Models.ProjectGroup.Dtos;
 using Noog_mvc.Services;
+using System;
 using System.Reflection;
 
 namespace Noog_mvc.Controllers
@@ -26,7 +27,7 @@ namespace Noog_mvc.Controllers
         public async Task<IActionResult> Index(Guid projectGroupId)
         {
             var response = await _service.GetProjectGroupDataById(projectGroupId);
-            
+
             var vm = new ProjectGroupViewModel
             {
                 TopSection = new TopSectionViewModel
@@ -56,7 +57,7 @@ namespace Noog_mvc.Controllers
 
         public async Task<ActionResult> AddUser()
         {
-           return View();
+            return View();
         }
 
         [HttpPost]
@@ -65,19 +66,19 @@ namespace Noog_mvc.Controllers
         {
             try
             {
-                if(!ModelState.IsValid)
+                if (!ModelState.IsValid)
                 {
-                    
+
                     return View(model);
                 }
                 var success = await _service.AddUserToProjectGroup(model);
-                if(success) //success
+                if (success) //success
                 {
                     return RedirectToAction("Index", new { projectGroupId = model.ProjectGroupId });
                 }
                 else
                 {
-                    ModelState.AddModelError("","failed to add user");
+                    ModelState.AddModelError("", "failed to add user");
                     return View(model);
                 }
 
@@ -147,7 +148,7 @@ namespace Noog_mvc.Controllers
         //Placeholder for functions
         public async Task<IActionResult> Meeting()
         {
-           
+
             var callLink = await _callService.StartCallAsync(ViewBag.ProjectGroupId);
             ViewBag.CallLink = callLink; //maybe work?
             return View();
@@ -156,6 +157,68 @@ namespace Noog_mvc.Controllers
         {
             //TODO add function
             return View();
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(Guid projectGroupId)
+        {
+            try
+            {
+                var response = await _service.GetProjectGroupDataById(projectGroupId);
+
+                if (response == null || response.ProjectGroup == null)
+                {
+                    TempData["Error"] = "Project group not found";
+                    return RedirectToAction("Index", "Dashboard");
+                }
+
+                var vm = new ProjectGroupEditViewModel
+                {
+                    Id = response.ProjectGroup.GroupId,
+                    Name = response.ProjectGroup.GroupName,
+                    ImageUrl = response.ProjectGroup.GroupImg
+                };
+
+                return View(vm);
+            }
+            catch (Exception ex)
+            {
+                TempData["Error"] = $"Error loading project group: {ex.Message}";
+                return RedirectToAction("Index", "Dashboard");
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(ProjectGroupEditViewModel model)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return View(model);
+                }
+
+                var success = await _service.PatchProjectGroup(model);
+
+                if (success)
+                {
+                    _cache.Remove("sidebar-projects");
+
+                    TempData["Success"] = "Project group updated successfully";
+                    return RedirectToAction("Index", new { projectGroupId = model.Id });
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Failed to update project group. Please try again.");
+                    return View(model);
+                }
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", $"An error occurred: {ex.Message}");
+                return View(model);
+            }
         }
     }
 }
