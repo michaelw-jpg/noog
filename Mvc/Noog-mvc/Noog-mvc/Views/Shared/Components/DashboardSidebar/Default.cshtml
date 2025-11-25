@@ -12,9 +12,11 @@
     <!-- If api returns groupprojects -->
     @foreach (var group in Model)
     {
-        var pgImage = string.IsNullOrEmpty(group.ImageUrl)
-            ? Url.Content("~/images/project-icon.png")
-            : group.ImageUrl;
+        var pgImage = !string.IsNullOrEmpty(group.ImageUrl) &&
+        (group.ImageUrl.StartsWith("http://", StringComparison.OrdinalIgnoreCase) ||
+        group.ImageUrl.StartsWith("https://", StringComparison.OrdinalIgnoreCase))
+        ? group.ImageUrl
+        : Url.Content("~/images/project-icon.png");
 
         var isActive = hasActiveGroup && (group.Id.ToString() == currentId);
 

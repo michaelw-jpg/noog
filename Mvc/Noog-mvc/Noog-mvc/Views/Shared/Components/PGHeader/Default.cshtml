@@ -151,7 +151,7 @@
                  class="btn-header"
                  aria-label="Add User">
                   <i class="fas fa-user-plus"></i>
-                  <span>Add User</span>
+                  <span>Invite</span>
              </a>
 
               <a asp-action="Edit"
@@ -165,7 +165,9 @@
           </div>
         }
      
-        @if (!string.IsNullOrWhiteSpace(Model?.GroupImg))
+        @if (!string.IsNullOrWhiteSpace(Model?.GroupImg) &&
+                (Model.GroupImg.StartsWith("http://", StringComparison.OrdinalIgnoreCase) ||
+                Model.GroupImg.StartsWith("https://", StringComparison.OrdinalIgnoreCase)))
         {
             <img src="@Model.GroupImg" alt="@Model.GroupName logo" class="pg-call-icon" />
         }

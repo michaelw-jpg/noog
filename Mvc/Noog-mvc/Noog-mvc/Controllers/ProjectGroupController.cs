@@ -174,7 +174,7 @@ namespace Noog_mvc.Controllers
 
                 var vm = new ProjectGroupEditViewModel
                 {
-                    Id = response.ProjectGroup.GroupId,
+                    Id = projectGroupId,
                     Name = response.ProjectGroup.GroupName,
                     ImageUrl = response.ProjectGroup.GroupImg
                 };
@@ -190,7 +190,7 @@ namespace Noog_mvc.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(ProjectGroupEditViewModel model)
+        public async Task<IActionResult> Edit(Guid projectGroupId, ProjectGroupEditViewModel model)
         {
             try
             {
@@ -199,23 +199,26 @@ namespace Noog_mvc.Controllers
                     return View(model);
                 }
 
-                var success = await _service.PatchProjectGroup(model);
+                model.Id = projectGroupId;
+                var result = await _service.PatchProjectGroup(model);
 
-                if (success)
+                if (result)
                 {
                     _cache.Remove("sidebar-projects");
-
                     TempData["Success"] = "Project group updated successfully";
                     return RedirectToAction("Index", new { projectGroupId = model.Id });
                 }
                 else
                 {
+                    // Log what's happening here
+                    TempData["Error"] = "Failed to update project group. It may not exist or you don't have permission.";
                     ModelState.AddModelError("", "Failed to update project group. Please try again.");
                     return View(model);
                 }
             }
             catch (Exception ex)
             {
+                TempData["Error"] = $"An error occurred: {ex.Message}";
                 ModelState.AddModelError("", $"An error occurred: {ex.Message}");
                 return View(model);
             }

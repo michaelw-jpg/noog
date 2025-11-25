@@ -12,6 +12,6 @@ namespace Noog_api.Services.IServices
         Task<BaseResponseDto<ProjectGroupUser>> AddUserToProjectGroup(AddUserToProjectGroupDto request);
         Task<BaseResponseDto<string?>> Create(ProjectGroupCreateDto request);
 
-        Task<BaseResponseDto<ProjectGroup>> Patch(ProjectGroupPatchDto request);
+        Task<BaseResponseDto<ProjectGroupPatchDto>> Patch(ProjectGroupPatchDto request);
     }
 }

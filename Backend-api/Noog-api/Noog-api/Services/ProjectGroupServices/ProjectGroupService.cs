@@ -58,22 +58,44 @@ namespace Noog_api.Services.ProjectGroupServices
             return finalResult;
         }
 
-        public async Task <BaseResponseDto<ProjectGroup>> Patch(ProjectGroupPatchDto request)
+        public async Task<BaseResponseDto<ProjectGroupPatchDto>> Patch(ProjectGroupPatchDto request)
         {
-            
+
             var currentUserId = _currentUser.UserId;
-            var projectGroup = await _projectGroupRepository.GetGroupProjectByIdAsync(request.Id, currentUserId );
+            Console.WriteLine($"Attempting to get project group {request.Id} for user {currentUserId}");
+            var projectGroup = await _projectGroupRepository.GetGroupProjectByIdAsync(request.Id, currentUserId);
+            Console.WriteLine($"Project group found: {projectGroup != null}");
+
             if (projectGroup is null)
             {
-                 return new BaseResponseDto<ProjectGroup>(
+                return new BaseResponseDto<ProjectGroupPatchDto>(
                     Enums.StatusCodesEnum.NotFound, "Project group not found", null);
             }
 
-            GenericMapper.ApplyPatch(projectGroup, request);
+            // Manual patching - only update properties that are provided
+            if (!string.IsNullOrEmpty(request.Name))
+            {
+                projectGroup.Name = request.Name;
+            }
+
+            if (!string.IsNullOrEmpty(request.ImageUrl))
+            {
+                projectGroup.ImageUrl = request.ImageUrl;
+            }
+
             var result = await _projectGroupRepository.PatchGroupProjectsAsync(projectGroup);
 
-            var response = new BaseResponseDto<ProjectGroup>(
-                Enums.StatusCodesEnum.Success, "Project group updated successfully", result);
+            // Map result back to DTO
+            var responseDto = new ProjectGroupPatchDto
+            {
+                Id = result.Id,
+                Name = result.Name,
+                ImageUrl = result.ImageUrl
+            };
+
+            var response = new BaseResponseDto<ProjectGroupPatchDto>(
+                Enums.StatusCodesEnum.Success, "Project group updated successfully", responseDto);
+
             return response;
         }
 

@@ -14,7 +14,43 @@
     <link rel="stylesheet" href="~/css/create-group-project-form.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/storage.css" asp-append-version="true" />
 }
+<style>
+ .btn-custom {
+        flex: 1;
+        border: none;
+        border-radius: 1.25rem;
+        padding: 0.75rem 1.5rem;
+        font-size: 0.95rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-block;
+        text-align: center;
+    }
 
+    .btn-back {
+        background: #9ca3af;
+        color: white;
+    }
+
+        .btn-back:hover {
+            background: #6b7280;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(156, 163, 175, 0.4);
+        }
+
+    .btn-save {
+        background: #4d7df7;
+        color: white;
+    }
+
+        .btn-save:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+            background: #2941ff;
+        }
+</style>
 <section class="form-container">
     <article class="storage-article">
         <a asp-controller="ProjectGroup" asp-action="Index" asp-route-projectGroupId="@ViewBag.ProjectGroupId" class="back-arrow" aria-label="Back to Project Group">
@@ -22,7 +58,7 @@
                 <path d="M15 18l-6-6 6-6" />
             </svg>
         </a>
-        <h1>Add new a user to the project</h1>
+        <h1>Invite new user to the project</h1>
     </article>
 
 
@@ -37,7 +73,7 @@
         <div asp-validation-summary="ModelOnly" class="text-danger validation-summary-errors"></div>
 
         <div class="form-actions">
-            <button type="submit" class="">AddUser</button>
+            <button type="submit" class="btn-custom btn-save">Add</button>
         </div>
     </form>
 </section>

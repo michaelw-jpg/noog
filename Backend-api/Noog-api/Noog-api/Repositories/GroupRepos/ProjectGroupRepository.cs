@@ -39,10 +39,10 @@ namespace Noog_api.Repositories.GroupRepos
         public async Task<ProjectGroup?> GetGroupProjectByIdAsync(Guid id, Guid currentUserId)
         {
             var result = await _context.ProjectGroups
-                .AsNoTracking()
                 .Include(pg => pg.GroupMeeting)
                 .Include(pg => pg.ProjectGroupUsers)
-                .FirstOrDefaultAsync(pg => pg.Id == id);
+                .FirstOrDefaultAsync(pg => pg.Id == id &&
+                pg.ProjectGroupUsers.Any(pgu => pgu.ApplicationUserId == currentUserId));
 
 
             return result;
