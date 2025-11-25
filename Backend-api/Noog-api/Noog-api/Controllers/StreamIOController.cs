@@ -9,6 +9,7 @@ using Noog_api.Helpers;
 using Noog_api.Models;
 using Noog_api.Services;
 using Noog_api.Services.IServices;
+using Noog_api.Services.Outbound_Services.IOutbound_Services;
 using StreamChat.Models;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -21,11 +22,11 @@ namespace Noog_api.Controllers
     public class StreamIOController : ControllerBase
     {
         private readonly IConfiguration _configuration;
-        private readonly StreamIOService _streamIOService;
+        private readonly IStreamIOService _streamIOService;
         private readonly ICurrentUserService _currentUserService;
         private readonly IUserService<ApplicationUser> _userService;
 
-        public StreamIOController(IConfiguration configuration, StreamIOService streamIOService, ICurrentUserService currentUserService, IUserService<ApplicationUser> userService)
+        public StreamIOController(IConfiguration configuration, IStreamIOService streamIOService, ICurrentUserService currentUserService, IUserService<ApplicationUser> userService)
         {
             _configuration = configuration;
             _streamIOService = streamIOService;
