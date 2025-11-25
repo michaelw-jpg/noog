@@ -4,6 +4,7 @@ using Newtonsoft.Json.Linq;
 using Noog_api.DTOs.BaseResponseDtos;
 using Noog_api.DTOs.StreamIODtos;
 using Noog_api.Models;
+using Noog_api.Services.Outbound_Services.IOutbound_Services;
 using StreamChat.Clients;
 using StreamChat.Models;
 using System.Security.AccessControl;
@@ -12,7 +13,7 @@ using static System.Net.WebRequestMethods;
 
 namespace Noog_api.Services
 {
-    public class StreamIOService
+    public class StreamIOService : IStreamIOService
     {
         private readonly string _StreamIOApiKey;
         private readonly string _StreamIOSecret;
