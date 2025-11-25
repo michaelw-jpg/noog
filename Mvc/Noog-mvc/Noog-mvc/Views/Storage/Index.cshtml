@@ -31,7 +31,7 @@
             <li>
                 <a asp-controller="Storage" asp-action="Summary" asp-route-projectGroupId="@ViewBag.ProjectGroupId" asp-route-id="@summary.Id">
                     <h3>@summary.Title</h3>
-                    <span>@summary.CreatedAt.ToString("dd/MM-yy HH:mm")</span>
+                    <span>@summary.CreatedAt.AddHours(1).ToString("dd/MM-yy HH:mm")</span>
                 </a>
             </li>
         }
