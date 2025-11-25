@@ -23,6 +23,7 @@ using Noog_api.Services.ProjectGroupServices;
 using Noog_api.Services.UserServices;
 using Noog_api.Services.AuthServices;
 using Noog_api.Repositories.GroupRepos;
+using Noog_api.Services.Outbound_Services.IOutbound_Services;
 
 namespace Noog_api
 {
@@ -61,7 +62,7 @@ namespace Noog_api
             .AddDefaultTokenProviders()
             .AddApiEndpoints()
             .AddSignInManager();
-            builder.Services.AddScoped<StreamIOService>();
+            builder.Services.AddScoped<IStreamIOService, StreamIOService>();
 
             builder.Services.Configure<StreamIOService>(builder.Configuration.GetSection("StreamIO"));
 

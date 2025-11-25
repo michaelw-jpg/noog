@@ -4,9 +4,10 @@ using Noog_api.DTOs.ProjectGroup;
 using Noog_api.Enums;
 using Noog_api.Models.Application;
 using Noog_api.Repositories.IRepositories;
-using Noog_api.Services;
 using Noog_api.Services.IServices;
 using Noog_api.Services.ProjectGroupServices;
+using Noog_api.Services.Outbound_Services.IOutbound_Services;
+using Noog_api.Services;
 using NSubstitute;
 using Xunit;
 
@@ -20,7 +21,7 @@ namespace BackendApi.Tests.Unit
         private readonly IProjectGroupUserService _projectGroupUserService;
         private readonly IGroupMeetingService _groupMeetingService;
         private readonly IGroupStorageService _groupStorageService;
-        private readonly StreamIOService _streamIOService;
+        private readonly IStreamIOService _streamIOService;
         private readonly ProjectGroupService _service;
 
 
@@ -32,7 +33,7 @@ namespace BackendApi.Tests.Unit
             _projectGroupUserService = Substitute.For<IProjectGroupUserService>();
             _groupMeetingService = Substitute.For<IGroupMeetingService>();
             _groupStorageService = Substitute.For<IGroupStorageService>();
-            _streamIOService = Substitute.For<StreamIOService>();
+            _streamIOService = Substitute.For<IStreamIOService>();
 
             _service = new ProjectGroupService(
                 _projectRepo,
@@ -40,7 +41,8 @@ namespace BackendApi.Tests.Unit
                 _projectGroupUserService,
                 _groupMeetingService,
                 _groupStorageService,
-                _streamIOService
+                _streamIOService 
+
             );
         }
 
@@ -48,6 +50,8 @@ namespace BackendApi.Tests.Unit
         [Fact]
         public async Task Create_ValidRequest_ReturnsCreated()
         {
+
+
             // Arrange
             var request = new ProjectGroupCreateDto
             {
@@ -71,12 +75,16 @@ namespace BackendApi.Tests.Unit
             _groupStorageService.CreateGroupStorageAsync(Arg.Any<GroupStorage>())
                 .Returns(new GroupStorage());
 
+            _streamIOService.CreateStreamIOCallId(Arg.Any<Guid>())
+                .Returns(true);
+
+
             // Act
             var result = await _service.Create(request);
 
             // Assert
             Assert.Equal(StatusCodesEnum.Created, result.StatusCode);
-            Assert.Equal("Project group created", result.Message);
+            Assert.Equal("Project group created", result.Message.Trim());
 
             // Verify correct calls
             await _projectRepo.Received(1).CreateGroupProjectsAsync(Arg.Any<ProjectGroup>());

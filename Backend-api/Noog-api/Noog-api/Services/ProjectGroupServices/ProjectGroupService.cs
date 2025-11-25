@@ -5,14 +5,15 @@ using Noog_api.Mappers;
 using Noog_api.Models.Application;
 using Noog_api.Repositories.IRepositories;
 using Noog_api.Services.IServices;
+using Noog_api.Services.Outbound_Services.IOutbound_Services;
 
 namespace Noog_api.Services.ProjectGroupServices
 {
     public class ProjectGroupService(IProjectGroupRepository projectGroupRepository, ICurrentUserService currentUser,
         IProjectGroupUserService projectGroupUserService, IGroupMeetingService groupMeetingService, IGroupStorageService groupStorageService,
-        StreamIOService iOService) : IProjectGroupService
+        IStreamIOService iOService) : IProjectGroupService
     {
-        private readonly StreamIOService _streamIOService = iOService;
+        private readonly IStreamIOService _streamIOService = iOService;
         private readonly IProjectGroupRepository _projectGroupRepository = projectGroupRepository;
         private readonly ICurrentUserService _currentUser = currentUser;
         private readonly IProjectGroupUserService _projectGroupUserService = projectGroupUserService;
