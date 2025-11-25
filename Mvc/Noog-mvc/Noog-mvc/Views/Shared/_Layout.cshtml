@@ -9,7 +9,7 @@
     <title>@ViewData["Title"] - Noog</title>
 
     <!-- Basic meta data - description, indexing for data scraping -->
-    <meta name="description" content="@(ViewData["MetaDescription"] ?? "Default Noog Meta Description")"/>
+    <meta name="description" content="@(ViewData["MetaDescription"] ?? "Come Noog with Simon & the gang. The homepage for our collaboration platform.")"/>
     <meta name="robots" content="@(ViewData["Robots"] ?? "index, follow")" />
 
     <!-- Canonical Url - if pages are identical in content this ensures uniqueness -->
@@ -34,7 +34,7 @@
                 <div class="left-container">
                     <ul class="nav-links" id="nav-links">
                         <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                        <li><a asp-area="" asp-controller="Home" asp-action="About">Om oss</a></li>
+                        <li><a asp-area="" asp-controller="Home" asp-action="About">About Us</a></li>
                         <li>
                             <a class="login-link-child" asp-area="" asp-controller="Account" asp-action="Login">Login</a>
                         </li>

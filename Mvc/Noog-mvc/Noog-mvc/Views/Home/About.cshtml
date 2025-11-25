@@ -3,12 +3,13 @@
 
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<h1>@ViewData["Title"]</h1>
 
-<p>
-    Here is some information about us. Maybe you wonder about the name - Noog. What is the story behind that name?
-    Nothing really... Just a random name we gave the project.
-
-    Best regards,
-    Simon, Matheus, Oliver & Michael
-</p>
+<div class="main-box" style="max-width: 90%; display: flex; flex-direction: column;">
+    <h1>@ViewData["Title"]</h1>
+    <section style="display: block;">
+        <p>Here is some information about us. Maybe you wonder about the name - <span style="color: blue; font-size: 1.1em;">NOOG</span>. What is the story behind that name?</p>
+        <p>Nothing really... Just a random name we gave the project.</p>
+        
+        <p style="margin-top: 3rem;">Best regards,<br />Simon, Matheus, Oliver & Michael</p>
+    </section>
+</div>
