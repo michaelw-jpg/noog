@@ -15,41 +15,38 @@
     <link rel="stylesheet" href="~/css/storage.css" asp-append-version="true" />
 }
 <style>
- .btn-custom {
-        flex: 1;
-        border: none;
-        border-radius: 1.25rem;
-        padding: 0.75rem 1.5rem;
+    .btn-headerz {
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 1.5rem;
+        padding: 0.65rem 1.5rem;
+        color: white;
+        text-decoration: none;
         font-size: 0.95rem;
         font-weight: 500;
-        cursor: pointer;
         transition: all 0.3s ease;
-        text-decoration: none;
-        display: inline-block;
-        text-align: center;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        white-space: nowrap;
     }
 
-    .btn-back {
-        background: #9ca3af;
-        color: white;
-    }
-
-        .btn-back:hover {
-            background: #6b7280;
+        .btn-headerz:hover {
+            background: linear-gradient(135deg, #2941ff 100%, #764ba2 50%);
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(156, 163, 175, 0.4);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            color: white;
         }
 
-    .btn-save {
-        background: #4d7df7;
-        color: white;
-    }
 
-        .btn-save:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
-            background: #2941ff;
+        .btn-headerz i {
+            font-size: 0.9rem;
         }
+
+    .btn-color {
+        background: linear-gradient(135deg, #2941ff 0%, #764ba2 100%);
+    }
+        
 </style>
 <section class="form-container">
     <article class="storage-article">
@@ -73,7 +70,9 @@
         <div asp-validation-summary="ModelOnly" class="text-danger validation-summary-errors"></div>
 
         <div class="form-actions">
-            <button type="submit" class="btn-custom btn-save">Add</button>
+            <button type="submit" class="btn-headerz btn-color">
+                <span>Add</span>
+                </button>
         </div>
     </form>
 </section>

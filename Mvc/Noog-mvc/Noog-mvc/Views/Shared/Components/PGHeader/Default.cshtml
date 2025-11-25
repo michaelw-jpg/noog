@@ -56,6 +56,10 @@
             font-size: 0.9rem;
         }
 
+    .btn-color {
+        background: linear-gradient(135deg, #2941ff 0%, #764ba2 100%);
+    }
+
     .pg-call-icon {
         width: 50px;
         height: 50px;
@@ -77,6 +81,10 @@
         .btn-header {
             padding: 0.55rem 1.25rem;
             font-size: 0.9rem;
+        }
+
+        .btn-color {
+            background: linear-gradient(135deg, #2941ff 0%, #764ba2 100%);
         }
 
         .pg-call-icon {
@@ -103,6 +111,7 @@
             flex: 1;
             order: 3;
             justify-content: flex-start;
+
         }
 
         .pg-call-icon {
@@ -120,7 +129,9 @@
             .btn-header i {
                 font-size: 0.85rem;
             }
-
+        .btn-color {
+            background: linear-gradient(135deg, #2941ff 0%, #764ba2 100%);
+        }
         .pg-divider {
             margin: 0 1rem;
         }
@@ -148,16 +159,16 @@
               <a asp-action="AddUser"
                  asp-controller="ProjectGroup"
                  asp-route-projectGroupId="@currentGroupId"
-                 class="btn-header"
+                 class="btn-header btn-color"
                  aria-label="Add User">
                   <i class="fas fa-user-plus"></i>
-                  <span>Invite</span>
+                  <span>Invite User</span>
              </a>
 
               <a asp-action="Edit"
                  asp-controller="ProjectGroup"
                  asp-route-projectGroupId="@currentGroupId"
-                 class="btn-header"
+                 class="btn-header btn-color"
                  aria-label="Edit Project Group">
                   <i class="fas fa-edit"></i>
                   <span>Edit</span>
