@@ -36,6 +36,7 @@ html, body {
 
     padding-right: clamp(0.5rem, 3vw + 0.2rem, 3rem);
     padding-left: clamp(0.5rem, 3vw + 0.2rem, 3rem);
+    background: linear-gradient(135deg, #2941ff 0%, #764ba2 100%);
 }
 
 /* === Dashboard Main Stack === */
@@ -155,7 +156,7 @@ html, body {
 }
 
 .recent-card {
-    background-color: var(--primary-color);
+    background: linear-gradient(135deg,  #764ba2 0%, #2941ff 100%);
     border: 2px solid white;
     border-radius: 12px;
     padding: 0.75rem 1rem;

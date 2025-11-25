@@ -12,6 +12,20 @@
 @section Styles {
     <link rel="stylesheet" href="~/css/create-group-project-form.css" asp-append-version="true" />
 }
+<style>
+    .btn-primary {
+        padding: 12px 32px;
+        border-radius: 25px;
+        border: none;
+        color: white;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: all 0.3s;
+        flex: 1;
+        min-width: 0;
+        background: linear-gradient(135deg, #2941ff 0%, #764ba2 100%);
+    }
+</style>
 
 <section class="form-container">
     <h1>Create New Group Project</h1>
@@ -33,7 +47,7 @@
         <div asp-validation-summary="ModelOnly" class="text-danger validation-summary-errors"></div>
 
         <div class="form-actions">
-            <button type="submit" class="">Create</button>
+            <button type="submit" class="btn-primary">Create</button>
         </div>
     </form>
 </section>

@@ -47,7 +47,11 @@ namespace Noog_mvc.Services
                 ImageUrl = model.ImageUrl
             };
 
-            var response = await _client.PatchAsJsonAsync( $"projectGroup/Patch", patchDto);
+            Console.WriteLine($"Calling API: projectGroup/Patch with Id: {patchDto.Id}");
+
+            var response = await _client.PatchAsJsonAsync($"ProjectGroup", patchDto);
+
+            Console.WriteLine($"API Response Status: {response.StatusCode}");
 
             if (response.IsSuccessStatusCode)
             {
@@ -55,8 +59,11 @@ namespace Noog_mvc.Services
             }
 
             var errorContent = await response.Content.ReadAsStringAsync();
+            Console.WriteLine($"API Error Content: {errorContent}");
 
-            return false;
+            // Throw exception instead of just returning false so the controller can catch it
+            throw new Exception($"API returned {response.StatusCode}: {errorContent}");
+        
         }
     }
 }

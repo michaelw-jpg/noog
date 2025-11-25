@@ -116,7 +116,7 @@ div[asp-validation-summary] {
     }
 
 .btn-primary {
-    background-color: var(--noog-blue);
+    background: linear-gradient(135deg, #2941ff 0%, #764ba2 100%);
 }
 
     .btn-primary:hover {

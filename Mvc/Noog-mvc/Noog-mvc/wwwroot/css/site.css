@@ -8,7 +8,7 @@ html, body {
     min-height: 100%;
     font-size: 20px;
     margin: 0;
-    background-color: var(--primary-color);
+    background: linear-gradient(135deg, #2941ff 0%, #764ba2 100%);
     font-family: "Inter", system-ui;
     display: flex;
     flex-direction: column;
@@ -58,6 +58,7 @@ body {
     list-style: none;
     margin: 0;
     padding-left: 2;
+
 }
 
 .nav-links a {
@@ -77,14 +78,13 @@ body {
 .login-link {
     text-decoration: none;
     text-align: center;
-    background-color: #3b82f6;
+    background: linear-gradient(135deg, #2941ff 0%, #764ba2 100%);
     color: #fff !important;
     font-weight: 230;
     border-radius: 56px;
     padding: 7px;
     transition: background-color 0.2s ease;
     width: 80px;
-
 }
 
     .login-link:hover {

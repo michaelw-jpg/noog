@@ -1,5 +1,9 @@
-﻿@model Noog_mvc.Models.ProjectGroup.ProjectGroupEditViewModel
+﻿@using Noog_mvc.Models.ProjectGroup
+@model Noog_mvc.Models.ProjectGroup.ProjectGroupEditViewModel
 
+@{
+    Layout = "~/Views/Shared/_PGDashboard.cshtml";
+}
 @{
     ViewData["Title"] = "Edit Project Group";
 }
@@ -7,7 +11,7 @@
 <style>
     .edit-container {
         min-height: 75vh;
-        background: #2941ff;
+        background: linear-gradient(135deg, #2941ff 0%, #764ba2 100%);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -107,6 +111,7 @@
         text-decoration: none;
         display: inline-block;
         text-align: center;
+        background: linear-gradient(135deg, #2941ff 0%, #764ba2 100%);
     }
 
     .btn-back {
@@ -121,7 +126,7 @@
         }
 
     .btn-save {
-        background: #4d7df7;
+        background: linear-gradient(135deg, #2941ff 0%, #764ba2 100%);
         color: white;
     }
 
@@ -308,8 +313,7 @@
                     <small class="form-text">Optional: Enter a URL to an image for the group</small>
                 </div>
             </div>
-
-            @if (!string.IsNullOrEmpty(Model.ImageUrl))
+            @if (!string.IsNullOrEmpty(Model.ImageUrl) &&(Model.ImageUrl.StartsWith("http://", StringComparison.OrdinalIgnoreCase) || Model.ImageUrl.StartsWith("https://", StringComparison.OrdinalIgnoreCase)))
             {
                 <div class="image-preview">
                     <label>Current Image:</label>
@@ -320,6 +324,7 @@
             }
 
             <div class="button-group">
+                @* Debug: @Model.Id *@
                 <a asp-action="Index" asp-route-projectGroupId="@Model.Id" class="btn-custom btn-back">
                     Go back
                 </a>
